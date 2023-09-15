@@ -1,0 +1,37 @@
+# Node modules
+/node_modules
+
+# Laravel specific
+/bootstrap/cache/
+/vendor/
+.env
+.env.*
+.env.backup
+.env.save
+/public/hot
+/public/storage
+/storage/*.key
+/.phpunit.result.cache
+package-lock.json
+npm-debug.log
+package-lock.json
+purgecss.config.js
+# Ignore the storage directory
+/storage/
+
+
+# Various IDE and editor files
+.idea
+*.swp
+*.swo
+*.swn
+.DS_Store
+
+# Operating system generated
+Thumbs.db
+
+# Docker
+docker/**/data/
+
+# Ignore public key
+public_key.pem
