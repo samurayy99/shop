@@ -268,8 +268,8 @@
                             <div class="text-center text-white pt-2">
                                 <h3>Login Form</h3>
                             </div>
-                            <form id="login-form" class="form auth-login-form" action="{{ route('auth.login') }}"
-                                method="post">
+                            <form action="{{ route('admin.login') }}" method="post">
+
                                 @csrf
                                 <div class="form-group">
                                     <label for="username">Username</label>

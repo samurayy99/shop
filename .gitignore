@@ -14,7 +14,7 @@
 /.phpunit.result.cache
 package-lock.json
 npm-debug.log
-package-lock.json
+composer.lock
 purgecss.config.js
 # Ignore the storage directory
 /storage/

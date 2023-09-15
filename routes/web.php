@@ -20,6 +20,8 @@ Route::get('/custom/css', 'App\Http\Controllers\Custom\CSSController@generateCSS
 // News Routes
 Route::get('/', 'App\Http\Controllers\NewsController@index')->name('site.home');
 
+Route::get('/admin/login', 'AuthController@adminLogin')->name('admin.login');
+
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
 Route::post('auth/login', 'App\Http\Controllers\AuthController@authenticate')->name('auth.login.post');

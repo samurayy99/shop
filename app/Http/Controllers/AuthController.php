@@ -44,7 +44,7 @@ class AuthController extends Controller
             "captcha" => "required",
         ]);
 
-        if ( captcha_check($request->captcha) == false ) {
+        if (captcha_check($request->captcha) == false) {
             Session::flash('error', __('Captcha ungültig'));
             toastr()->error(__('Captcha ungültig'));
             return redirect()->back();
@@ -73,13 +73,13 @@ class AuthController extends Controller
         return redirect()->route('auth.login');
     }
 
-    public function authenticate(Request $request) 
+    public function authenticate(Request $request)
     {
         $captcha = $request->validate([
             "captcha" => "required",
         ]);
 
-        if ( captcha_check($request->captcha) == false ) {
+        if (captcha_check($request->captcha) == false) {
             Session::flash('error', __('Captcha ungültig'));
             toastr()->error(__('Captcha ungültig'));
             return redirect()->back();
@@ -92,7 +92,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Bancheck
-            if(!Auth::user()->active) {
+            if (!Auth::user()->active) {
                 Session::flash('error', __('Du wurdest vom System ausgeschlossen'));
                 toastr()->error(__('Du wurdest vom System ausgeschlossen'));
                 Auth::logout();
@@ -109,6 +109,12 @@ class AuthController extends Controller
             'username' => __('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'),
         ])->withInput();
     }
+
+    public function adminLogin()
+    {
+        return view('SPA_Redesign_Proposal');
+    }
+
 
     public function logout(Request $request)
     {
@@ -160,5 +166,5 @@ class AuthController extends Controller
     {
         //
     }
-    
+
 }
