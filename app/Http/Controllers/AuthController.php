@@ -50,10 +50,10 @@ class AuthController extends Controller
             return redirect()->back();
         }
 
-        $validated = $request->validate([
-            "username" => "required|max:30|unique:users",
-            "jabber" => "nullable|email",
-            "password" => "required|min:6",
+        $request->validate([
+            'username' => 'required|max:30|unique:users',
+            'jabber' => 'nullable|email',
+            'password' => 'required|min:6',
         ]);
 
         $users = User::all();
@@ -85,12 +85,13 @@ class AuthController extends Controller
             return redirect()->back();
         }
 
-        $credentials = $request->validate([
+        $request->validate([
             "username" => "required|max:30",
             "password" => "required|min:6",
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+
             // Bancheck
             if (!Auth::user()->active) {
                 Session::flash('error', __('Du wurdest vom System ausgeschlossen'));
@@ -101,7 +102,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
             toastr()->success(__('Willkommen zurück, :Name', ['name' => $request->username]));
-            return redirect()->route('site.home');
+            return redirect()->route('base');
         }
 
         toastr()->error(__('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'));
@@ -112,7 +113,7 @@ class AuthController extends Controller
 
     public function adminLogin()
     {
-        return view('SPA_Redesign_Proposal');
+        return view('auth.admin-login');
     }
 
 

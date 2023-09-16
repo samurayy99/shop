@@ -142,70 +142,108 @@
     </div>
     <!-- END: Main Menu-->
 
+    <main class="container categories">
+        <section class="card category-card" onclick="scrollToCategory('category1')">
+            <div class="product-image">
+                <img src="https://i.ibb.co/cNWqxGx/red.png" alt="Category 1" draggable="false" />
+            </div>
+        </section>
+        <section class="card category-card" onclick="scrollToCategory('category2')">
+            <div class="product-image">
+                <img src="https://i.ibb.co/0JKpmgd/blue.png" alt="Category 2" draggable="false" />
+            </div>
+        </section>
+        <!-- Product Display for Category 1 -->
+        <!-- Product Display for Category 1 -->
+        <div id="category1" class="products" style="display: none;">
+            @foreach($products as $product)
+            @if($product->category_id === 1)
+            <div class="product-card">
+                <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                <h3>{{ $product->name }}</h3>
+                <p>Price: {{ $product->price }}</p>
+            </div>
+            @endif
+            @endforeach
+        </div>
 
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper container-xxl p-0">
+        <!-- Product Display for Category 2 -->
+        <div id="category2" class="products" style="display: none;">
+            @foreach($products as $product)
+            @if($product->category_id === 2)
+            <div class="product-card">
+                <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                <h3>{{ $product->name }}</h3>
+                <p>Price: {{ $product->price }}</p>
+            </div>
+            @endif
+            @endforeach
+        </div>
 
-            <div class="content-header row">
-                <div class="content-header-left col-md-9 col-12 mb-2">
-                    <div class="row breadcrumbs-top">
-                        <div class="col-12">
-                            <h2 class="mb-0">@yield('subtitle')</h2>
+
+        <!-- BEGIN: Content-->
+        <div class="app-content content">
+            <div class="content-overlay"></div>
+            <div class="header-navbar-shadow"></div>
+            <div class="content-wrapper container-xxl p-0">
+
+                <div class="content-header row">
+                    <div class="content-header-left col-md-9 col-12 mb-2">
+                        <div class="row breadcrumbs-top">
+                            <div class="col-12">
+                                <h2 class="mb-0">@yield('subtitle')</h2>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                @include('flash-message')
+                @yield('content')
             </div>
 
-            @include('flash-message')
-            @yield('content')
         </div>
+        <!-- END: Content-->
 
-    </div>
-    <!-- END: Content-->
+        <div class="sidenav-overlay"></div>
+        <div class="drag-target"></div>
 
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
+        <!-- BEGIN: Vendor JS-->
+        <script src="{{ asset('/app-assets/vendors/js/vendors.min.js') }}"></script>
+        <!-- BEGIN Vendor JS-->
 
-    <!-- BEGIN: Vendor JS-->
-    <script src="{{ asset('/app-assets/vendors/js/vendors.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
+        <!-- BEGIN: Page Vendor JS-->
+        <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
+        <!-- END: Page Vendor JS-->
 
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
-    <!-- END: Page Vendor JS-->
+        <!-- BEGIN: Theme JS-->
+        <script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
+        <script src="{{ asset('/app-assets/js/core/app.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
 
-    <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('/app-assets/js/core/app.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
+        <!-- END: Theme JS-->
 
-    <!-- END: Theme JS-->
+        <!-- BEGIN: Page JS-->
+        <!-- END: Page JS-->
 
-    <!-- BEGIN: Page JS-->
-    <!-- END: Page JS-->
-
-    <script>
-        $(window).on('load', function () {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script>
+        <script>
+            $(window).on('load', function () {
+                if (feather) {
+                    feather.replace({
+                        width: 14,
+                        height: 14
+                    });
+                }
+            })
+        </script>
 
 
-    @jquery
-    @toastr_js
-    @toastr_render
+        @jquery
+        @toastr_js
+        @toastr_render
 
-    <script src="{{ asset('/js/scripts.js') }}"></script>
-    <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
-    @yield('js')
+        <script src="{{ asset('/js/scripts.js') }}"></script>
+        <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
+        @yield('js')
 
 </body>
 <!-- END: Body-->

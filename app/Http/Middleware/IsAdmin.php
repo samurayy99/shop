@@ -27,6 +27,7 @@ class IsAdmin
         // Benutzer ist kein Admin
         Session::flash('error', __('Unzureichende Berechtigungen'));
         toastr()->error(__('Unzureichende Berechtigungen'));
-        return redirect()->route('site.home');
+        return redirect()->route('base');
+
     }
 }

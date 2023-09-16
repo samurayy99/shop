@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,14 @@ use Illuminate\Support\Facades\Route;
 // CSS Routes
 Route::get('/custom/css', 'App\Http\Controllers\Custom\CSSController@generateCSS')->name('custom-css');
 
+;
 
-// News Routes
-Route::get('/', 'App\Http\Controllers\NewsController@index')->name('site.home');
+Route::get('/admin/login', 'App\Http\Controllers\AuthController@adminLogin')->name('admin.login');
 
-Route::get('/admin/login', 'AuthController@adminLogin')->name('admin.login');
+Route::get('/{any}', function () {
+    $products = Product::all(); // Fetch all products
+    return view('base', compact('products')); // Pass the products to the view
+})->where('any', '.*')->name('base');
 
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
@@ -74,10 +78,7 @@ Route::get('lang/{locale}', function ($locale) {
 Route::middleware([IsAdmin::class])->group(function () {
     Route::get('/admin/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('admin.dashboard');
 
-    Route::get('/admin/news', 'App\Http\Controllers\Admin\NewsController@index')->name('admin.news');
-    Route::post('/admin/news/save', 'App\Http\Controllers\Admin\NewsController@store')->name('admin.news.save');
-    Route::get('/admin/news/delete/{id}', 'App\Http\Controllers\Admin\NewsController@destroy')->name('admin.news.delete');
-    Route::post('/admin/news/edit/{id}', 'App\Http\Controllers\Admin\NewsController@edit')->name('admin.news.update');
+
 
     Route::get('admin/jabber', 'App\Http\Controllers\Admin\JabberController@index')->name('admin.jabber');
     Route::post('admin/jabber/update', 'App\Http\Controllers\Admin\JabberController@store')->name('admin.jabber.update');
@@ -97,7 +98,8 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::post('admin/category/edit/{id}', 'App\Http\Controllers\Admin\ProductCategoryController@update')->name('admin.category.edit.save');
     Route::get('admin/category/delete/{id}', 'App\Http\Controllers\Admin\ProductCategoryController@destroy')->name('admin.category.delete');
 
-    Route::get('admin/products', 'App\Http\Controllers\Admin\ProductController@index')->name('admin.products');
+    Route::get('/', 'App\Http\Controllers\Admin\ProductController@loadBaseView');
+
     Route::get('admin/product/add', 'App\Http\Controllers\Admin\ProductController@create')->name('admin.product.add');
     Route::post('admin/product/add', 'App\Http\Controllers\Admin\ProductController@store')->name('admin.product.add.save');
     Route::get('admin/product/edit/{id}', 'App\Http\Controllers\Admin\ProductController@edit')->name('admin.product.edit');

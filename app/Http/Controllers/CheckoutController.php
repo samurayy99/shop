@@ -21,7 +21,7 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        if(empty(Session::get('checkout.product_id')) || empty(Session::get('checkout.amount'))) {
+        if (empty(Session::get('checkout.product_id')) || empty(Session::get('checkout.amount'))) {
             Session::flash('warning', __('Sitzung abgelaufen'));
             toastr()->warning(__('Sitzung abgelaufen'));
             return redirect()->route('shop.entry');
@@ -31,7 +31,7 @@ class CheckoutController extends Controller
         $category = ProductCategory::getCategoryById($product->category_id);
 
         // Überprüfen, ob die Menge größer ist als der Bestand
-        if($product->product_type == 'virtuell' && Session::get('checkout.amount') > ProductStock::countStockAvailable($product->id)) {
+        if ($product->product_type == 'virtuell' && Session::get('checkout.amount') > ProductStock::countStockAvailable($product->id)) {
             Session::flash('error', __('Die gewünschte Menge ist mehr als im Bestand verfügbar'));
             toastr()->error(__('Die gewünschte Menge ist mehr als im Bestand verfügbar'));
 
@@ -41,7 +41,7 @@ class CheckoutController extends Controller
         $price_total = $product->price_euro * Session::get('checkout.amount');
 
         // Überprüfen, ob Betrag größer als Guthaben ist
-        if($price_total > Auth::user()->balance) {
+        if ($price_total > Auth::user()->balance) {
             Session::flash('error', __('Dein Guthaben reicht nicht für diese Bestellung aus'));
             toastr()->error(__('Dein Guthaben reicht nicht für diese Bestellung aus'));
 
@@ -58,16 +58,18 @@ class CheckoutController extends Controller
      */
     public function create(Request $request)
     {
-        $validated = $request->validate([
-            "product_id" => "required|integer",
-            "amount" => "required|integer"
-        ],
-        [
-            'product_id.required' => __('Du hast kein Produkt ausgewählt'),
-            'product_id.integer' => __('Internal server error'),
-            'amount.required' => __('Du hast keine Menge angegeben'),
-            'amount.integer' => __('Internal server error'),
-        ]);
+        $validated = $request->validate(
+            [
+                "product_id" => "required|integer",
+                "amount" => "required|integer"
+            ],
+            [
+                'product_id.required' => __('Du hast kein Produkt ausgewählt'),
+                'product_id.integer' => __('Internal server error'),
+                'amount.required' => __('Du hast keine Menge angegeben'),
+                'amount.integer' => __('Internal server error'),
+            ]
+        );
 
         Session::put([
             'checkout.product_id' => $request->product_id,
@@ -87,7 +89,7 @@ class CheckoutController extends Controller
     {
         // Create order
 
-        if(empty(Session::get('checkout.product_id')) || empty(Session::get('checkout.amount'))) {
+        if (empty(Session::get('checkout.product_id')) || empty(Session::get('checkout.amount'))) {
             Session::flash('warning', __('Sitzung abgelaufen'));
             toastr()->warning(__('Sitzung abgelaufen'));
             return redirect()->route('shop.entry');
@@ -97,7 +99,7 @@ class CheckoutController extends Controller
         $category = ProductCategory::getCategoryById($product->category_id);
 
         // Security minus check // EXPLOIT
-        if(Session::get('checkout.amount') < 1) {
+        if (Session::get('checkout.amount') < 1) {
             $user = Auth::user();
             $user->active = 0;
             $user->save();
@@ -105,7 +107,7 @@ class CheckoutController extends Controller
         }
 
         // Überprüfen, ob die Menge größer ist als der Bestand
-        if($product->product_type == 'virtuell' && Session::get('checkout.amount') > ProductStock::countStockAvailable($product->id)) {
+        if ($product->product_type == 'virtuell' && Session::get('checkout.amount') > ProductStock::countStockAvailable($product->id)) {
             Session::flash('error', __('Die gewünschte Menge ist mehr als im Bestand verfügbar'));
             toastr()->error(__('Die gewünschte Menge ist mehr als im Bestand verfügbar'));
 
@@ -115,15 +117,15 @@ class CheckoutController extends Controller
         $price_total = $product->price_euro * Session::get('checkout.amount');
 
         // Überprüfen, ob Betrag größer als Guthaben ist
-        if($price_total > Auth::user()->balance) {
+        if ($price_total > Auth::user()->balance) {
             Session::flash('error', __('Dein Guthaben reicht nicht für diese Bestellung aus'));
             toastr()->error(__('Dein Guthaben reicht nicht für diese Bestellung aus'));
 
             return redirect()->route('shop.cat.show', $category->slug);
         }
 
-        if($product->product_type == 'physisch' || $product->dropable) {
-            if(empty($request->drop)) {
+        if ($product->product_type == 'physisch' || $product->dropable) {
+            if (empty($request->drop)) {
                 Session::flash('error', __('Das von dir ausgewählte Produkt erfordert eine Lieferadresse'));
                 toastr()->error(__('Das von dir ausgewählte Produkt erfordert eine Lieferadresse'));
                 return redirect()->back();
@@ -131,7 +133,7 @@ class CheckoutController extends Controller
         }
 
         // Guthaben aktualisieren
-        if(!User::updateBalance(Auth::user()->id, Auth::user()->balance - $price_total)) {
+        if (!User::updateBalance(Auth::user()->id, Auth::user()->balance - $price_total)) {
             // Fehler beim aktualisieren
             Session::flash('error', __('Ein unbekannter Fehler ist aufgetreten, bitte versuche es erneut'));
             toastr()->error(__('Ein unbekannter Fehler ist aufgetreten, bitte versuche es erneut'));
@@ -144,24 +146,24 @@ class CheckoutController extends Controller
 
         $order->user_id = Auth::user()->id;
         $order->product_name = $product->name;
-        
+
 
         // Durch accounts loopen und zur Bestellung hinzufügen und löschen // FIRST FIRST!
-        if($product->product_type == 'virtuell') {
+        if ($product->product_type == 'virtuell') {
             $orderedProducts = ProductStock::where('product_id', '=', $product->id)->orderBy('id', 'ASC')->take(Session::get('checkout.amount'))->get();
-            foreach($orderedProducts as $orderedProduct) {
+            foreach ($orderedProducts as $orderedProduct) {
                 $order->order_content = $order->order_content . $orderedProduct->content . "\n";
-    
+
                 ProductStock::find($orderedProduct->id)->delete();
             }
-        } elseif($product->product_type == 'unlimited') {
+        } elseif ($product->product_type == 'unlimited') {
             $order->order_content = $product->content;
         }
 
         $order->order_amount = Session::get('checkout.amount');
         $order->order_price = $price_total;
-        
-        if($product->product_type == 'physisch' || $product->dropable) {
+
+        if ($product->product_type == 'physisch' || $product->dropable) {
             // Order muss versendet werden
             $order->weight = Session::get('checkout.amount');
             $order->weight_text = $product->weight_text;

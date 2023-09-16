@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Models\Product;
 use App\Models\ProductStock;
 use Session;
@@ -15,38 +14,61 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return view('admin.product.view');
+        return response()->json([
+            'view' => view('admin.product.view')->render(),
+            'status' => 'success'
+        ], 200);
     }
+
+    // Add this method in your ProductController.php
+    public function loadBaseView()
+    {
+        $products = Product::all();
+        return response()->json([
+            'view' => view('base', compact('products'))->render(),
+            'status' => 'success'
+        ], 200);
+    }
+
+    // Private method for authorization check
+    private function checkAuthorization()
+    {
+        if (!Auth::user()->can('Produkte verwalten')) {
+            return response()->json([
+                'message' => 'Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen',
+                'status' => 'error'
+            ], 403);
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create()
     {
-        return view('admin.product.add');
+        $this->checkAuthorization();
+        return response()->json([
+            'view' => view('admin.product.add')->render(),
+            'status' => 'success'
+        ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
-            Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-            toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-
-            return redirect()->back();
-        }
+        $this->checkAuthorization();
 
         $validated = $request->validate([
             'name' => 'required|max:30',
@@ -57,89 +79,46 @@ class ProductController extends Controller
             'product_type' => 'required|in:virtuell,physisch,unlimited',
         ]);
 
-        //return $request;
-
         $product = new Product();
-
-        $product->name = $request->name;
-        $product->description_short = $request->description_short;
-        $product->description = $request->description;
-        $product->content = $request->content;
-        $product->price_euro = $request->price;
-        $product->old_price_euro = $request->price_old;
-        $product->category_id = $request->category;
-        $product->weight_text = $request->weight_text ?: 'g';
-
-        if($request->has('dropable')) {
-            $product->dropable = 1;
-        }
-
-
-        if($request->product_type == 'virtuell') {
-            $product->use_stock = 1;
-            $product->product_type = 'virtuell';
-        } elseif($request->product_type == 'unlimited') {
-            $product->product_type = 'unlimited';
-
-            if(empty($product->content)) 
-            {
-                Session::flash('error', __("Produkt konnte nicht erstellt werden, du hast keine Nachricht für den Käufer angegeben."));
-                toastr()->error(__("Produkt konnte nicht erstellt werden, du hast keine Nachricht für den Käufer angegeben."));
-
-                return redirect()->back();
-            }
-        } elseif($request->product_type == 'physisch') {
-            $product->product_type = 'physisch';
-        }
-
-        $product->background_url = $request->background_url;
-
+        $product->fill($validated);
         $product->save();
 
-        Session::flash('success', __("Product \"{$product->name}\" erfolgreich erstellt"));
-        toastr()->success(__("Product \"{$product->name}\" erfolgreich erstellt"));
-        return redirect()->route('admin.products');
+        return response()->json([
+            'message' => "Product \"{$product->name}\" erfolgreich erstellt",
+            'status' => 'success'
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
-            Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-            toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-
-            return redirect()->back();
-        }
-
-        
+        $this->checkAuthorization();
         $product = Product::findOrFail($id);
-        return view('admin.product.manage', ['product' => $product]);
+        return response()->json([
+            'view' => view('admin.product.manage', ['product' => $product])->render(),
+            'status' => 'success'
+        ], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit($id)
     {
-        // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
-            Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-            toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-
-            return redirect()->back();
-        }
-
+        $this->checkAuthorization();
         $product = Product::findOrFail($id);
-        return view('admin.product.edit', ["product" => $product]);
+        return response()->json([
+            'view' => view('admin.product.edit', ["product" => $product])->render(),
+            'status' => 'success'
+        ], 200);
     }
 
     /**
@@ -147,17 +126,11 @@ class ProductController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
-            Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-            toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-
-            return redirect()->back();
-        }
+        $this->checkAuthorization();
 
         $validated = $request->validate([
             'name' => 'required|max:30',
@@ -168,130 +141,87 @@ class ProductController extends Controller
             'product_type' => 'required|in:virtuell,physisch,unlimited',
         ]);
 
-        //return $request;
-
         $product = Product::findOrFail($id);
-
-        $product->name = $request->name;
-        $product->description_short = $request->description_short;
-        $product->description = $request->description;
-        $product->content = $request->content;
-        $product->price_euro = $request->price;
-        $product->old_price_euro = $request->price_old;
-        $product->category_id = $request->category;
-        $product->weight_text = $request->weight_text ?: 'g';
-
-        if($request->has('dropable')) {
-            $product->dropable = 1;
-        } else {
-            $product->dropable = 0;
-        }
-
-        
-        if($request->product_type == 'virtuell') {
-            $product->use_stock = 1;
-            $product->product_type = 'virtuell';
-        } elseif($request->product_type == 'unlimited') {
-            $product->product_type = 'unlimited';
-
-            if(empty($product->content)) 
-            {
-                Session::flash('error', __("Produkt konnte nicht bearbeitet werden, du hast keine Nachricht für den Käufer angegeben."));
-                toastr()->error(__("Produkt konnte nicht bearbeitet werden, du hast keine Nachricht für den Käufer angegeben."));
-
-                return redirect()->back();
-            }
-        } elseif($request->product_type == 'physisch') {
-            $product->product_type = 'physisch';
-        }
-
-        $product->background_url = $request->background_url;
-
+        $product->fill($validated);
         $product->save();
 
-        Session::flash('success', __("Product \"{$product->name}\" erfolgreich aktualisiert"));
-        toastr()->success(__("Product \"{$product->name}\" erfolgreich aktualisiert"));
-        return redirect()->route('admin.products');
+        return response()->json([
+            'message' => "Product \"{$product->name}\" erfolgreich aktualisiert",
+            'status' => 'success'
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
-            Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-            toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
-
-            return redirect()->back();
-        }
-
+        $this->checkAuthorization();
         Product::findOrFail($id)->delete();
-        App\Models\ProductStock::where('product_id', '=', $id)->delete();
-
-        Session::flash('success', 'Datensätze & Produkte erfolgreich entfernt');
-        toastr()->success('Datensätze & Produkte erfolgreich entfernt');
-        return redirect()->back();
+        ProductStock::where('product_id', '=', $id)->delete();
+        return response()->json([
+            'message' => 'Datensätze & Produkte erfolgreich entfernt',
+            'status' => 'success'
+        ], 200);
     }
 
-    public function destroyById(Request $request) 
+    /**
+     * Remove the products by ID from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroyById(Request $request)
     {
+        $this->checkAuthorization();
         $productIds = $request->input('id');
-        $products = Product::whereIn('id', $productIds);
-        $productStocks = ProductStock::whereIn('product_id', $productIds);
-
-        $products->delete();
-        $productStocks->delete();
-
-        Session::flash('success', 'Produkt(e) erfolgreich aus der Datenbank entfernt');
-        die();
+        Product::destroy($productIds);
+        ProductStock::whereIn('product_id', $productIds)->delete();
+        return response()->json([
+            'message' => 'Produkt(e) erfolgreich aus der Datenbank entfernt',
+            'status' => 'success'
+        ], 200);
     }
 
-    public function toggleListing(Request $request, $id = null) 
+    /**
+     * Toggle the listing of a product.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function toggleListing(Request $request, $id = null)
     {
-        if($id != null) 
-        {
-            $product = Product::findOrFail($id);
-
-            if($product->listed) {
-                $product->listed = false;
-            } else {
-                $product->listed = true;
-            }
-
-            $product->save();
-        } else {
-            $ids = $request->input('id');
-            $products = Product::whereIn('id', $ids);
-
-            foreach($products->get() as $product) 
-            {
-                if($product->listed) {
-                    $product->listed = 0;
-                } else {
-                    $product->listed = 1;
-                }
-                $product->save();
-            }
-
-        }
-
-        Session::flash('success', 'Produkt(e) wurden erfolgreich bearbeitet');
-        //return redirect()->back();
+        $this->checkAuthorization();
+        $product = Product::findOrFail($id);
+        $product->listed = !$product->listed;
+        $product->save();
+        return response()->json([
+            'message' => 'Produkt(e) wurden erfolgreich bearbeitet',
+            'status' => 'success'
+        ], 200);
     }
 
+    /**
+     * Update the order of products.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateOrder(Request $request)
     {
-        foreach($request->input('order', []) as $row)
-        {
+        $this->checkAuthorization();
+        foreach ($request->input('order', []) as $row) {
             Product::find($row['id'])->update([
                 'position' => $row['position']
             ]);
         }
-        return response(' Updated Successfully.', 200);
+        return response()->json([
+            'message' => 'Updated Successfully.',
+            'status' => 'success'
+        ], 200);
     }
 }

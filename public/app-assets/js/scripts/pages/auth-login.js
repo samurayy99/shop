@@ -1,40 +1,48 @@
-/*=========================================================================================
-  File Name: auth-login.js
-  Description: Auth login js file.
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: PIXINVENT
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
+// Part 1: Initial Login AJAX Call
+$(document).ready(function () {
+    $('#login-form').on('submit', function (e) {
+        e.preventDefault();
+        var form = this;
 
-$(function () {
-  'use strict';
-
-  var pageLoginForm = $('.auth-login-form');
-
-  // jQuery Validation
-  // --------------------------------------------------------------------
-  if (pageLoginForm.length) {
-    pageLoginForm.validate({
-      /*
-      * ? To enable validation onkeyup
-      onkeyup: function (element) {
-        $(element).valid();
-      },*/
-      /*
-      * ? To enable validation on focusout
-      onfocusout: function (element) {
-        $(element).valid();
-      }, */
-      rules: {
-        'login-email': {
-          required: true,
-          email: true
-        },
-        'login-password': {
-          required: true
-        }
-      }
+        $.ajax({
+            url: $(form).attr('action'),  // Assuming your form's action attribute is set to the correct endpoint
+            type: 'POST',
+            data: $(form).serialize(),
+            beforeSend: function () {
+                $('#login-button').attr('disabled', 'disabled');
+            },
+            success: function (response) {
+                if (response.success) {
+                    $.get(response.redirect, function (data) {
+                        $('#content-wrapper').html($(data).find('#content-wrapper').html());
+                    });
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX error: ", textStatus, errorThrown);
+                toastr.error('An error occurred. Please try again.');
+            },
+            complete: function () {
+                $('#login-button').removeAttr('disabled');
+            }
+        });
     });
-  }
+});
+
+// Part 2: Modal Loading on Click
+$(document).ready(function () {
+    $('#login-button').on('click', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/auth/login',  // Update this URL based on your routes
+            method: 'GET',
+            success: function (response) {
+                $('#login-modal-body').html(response);
+                $('#login-modal').modal('show');
+            }
+        });
+    });
 });
