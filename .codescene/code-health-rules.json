@@ -1,0 +1,68 @@
+{
+    "usage": "Persist this file inside your repositories as .codescene/code-health-rules.json ...",
+    "rule_sets": [
+        {
+            "thresholds": [
+                {
+                    "name": "constructor_max_arguments",
+                    "value": 5
+                },
+                {
+                    "name": "file_lines_of_code_for_warning",
+                    "value": 300
+                },
+                {
+                    "name": "function_cyclomatic_complexity_warning",
+                    "value": 10
+                },
+                {
+                    "name": "function_lines_of_code_warning",
+                    "value": 25
+                }
+            ],
+            "matching_content_path": "**/*.js",
+            "rules": [
+                {
+                    "name": "Brain Method",
+                    "weight": 0.5
+                },
+                {
+                    "name": "Large Method",
+                    "weight": 0.5
+                },
+                {
+                    "name": "Code Duplication",
+                    "weight": 1.0
+                },
+                {
+                    "name": "Primitive Obsession",
+                    "weight": 0.8
+                },
+                {
+                    "name": "String Heavy Function Arguments",
+                    "weight": 0.7
+                },
+                {
+                    "name": "Missing Arguments Abstractions",
+                    "weight": 1.0
+                },
+                {
+                    "name": "Number of Functions in a Single Module",
+                    "weight": 0.8
+                },
+                {
+                    "name": "Overall Code Complexity",
+                    "weight": 1.0
+                },
+                {
+                    "name": "Global Conditionals",
+                    "weight": 0.9
+                },
+                {
+                    "name": "Overall Function Size",
+                    "weight": 0.7
+                }
+            ]
+        }
+    ]
+}

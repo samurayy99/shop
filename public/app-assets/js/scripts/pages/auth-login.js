@@ -38,7 +38,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         $.ajax({
-            url: '/login/modal',  // This is assuming you have a route '/login/modal' that returns the login modal view
+            url: '/login',  // This is assuming you have a route '/login' that returns the login view
             method: 'GET',
             success: function (response) {
                 // Assuming the modal body has the id 'login-modal-body'

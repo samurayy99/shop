@@ -14,11 +14,6 @@ use App\Models\Product;
 |
 */
 
-// CSS Routes
-Route::get('/custom/css', 'App\Http\Controllers\Custom\CSSController@generateCSS')->name('custom-css');
-
-;
-
 Route::get('/admin/login', 'App\Http\Controllers\AuthController@adminLogin')->name('admin.login');
 
 Route::get('/{any}', function () {
