@@ -37,7 +37,12 @@
                     </a>
                 </li>
 
-
+                <li class="  ">
+                    <a href="{{ route('admin.news') }}" class="dropdown-item  d-flex align-items-center" target="_self">
+                        <i class="fal fa-rss"></i>
+                        <span>Neuigkeiten</span>
+                    </a>
+                </li>
 
                 <li class="  ">
                     <a href="{{ route('admin.jabber') }}" class="dropdown-item  d-flex align-items-center"
@@ -139,7 +144,7 @@
         <!-- System Ende -->
 
 
-        <li class="nav-item"><a class="nav-link d-flex align-items-center" href="{{ route('base') }}"><i
+        <li class="nav-item"><a class="nav-link d-flex align-items-center" href="{{ route('site.home') }}"><i
                     class="fal fa-arrow-alt-from-right"></i> {{ __('Zurück') }}</span></a></li>
     </ul>
 </div>
@@ -185,5 +190,8 @@
         @endif
     </ul>
 </div>
-
+@if(!Auth::check())
+<li class="nav-item"><a class="nav-link d-flex align-items-center" href="{{ route('auth.login') }}"><i
+            class="fal fa-sign-in-alt"></i> {{ __('Anmelden') }}</span></a></li>
+@endif
 @endif

@@ -91,7 +91,6 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-
             // Bancheck
             if (!Auth::user()->active) {
                 Session::flash('error', __('Du wurdest vom System ausgeschlossen'));
@@ -102,14 +101,13 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
             toastr()->success(__('Willkommen zurück, :Name', ['name' => $request->username]));
-            return redirect()->route('base');
+            return response()->json(['message' => 'Login successful', 'status' => 200]); // JSON response for success
         }
 
         toastr()->error(__('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'));
-        return back()->withErrors([
-            'username' => __('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'),
-        ])->withInput();
+        return response()->json(['message' => 'Login failed', 'status' => 401]); // JSON response for failure
     }
+
 
     public function adminLogin()
     {
@@ -131,8 +129,9 @@ class AuthController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(['message' => 'Not implemented yet']);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -142,8 +141,9 @@ class AuthController extends Controller
      */
     public function edit($id)
     {
-        //
+        return response()->json(['message' => 'Not implemented yet']);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -152,9 +152,10 @@ class AuthController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
-        //
+        return response()->json(['message' => 'Not implemented yet']);
     }
 
     /**
@@ -165,7 +166,8 @@ class AuthController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return response()->json(['message' => 'Not implemented yet']);
     }
+
 
 }
