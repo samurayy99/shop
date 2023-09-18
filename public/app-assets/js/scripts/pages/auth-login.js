@@ -1,23 +1,20 @@
-// Part 1: Initial Login AJAX Call
 $(document).ready(function () {
-    // Assuming your login form has the id 'login-form'
-    $('#login-form').on('submit', function (e) {
+    $('#loginModal .auth-login-form').on('submit', function (e) {
         e.preventDefault();
         var form = this;
-
         $.ajax({
-            url: '/login',  // This is assuming your login POST route is '/login'
+            url: '/auth/login',  // Updated URL to match Laravel route
             type: 'POST',
             data: $(form).serialize(),
             beforeSend: function () {
-                $('#login-button').prop('disabled', true);  // Disabling login button before request
+                $('#login-button').prop('disabled', true);
             },
+
             success: function (response) {
-                if (response.success) {
-                    // Assuming the new page content is wrapped in a div with id 'content-wrapper'
-                    $('#content-wrapper').load('/dashboard #content-wrapper>*', ""); // Assuming redirect to '/dashboard'
+                if (response.status === 200) {  // Updated condition to match Laravel response
+                    window.location.href = '/admin'; // Redirect to your admin panel
                 } else {
-                    toastr.error(response.message);  // Displaying error message
+                    toastr.error(response.message);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -25,26 +22,7 @@ $(document).ready(function () {
                 toastr.error('An error occurred. Please try again.');
             },
             complete: function () {
-                $('#login-button').prop('disabled', false);  // Re-enabling login button
-            }
-        });
-    });
-});
-
-// Part 2: Modal Loading on Click
-$(document).ready(function () {
-    // Assuming your login button has the id 'login-button'
-    $('#login-button').on('click', function (e) {
-        e.preventDefault();
-
-        $.ajax({
-            url: '/login',  // This is assuming you have a route '/login' that returns the login view
-            method: 'GET',
-            success: function (response) {
-                // Assuming the modal body has the id 'login-modal-body'
-                $('#login-modal-body').html(response);
-                // Assuming the modal itself has the id 'login-modal'
-                $('#login-modal').modal('show');
+                $('#login-button').prop('disabled', false);
             }
         });
     });

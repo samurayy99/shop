@@ -155,7 +155,7 @@
     <ul class="nav navbar-nav mr-auto" id="main-menu-navigation" data-menu="menu-navigation">
         <li class="nav-item"><a class="nav-link d-flex align-items-center" href="/"><i class="fal fa-home"></i> {{
                 __('Neuigkeiten') }}</span></a></li>
-        <li class="nav-item"><a class="nav-link d-flex align-items-center" href="{{ route('shop.entry') }}"><i
+        <li class="nav-item"><a class="nav-link d-flex align-items-center" href="{{ route('base') }}"><i
                     class="fal fa-shopping-cart"></i> {{ __('Produkte') }}</span></a></li>
 
 
@@ -191,7 +191,11 @@
     </ul>
 </div>
 @if(!Auth::check())
-<li class="nav-item"><a class="nav-link d-flex align-items-center" href="{{ route('auth.login') }}"><i
-            class="fal fa-sign-in-alt"></i> {{ __('Anmelden') }}</span></a></li>
+<li class="nav-item">
+    <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+        <i class="fal fa-sign-in-alt"></i> {{ __('Anmelden') }}
+    </a>
+</li>
+
 @endif
 @endif

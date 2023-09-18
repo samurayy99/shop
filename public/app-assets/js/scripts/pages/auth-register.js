@@ -8,8 +8,6 @@
 ==========================================================================================*/
 
 $(function () {
-    ('use strict');
-
     var assetsPath = '../../../app-assets/',
         registerMultiStepsWizard = document.querySelector('.register-multi-steps-wizard'),
         pageResetForm = $('.auth-register-form'),
@@ -208,31 +206,28 @@ $(function () {
     // Target the form using its action attribute
     var formAction = $('#registration-form').data('action');  // Assume you've set this data-action in your Blade template
 
-    $('form[action="' + formAction + '"]').on('submit', function (e) {
-        e.preventDefault();  // Prevent the default form submission behavior
-
-        // Disable the register button to prevent multiple submissions
-        $(this).find('button[type="submit"]').attr('disabled', 'disabled');
-
+    // Target the form using its action attribute
+    $('#registerForm').on('submit', function (e) {
+        e.preventDefault();
+        $(this).find('#register-button').attr('disabled', 'disabled');
         $.ajax({
-            url: formAction,  // URL for the AJAX POST request
+            url: $(this).data('action'),  // Fetch the action from data-attribute
             type: 'POST',
-            data: $(this).serialize(),  // Serialize the form data for the AJAX request
-            dataType: 'json',  // Expected return type of the response
+            data: $(this).serialize(),
+            dataType: 'json',
             success: function (response) {
                 if (response.success) {
-                    window.location.href = formAction.replace('registration', 'login');  // Redirect to login page, assuming a similar URL structure
+                    window.location.href = '/login';
                 } else {
                     toastr.error(response.message || 'Registration failed. Please try again.');
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {
+            error: function (_, textStatus, errorThrown) {
                 console.error('AJAX error:', textStatus, errorThrown);
                 toastr.error('An error occurred during registration. Please try again.');
             },
             complete: function () {
-                // Re-enable the register button
-                $(this).find('button[type="submit"]').removeAttr('disabled');
+                $(this).find('#register-button').removeAttr('disabled');
             }.bind(this)
         });
     });

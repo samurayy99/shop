@@ -19,7 +19,11 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view('auth.login');
+        if (request()->wantsJson()) {
+            return response()->json(['view' => view('auth.login')->render()]);
+        } else {
+            return view('auth.login');
+        }
     }
 
     /**
@@ -109,16 +113,43 @@ class AuthController extends Controller
     }
 
 
-    public function adminLogin()
+    public function adminLogin(Request $request)
     {
-        return view('auth.admin-login');
+        $request->validate([
+            "username" => "required|max:30",
+            "password" => "required|min:6",
+        ]);
+
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            // Check if user is an admin
+            if (Auth::user()->isAdmin()) {
+                $request->session()->regenerate();
+                toastr()->success(__('Welcome back, :Name', ['name' => $request->username]));
+                return response()->json(['message' => 'Login successful', 'status' => 200]); // JSON response for success
+            } else {
+                Auth::logout();
+                toastr()->error(__('You are not an admin'));
+                return response()->json(['message' => 'Not an admin', 'status' => 403]); // JSON response for failure
+            }
+        }
+
+        toastr()->error(__('The provided login details do not match our records'));
+        return response()->json(['message' => 'Login failed', 'status' => 401]); // JSON response for failure
     }
 
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        return redirect()->back();
+        // Check if user is an admin
+        if (Auth::user()->isAdmin()) {
+            Auth::logout();
+            toastr()->success(__('Admin logged out successfully'));
+            return redirect()->route('admin.login'); // Redirect to admin login page
+        } else {
+            Auth::logout();
+            toastr()->success(__('Logged out successfully'));
+            return redirect()->route('auth.login'); // Redirect to user login page
+        }
     }
 
     /**
@@ -155,18 +186,22 @@ class AuthController extends Controller
 
     public function update(Request $request, $id)
     {
-        return response()->json(['message' => 'Not implemented yet']);
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        $user->update($request->all());
+        return response()->json(['message' => 'User updated successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        return response()->json(['message' => 'Not implemented yet']);
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        $user->delete();
+        return response()->json(['message' => 'User deleted successfully']);
     }
 
 
