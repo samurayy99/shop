@@ -226,6 +226,10 @@
                     $(this).text('Switch to Register');
                 }
             });
+            // Add the Captcha Refresh Script here
+            function refreshCaptcha() {
+                $('.captcha-img').attr('src', '{{ captcha_src("flat") }}' + '?' + Math.random());
+            }
 
             // Login Form AJAX Submission
             $('#loginForm').submit(function (e) {
@@ -265,10 +269,7 @@
                 });
             });
 
-            // Captcha Refresh Script
-            function refreshCaptcha() {
-                $('.captcha-img').attr('src', '{{ captcha_src("flat") }}' + '?' + Math.random());
-            }
+
 
             //                // Smooth scrolling to anchor links
             $('a[href^="#"]').on('click', function (event) {
@@ -328,15 +329,20 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="loginForm" action="{{ route('auth.login.post') }}" method="post">
+                    <form id="loginForm" action="{{ route('auth.authenticate') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" class="form-control" required>
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password:</label>
                             <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <div>{!! captcha_img('flat') !!}</div>
+                            <button type="button" onclick="refreshCaptcha()">Refresh Captcha</button>
+                            <input type="text" id="captcha" name="captcha" class="form-control" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
@@ -345,25 +351,6 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-            $('#loginForm').on('submit', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        // Handle successful login here, e.g. redirect to dashboard
-                        window.location.href = '/admin/dashboard';
-                    },
-                    error: function () {
-                        toastr.error('Failed to login.');
-                    }
-                });
-            });
-        });
-    </script>
 
 </body>
 <html>
