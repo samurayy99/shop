@@ -5,6 +5,7 @@ use App\Models\Product;
 
 Route::get('/admin/login', 'App\Http\Controllers\AuthController@adminLogin')->name('admin.login');
 
+
 Route::get('/{any?}', function ($any = 'base') {
     $products = Product::all(); // Fetch all products
     return view('base', compact('products')); // Pass the products to the view
@@ -56,3 +57,23 @@ Route::get('lang/{locale}', function ($locale) {
     session()->put('locale', $locale);
     return redirect()->back();
 })->name('lang');
+
+// Existing code in web.php...
+
+// Admin Panel Routes
+Route::middleware(['auth', 'App\Http\Middleware\IsAdmin'])->group(function () {
+    Route::get('/admin/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('admin.dashboard');
+    Route::get('/admin/users', 'App\Http\Controllers\Admin\UserController@index')->name('admin.user.view');
+
+    // Admin order management routes
+    Route::get('/admin/orders', 'App\Http\Controllers\Admin\OrderController@index')->name('admin.order.view');
+    Route::get('/admin/order/{id}', 'App\Http\Controllers\Admin\OrderController@show')->name('admin.order.show');
+    Route::post('/admin/order/{id}', 'App\Http\Controllers\Admin\OrderController@update')->name('admin.order.update');
+
+    // Other routes...
+
+    Route::get('/{any?}', function ($any = 'base') {
+        $products = Product::all(); // Fetch all products
+        return view('base', compact('products')); // Pass the products to the view
+    })->where('any', '.*')->name('base');
+});
