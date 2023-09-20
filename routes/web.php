@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 
+Route::post('auth/general-login', 'App\Http\Controllers\AuthController@generalLogin')->name('auth.general.login');
+
+
 // Routes that display your website's pages
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 
@@ -14,6 +17,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //Auth Routes
+Route::get('/refresh_captcha', 'AuthController@refreshCaptcha');
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
 Route::post('auth/login', 'App\Http\Controllers\AuthController@authenticate')->name('auth.login.post');
 Route::get('auth/register', 'App\Http\Controllers\AuthController@create')->name('auth.register');
@@ -78,4 +82,9 @@ Route::middleware(['auth', 'App\Http\Middleware\IsAdmin'])->group(function () {
         $products = Product::all(); // Fetch all products
         return view('base', compact('products')); // Pass the products to the view
     })->where('any', '.*')->name('base');
+
+    Route::get('/{any}', function () {
+        return view('base');
+    })->where('any', '.*');
+
 });

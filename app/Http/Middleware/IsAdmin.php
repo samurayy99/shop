@@ -19,19 +19,10 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()) {
-            if (Auth::user()->can('Adminpanel Zugriff')) {
-                // User has admin rights
-                return $next($request);
-            } else {
-                // User is logged in but not an admin
-                Session::flash('error', __('Unzureichende Berechtigungen'));
-                toastr()->error(__('Unzureichende Berechtigungen'));
-                return redirect()->route('auth.login');
-            }
+        if (Auth::user() && Auth::user()->is_admin) {
+            return $next($request);
         }
-
-        // User is not logged in, allow to proceed (or redirect to login based on your logic)
-        return $next($request);
+        return redirect()->route('auth.login')->with('error', 'You do not have admin access');
     }
+
 }

@@ -72,47 +72,8 @@ class AuthController extends Controller
         return redirect()->route('auth.login');
     }
 
-    public function authenticate(Request $request)
-    {
-        $request->validate([
-            'captcha' => 'required|captcha',
-            'username' => 'required|max:30',
-            'password' => 'required|min:6',
-        ]);
 
-        $credentials = [
-            'username' => $request->input('username'),
-            'password' => $request->input('password'),
-        ];
-
-        if (Auth::guard('web')->attempt($credentials)) {
-            // Determine the redirect URL based on user role
-            $redirectUrl = Auth::guard('web')->user()->is_admin ? '/admin/dashboard' : '/';
-
-            if ($request->ajax()) {
-                // Return a JSON response for AJAX request
-                return response()->json([
-                    'status' => 200,
-                    'redirect' => $redirectUrl
-                ]);
-            }
-
-            // Redirect for non-AJAX request
-            return redirect()->intended($redirectUrl);
-        }
-
-        // Handle failed login attempt
-        if ($request->ajax()) {
-            return response()->json([
-                'status' => 401,
-                'message' => 'Invalid credentials'
-            ]);
-        }
-
-        return back()->withErrors(['username' => 'Invalid credentials']);
-    }
-
-    public function adminLogin(Request $request)
+    public function login(Request $request)
     {
         $request->validate([
             'username' => 'required|max:30',
@@ -130,10 +91,10 @@ class AuthController extends Controller
                 return response()->json(['message' => 'Not an admin', 'status' => 403]);
             }
         }
-
         toastr()->error(__('The provided login details do not match our records'));
         return response()->json(['message' => 'Login failed', 'status' => 401]);
     }
+
 
     public function logout(Request $request)
     {
@@ -185,4 +146,10 @@ class AuthController extends Controller
         $user->delete();
         return response()->json(['message' => 'User deleted successfully']);
     }
+
+    public function refreshCaptcha()
+    {
+        return captcha_img('flat');
+    }
+
 }
