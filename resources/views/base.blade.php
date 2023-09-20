@@ -202,6 +202,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- Load custom scripts -->
     <script src="{{ asset('js/custom.js') }}"></script>
@@ -329,7 +330,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="loginForm" action="{{ route('auth.authenticate') }}" method="post">
+                    <form id="loginForm" action="{{ route('auth.login.post') }}" method="post">
+
                         @csrf
                         <div class="form-group">
                             <label for="username">Username:</label>

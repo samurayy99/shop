@@ -11,7 +11,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response.status === 200) {  // This should match the JSON response from your Laravel backend
-                    window.location.href = '/admin/dashboard'; // Redirect to your admin dashboard
+                    window.location.href = response.redirect; // Redirect to the URL provided by the server
                 } else {
                     toastr.error(response.message);
                 }

@@ -11,7 +11,27 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <!-- Admin Section -->
-                @if (Request::is('admin/*') && Auth::check() && Auth::user()->can('Adminpanel Zugriff'))
+                @if (Auth::check())
+                <li class="nav-item">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                        <i class="feather icon-home"></i>
+                        <span class="menu-title" data-i18n="Dashboard">{{ __('Dashboard') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="nav-link">
+                        <i class="feather icon-log-out"></i>
+                        <span class="menu-title" data-i18n="Logout">{{ __('Logout') }}</span>
+                    </a>
+                </li>
+                @else
+                <li class="nav-item">
+                    <a href="{{ route('login') }}" class="nav-link">
+                        <i class="feather icon-log-in"></i>
+                        <span class="menu-title" data-i18n="Login">{{ __('Login') }}</span>
+                    </a>
+                </li>
+                @endif
                 @php
                 $dropdownItems = [
                 'Verwaltung' => [
@@ -85,4 +105,5 @@
                 </li>
             </ul>
         </div> <!-- End of Admin Navbar -->
-        @endif
+    </div>
+</div>

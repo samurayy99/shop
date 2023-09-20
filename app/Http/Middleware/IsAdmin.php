@@ -17,16 +17,21 @@ class IsAdmin
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->can('Adminpanel Zugriff')) {
-            // Benutzer hat Admin Rechte
-            return $next($request);
+        if (Auth::check()) {
+            if (Auth::user()->can('Adminpanel Zugriff')) {
+                // User has admin rights
+                return $next($request);
+            } else {
+                // User is logged in but not an admin
+                Session::flash('error', __('Unzureichende Berechtigungen'));
+                toastr()->error(__('Unzureichende Berechtigungen'));
+                return redirect()->route('auth.login');
+            }
         }
 
-        // Benutzer ist kein Admin
-        Session::flash('error', __('Unzureichende Berechtigungen'));
-        toastr()->error(__('Unzureichende Berechtigungen'));
-        return redirect()->route('site.home');
+        // User is not logged in, allow to proceed (or redirect to login based on your logic)
+        return $next($request);
     }
 }

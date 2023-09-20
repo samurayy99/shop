@@ -80,21 +80,36 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            if (!Auth::user()->active) {
-                Session::flash('error', __('Du wurdest vom System ausgeschlossen'));
-                toastr()->error(__('Du wurdest vom System ausgeschlossen'));
-                Auth::logout();
-                return redirect()->back();
+        $credentials = [
+            'username' => $request->input('username'),
+            'password' => $request->input('password'),
+        ];
+
+        if (Auth::guard('web')->attempt($credentials)) {
+            // Determine the redirect URL based on user role
+            $redirectUrl = Auth::guard('web')->user()->is_admin ? '/admin/dashboard' : '/';
+
+            if ($request->ajax()) {
+                // Return a JSON response for AJAX request
+                return response()->json([
+                    'status' => 200,
+                    'redirect' => $redirectUrl
+                ]);
             }
 
-            $request->session()->regenerate();
-            toastr()->success(__('Willkommen zurück, :Name', ['name' => $request->username]));
-            return response()->json(['message' => 'Login successful', 'status' => 200]);
+            // Redirect for non-AJAX request
+            return redirect()->intended($redirectUrl);
         }
 
-        toastr()->error(__('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'));
-        return response()->json(['message' => 'Login failed', 'status' => 401]);
+        // Handle failed login attempt
+        if ($request->ajax()) {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Invalid credentials'
+            ]);
+        }
+
+        return back()->withErrors(['username' => 'Invalid credentials']);
     }
 
     public function adminLogin(Request $request)

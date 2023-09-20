@@ -3,16 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 
-Route::get('/admin/login', 'App\Http\Controllers\AuthController@adminLogin')->name('admin.login');
+// Routes that display your website's pages
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 
 
-Route::get('/{any?}', function ($any = 'base') {
-    $products = Product::all(); // Fetch all products
-    return view('base', compact('products')); // Pass the products to the view
-})->where('any', '.*')->name('base');
+// Routes that handle purchasing
+Route::middleware(['auth'])->group(function () {
+    Route::post('/shop/checkout', 'CheckoutController@create')->name('shop.checkout');
+    // Other routes...
+});
 
 //Auth Routes
-Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login')->middleware('spa');
+Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
 Route::post('auth/login', 'App\Http\Controllers\AuthController@authenticate')->name('auth.login.post');
 Route::get('auth/register', 'App\Http\Controllers\AuthController@create')->name('auth.register');
 Route::post('auth/register', 'App\Http\Controllers\AuthController@store')->name('auth.register.post');
