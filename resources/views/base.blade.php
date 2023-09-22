@@ -2,6 +2,12 @@
 <html class="loading dark-layout" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <!-- BEGIN: Head-->
 
+@if(Auth::check())
+{{ Auth::user()->checkBanned() }}
+@else
+{{ App\Models\Settings::checkLoginOnly() }}
+@endif
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -244,37 +250,35 @@
         <!-- Feather Icons -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
 
-        <!-- BEGIN: Vendor JS-->
+        <!-- Vendor JS -->
         <script src="{{ asset('/app-assets/vendors/js/vendors.min.js') }}"></script>
-        <!-- BEGIN Vendor JS-->
-
-        <!-- BEGIN: Page Vendor JS-->
         <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
-        <!-- END: Page Vendor JS-->
 
-        <!-- BEGIN: Theme JS-->
+        <!-- Theme JS -->
         <script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
         <script src="{{ asset('/app-assets/js/core/app.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
-        <!-- END: Theme JS-->
+        <script src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
 
-        <!-- BEGIN: Page JS-->
-        <script src="{{ asset('js/custom.js') }}"></script>
-        <script src="{{ asset('js/scripts/pages/auth-login.js') }}"></script>
-
+        <!-- Bootstrap and Quill -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
-        @yield('js')
-        <!-- BEGIN: Custom JS of the New Design -->
+
+        <!-- Custom JS of the New Design -->
         <script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
         <script src="{{ asset('js/parallaxie.js') }}"></script>
         <script src="{{ asset('js/headline.js') }}"></script>
-        <script src="{{ asset('js/modernizr.js') }}"></script> <!-- Modernizr -->
+        <script src="{{ asset('js/modernizr.js') }}"></script>
         <script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
         <script src="{{ asset('js/contact_me.js') }}"></script>
-        <script src="{{ asset('js/custom.js') }}"></script>
         <script src="{{ asset('js/jquery.vide.js') }}"></script>
-        <!-- END: Custom JS of the New Design -->
+        <script src="{{ asset('js/custom.js') }}"></script>
+
+        <!-- Page-specific JS -->
+        <script src="{{ asset('js/scripts/pages/auth-login.js') }}"></script>
+
+        <!-- Yield for page-specific JS -->
+        @yield('js')
+
 
         <div id="loginModal" class="modal fade custom-modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -418,65 +422,38 @@
 
 
 
-        <script>
-            function showLoginModal() {
-                $('#loginModal').modal('show');
-            }
-        </script>
 
 
 
 
-        <!-- Your HTML content here -->
 
-        <!-- Load jQuery -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-        <!-- jQuery Validation -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-
-        <!-- Bootstrap -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-        <!-- Quill -->
-        <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
-
-        <!-- BEGIN: Vendor JS-->
-        <script src="{{ asset('/app-assets/vendors/js/vendors.min.js') }}"></script>
-        <!-- END: Vendor JS-->
-
-        <!-- BEGIN: Page Vendor JS-->
-        <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
-        <!-- END: Page Vendor JS-->
-
-        <!-- BEGIN: Theme JS-->
-        <script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
-        <script src="{{ asset('/app-assets/js/core/app.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
-        <!-- END: Theme JS-->
-
-        <!-- BEGIN: Page JS-->
-        <script src="{{ asset('js/scripts/pages/auth-login.js') }}"></script>
-        <!-- END: Page JS-->
-
-        <!-- BEGIN: Custom JS of the New Design -->
-        <script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
-        <script src="{{ asset('js/parallaxie.js') }}"></script>
-        <script src="{{ asset('js/headline.js') }}"></script>
-        <script src="{{ asset('js/modernizr.js') }}"></script> <!-- Modernizr -->
-        <script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
-        <script src="{{ asset('js/contact_me.js') }}"></script>
-        <script src="{{ asset('js/jquery.vide.js') }}"></script>
-        <!-- END: Custom JS of the New Design -->
-
-        <!-- Load scripts.js at the end -->
-        <script src="{{ asset('/js/scripts.js') }}"></script>
-
-
-
-        @yield('js')
-
+        <!-- END: Body-->
 </body>
-<!-- END: Body-->
+<!-- Vendor Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
+<script src="{{ asset('/app-assets/vendors/js/vendors.min.js') }}"></script>
+
+<!-- Page & Theme Scripts -->
+<script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
+<script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
+<script src="{{ asset('/app-assets/js/core/app.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
+<script src="{{ asset('js/scripts/pages/auth-login.js') }}"></script>
+
+<!-- Custom Scripts -->
+<script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
+<script src="{{ asset('js/parallaxie.js') }}"></script>
+<script src="{{ asset('js/headline.js') }}"></script>
+<script src="{{ asset('js/modernizr.js') }}"></script>
+<script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
+<script src="{{ asset('js/contact_me.js') }}"></script>
+<script src="{{ asset('js/jquery.vide.js') }}"></script>
+<script src="{{ asset('/js/scripts.js') }}"></script>
+
+<!-- Page-Specific Scripts -->
+@yield('js')
 
 </html>
