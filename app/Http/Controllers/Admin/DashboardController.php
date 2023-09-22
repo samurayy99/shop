@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 
 class DashboardController extends Controller
 {
@@ -67,28 +68,14 @@ class DashboardController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
-    
-     <?php
-
-     namespace App\Http\Controllers\Admin;
-     
-     use App\Http\Controllers\Controller;
-     use Illuminate\Http\Request;
-     use App\Models\User;
-     use Illuminate\Support\Facades\Hash;
-     
-     class DashboardController extends Controller
-     {
-         // ... rest of your code
-     
-         public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
@@ -106,5 +93,5 @@ class DashboardController extends Controller
         // Redirect back to the dashboard with a success message
         return redirect()->route('admin.dashboard')->with('success', 'User updated successfully.');
     }
-     
+
 }

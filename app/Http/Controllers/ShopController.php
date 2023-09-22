@@ -8,10 +8,22 @@ use App\Models\ProductCategory;
 
 class ShopController extends Controller
 {
-    public function index(): \Illuminate\View\View
+    public function index()
     {
         $products = Product::all();
-        return view('base', ['products' => $products]);
+        return view('shop.entry', ['products' => $products]);
+    }
+
+    public function show($slug)
+    {
+        $selectedCategory = ProductCategory::getIdBySlug($slug);
+        $products = Product::getAllProductsFromCategory($selectedCategory->id);
+        return view('shop.entry', ['products' => $products, 'selectedCategory' => $selectedCategory]);
+    }
+
+    public function addToCart($id)
+    {
+        // Implement your logic to add the product with the given ID to the shopping cart
     }
 
     public function create()
@@ -22,12 +34,6 @@ class ShopController extends Controller
     public function store(Request $request)
     {
         return response('Not implemented', 501);
-    }
-
-    public function show($slug): \Illuminate\View\View
-    {
-        $selectedCategory = ProductCategory::getIdBySlug($slug);
-        return view('base', ['selectedCategory' => $selectedCategory]);
     }
 
     public function edit($id)

@@ -10,8 +10,14 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+
+                <!-- Login Button -->
+                <li class="nav-item">
+                    <button id="loginButton" class="btn btn-primary" onclick="showLoginModal()">Login</button>
+                </li>
+
                 <!-- Admin Section -->
-                @if (Auth::check())
+                @if (Auth::check() && Auth::user()->can('Adminpanel Zugriff'))
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">
                         <i class="feather icon-home"></i>
@@ -19,32 +25,25 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link">
+                    <a href="{{ route('auth.logout') }}" class="nav-link">
                         <i class="feather icon-log-out"></i>
                         <span class="menu-title" data-i18n="Logout">{{ __('Logout') }}</span>
-                    </a>
-                </li>
-                @else
-                <li class="nav-item">
-                    <a href="{{ route('login') }}" class="nav-link">
-                        <i class="feather icon-log-in"></i>
-                        <span class="menu-title" data-i18n="Login">{{ __('Login') }}</span>
                     </a>
                 </li>
                 @endif
                 @php
                 $dropdownItems = [
                 'Verwaltung' => [
-                ['route' => 'admin.users', 'icon' => 'fal fa-user', 'label' => 'Benutzer'],
-                ['route' => 'admin.faq', 'icon' => 'fal fa-question', 'label' => 'FAQs'],
+                ['route' => 'admin.user.view', 'icon' => 'fal fa-user', 'label' => 'Benutzer'],
+                ['route' => 'faq', 'icon' => 'fal fa-question', 'label' => 'FAQs'],
                 // ... add more items here
                 ],
                 'Produkte' => [
-                ['route' => 'admin.categories', 'icon' => 'fal fa-arrow-right', 'label' => 'Kategorien'],
+                ['route' => 'shop', 'icon' => 'fal fa-arrow-right', 'label' => 'Kategorien'],
                 // ... add more items here
                 ],
                 'System' => [
-                ['route' => 'admin.settings', 'icon' => 'fal fa-cogs', 'label' => 'Einstellungen'],
+                ['route' => 'admin.dashboard', 'icon' => 'fal fa-cogs', 'label' => 'Einstellungen'],
                 // ... add more items here
                 ]
                 ];
@@ -53,8 +52,8 @@
                 <!-- Generate dropdown menus for admin sections -->
                 @foreach($dropdownItems as $section => $items)
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="{{ $section }}" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="{{ $section }}" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         <i class="{{ $items[0]['icon'] }}"></i> {{ $section }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="{{ $section }}">
@@ -69,32 +68,10 @@
 
                 <!-- Support Ticket Link -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.tickets') }}">
+                    <a class="nav-link" href="{{ route('support.tickets.open') }}">
                         <i class="fal fa-comment-alt-smile"></i> Tickets
                         <span class="badge badge-danger">{{ App\Models\Ticket::countOpenTickets() }}</span>
                     </a>
-                </li>
-
-                <!-- System Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSystem" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fal fa-server"></i> System
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSystem">
-                        <a class="dropdown-item" href="{{ route('admin.settings') }}">
-                            <i class="fal fa-cogs"></i> Einstellungen
-                        </a>
-                        <a class="dropdown-item" href="{{ route('admin.bitcoin') }}">
-                            <i class="fab fa-bitcoin"></i> Bitcoin
-                        </a>
-                        <a class="dropdown-item" href="{{ route('admin.transactions') }}">
-                            <i class="fal fa-money-bill-alt"></i> Transaktionen
-                        </a>
-                        <a class="dropdown-item" href="{{ route('admin.backups') }}">
-                            <i class="fal fa-file-search"></i> Backups
-                        </a>
-                    </div>
                 </li>
 
                 <!-- Back to Main Site -->

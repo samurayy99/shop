@@ -55,7 +55,7 @@ class TicketController extends Controller
     public function show($id)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Tickets verwalten')) {
+        if (!Auth::user()->can('Tickets verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -66,7 +66,7 @@ class TicketController extends Controller
         $messages = TicketMessage::where('ticket_id', '=', $ticket->id)->orderBy('id', 'DESC')->get();
 
         $order = null;
-        if($ticket->order_id != null) {
+        if ($ticket->order_id != null) {
             $order = UserOrder::find($ticket->order_id);
         }
 
@@ -82,7 +82,7 @@ class TicketController extends Controller
     public function add($id, Request $request)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Tickets verwalten')) {
+        if (!Auth::user()->can('Tickets verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -113,9 +113,10 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
-    public function closeOpenTicket($id) {
+    public function closeOpenTicket($id)
+    {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Tickets verwalten')) {
+        if (!Auth::user()->can('Tickets verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -124,7 +125,7 @@ class TicketController extends Controller
 
         $ticket = Ticket::findOrFail($id);
 
-        if($ticket->ticket_status == 'offen') {
+        if ($ticket->ticket_status == 'offen') {
             $ticket->ticket_status = 'geschlossen';
         } else {
             $ticket->ticket_status = 'offen';
@@ -138,9 +139,10 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
-    public function updateUserBalance($user_id, $ticket_id, Request $request) {
+    public function updateUserBalance($user_id, $ticket_id, Request $request)
+    {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Tickets verwalten')) {
+        if (!Auth::user()->can('Tickets verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 

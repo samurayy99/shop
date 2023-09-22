@@ -51,11 +51,11 @@ class AuthController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'captcha' => 'required|captcha',
             'username' => 'required|max:30|unique:users',
-            'jabber' => 'nullable|email',
             'password' => 'required|min:6',
+            'jabber' => 'nullable|email',
         ]);
+
 
         $user = new User();
         $user->username = $request->username;
@@ -73,26 +73,57 @@ class AuthController extends Controller
     }
 
 
-    public function login(Request $request)
+    public function authenticate(Request $request)
     {
         $request->validate([
-            'username' => 'required|max:30',
-            'password' => 'required|min:6',
+            'username' => 'required',
+            'password' => 'required',
+            'loginCaptcha' => 'required|captcha',
         ]);
 
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            if (Auth::user()->isAdmin()) {
-                $request->session()->regenerate();
-                toastr()->success(__('Welcome back, :Name', ['name' => $request->username]));
-                return response()->json(['message' => 'Login successful', 'status' => 200]);
-            } else {
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::attempt($credentials)) {
+            if (!Auth::user()->active) {
                 Auth::logout();
-                toastr()->error(__('You are not an admin'));
-                return response()->json(['message' => 'Not an admin', 'status' => 403]);
+                toastr()->error(__('Dein Account wurde gesperrt!'));
+                return redirect()->route('auth.login');
+            }
+
+            $request->session()->regenerate();
+            toastr()->success(__('Willkommen zurück, :Name', ['name' => $request->username]));
+
+            if (Auth::user()->can('Adminpanel Zugriff')) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('user.orders');
             }
         }
-        toastr()->error(__('The provided login details do not match our records'));
-        return response()->json(['message' => 'Login failed', 'status' => 401]);
+
+        toastr()->error(__('Die Anmeldedaten sind nicht korrekt.'));
+        return back()->withInput();
+    }
+
+
+
+
+    // Login function
+    public function login(Request $request)
+    {
+        // Validate captcha and other fields
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'loginCaptcha' => 'required|captcha',
+            // Corrected captcha validation rule
+        ]);
+
+        // Authentication
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return back()->withErrors(['email' => 'Invalid credentials']);
+        }
     }
 
 
@@ -146,10 +177,4 @@ class AuthController extends Controller
         $user->delete();
         return response()->json(['message' => 'User deleted successfully']);
     }
-
-    public function refreshCaptcha()
-    {
-        return captcha_img('flat');
-    }
-
 }
