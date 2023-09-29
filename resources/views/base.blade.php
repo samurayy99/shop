@@ -424,32 +424,41 @@
         @yield('js')
 
         <!-- END: Body-->
-</body>
-<!-- Vendor Scripts -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
-<script src="{{ asset('/app-assets/vendors/js/vendors.min.js') }}"></script>
+        <!-- Vendor Scripts -->
 
-<!-- Page & Theme Scripts -->
-<script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
-<script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
-<script src="{{ asset('/app-assets/js/core/app.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
-<script src="{{ asset('js/scripts/pages/auth-login.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
+        <script src="{{ asset('/app-assets/vendors/js/vendors.min.js') }}"></script>
 
-<!-- Custom Scripts -->
-<script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
-<script src="{{ asset('js/parallaxie.js') }}"></script>
-<script src="{{ asset('js/headline.js') }}"></script>
-<script src="{{ asset('js/modernizr.js') }}"></script>
-<script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
-<script src="{{ asset('js/contact_me.js') }}"></script>
-<script src="{{ asset('js/jquery.vide.js') }}"></script>
-<script src="{{ asset('/js/scripts.js') }}"></script>
+        <!-- Page & Theme Scripts -->
+        <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
+        <script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
+        <script src="{{ asset('/app-assets/js/core/app.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
+        <script src="{{ asset('js/scripts/pages/auth-login.js') }}"></script>
 
-<!-- Page-Specific Scripts -->
-@yield('js')
+        <!-- Custom Scripts -->
+        <script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
+        <script src="{{ asset('js/parallaxie.js') }}"></script>
+        <script src="{{ asset('js/headline.js') }}"></script>
+        <script src="{{ asset('js/modernizr.js') }}"></script>
+        <script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
+        <script src="{{ asset('js/contact_me.js') }}"></script>
+        <script src="{{ asset('js/jquery.vide.js') }}"></script>
+        <script src="{{ asset('/js/scripts.js') }}"></script>
 
-</html>
+        <!-- Page-Specific Scripts -->
+        @yield('js')
+
+        <!-- ScrollToCategory Function -->
+        <script>
+            function scrollToCategory(categoryId) {
+                $('html, body').animate({
+                    scrollTop: $("#" + categoryId).offset().top
+                }, 2000);
+            }
+
+</body >
+</html >

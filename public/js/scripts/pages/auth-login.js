@@ -1,25 +1,31 @@
-// auth-login.js
 $(document).ready(function () {
-    $("#loginModal .auth-login-form").on("submit", function (e) {
+    $("#loginForm").submit(function (e) {
         e.preventDefault();
-        const form = $(this);
-        $("#login-button").prop("disabled", true);
-
-        let captchaResponse = $("input[name='captcha']").val();
+        let form = $(this);
+        let username = $("#username").val();
+        let password = $("#password").val();
+        let captcha = $("#registerCaptcha").val();
 
         $.ajax({
-            url: "/auth/login",
+            url: "/auth/login", // Make sure this URL matches your backend route
             type: "POST",
-            data: form.serialize() + "&captcha=" + captchaResponse,
-            success: function (res) {
-                if (res.success) {
-                    window.location.href = res.redirectUrl;
-                } else {
-                    alert(res.message);
-                }
+            data: {
+                username: username,
+                password: password,
+                captcha: captcha,
+                _token: $('meta[name="csrf-token"]').attr('content')
             },
-            error: function (err) {
-                alert('An error occurred. Please try again.');
+            success: function (response) {
+                // Your success logic here, for example:
+                window.location.href = '/home';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Your error logic here, for example:
+                if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                    alert(jqXHR.responseJSON.message);
+                } else {
+                    alert('Login failed');
+                }
             }
         });
     });
