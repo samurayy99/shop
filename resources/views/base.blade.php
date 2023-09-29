@@ -395,10 +395,15 @@
                 // AJAX call for register form
                 $('#registerForm').submit(function (e) {
                     e.preventDefault();
+                    var formData = new FormData(this);
+                    formData.append('registerCaptcha', $('#registerCaptcha').val());
+
                     $.ajax({
                         type: 'POST',
                         url: '/auth/register',
-                        data: $(this).serialize(),
+                        data: formData,
+                        processData: false,
+                        contentType: false,
                         success: function (data) {
                             if (data.error) {
                                 toastr.error(data.error);
@@ -409,8 +414,6 @@
                     });
                 });
             });
-
-
         </script>
 
         <script>
@@ -420,17 +423,10 @@
         </script>
         @yield('js')
 
-
-
-
-
-
-
-
         <!-- END: Body-->
 </body>
 <!-- Vendor Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>

@@ -47,26 +47,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{
-                                        old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
+                        <!-- CAPTCHA Widget -->
                         <div class="form-group row">
                             <label for="loginCaptcha" class="col-md-4 col-form-label text-md-right">{{ __('Captcha')
                                 }}</label>
                             <div class="col-md-6">
-                                <div class="col captcha"><span>{!! captcha_img('flat') !!}</span></div>
-                                <button type="button" onclick="refreshCaptcha()">Refresh Captcha</button>
-                                <input type="text" class="form-control" id="loginCaptcha" name="loginCaptcha" required>
+                                <div>{!! captcha_img('flat') !!}</div>
+                                <input type="text" class="form-control" id="loginCaptcha" name="captcha" required>
                             </div>
                         </div>
 

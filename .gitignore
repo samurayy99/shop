@@ -8,17 +8,19 @@
 .env.*
 .env.backup
 .env.save
-/public/hot
-/public/storage
-/storage/*.key
+/public/css
+/public/fonts
+/public/img
+/public/images
+/public/uploads
+/public/vendor
+/storage/
 /.phpunit.result.cache
 package-lock.json
 npm-debug.log
 composer.lock
 purgecss.config.js
-# Ignore the storage directory
-/storage/
-
+/public/app-assets/
 
 # Various IDE and editor files
 .idea
@@ -31,7 +33,7 @@ purgecss.config.js
 Thumbs.db
 
 # Docker
-docker/**/data/
+/docker
 
 # Ignore public key
 public_key.pem

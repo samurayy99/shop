@@ -39,7 +39,7 @@ return [
 
         'array' => [
             'driver' => 'array',
-            'serialize' => false,
+            'serialize' => true,
         ],
 
         'database' => [
@@ -105,6 +105,6 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
+    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_cache'),
 
 ];

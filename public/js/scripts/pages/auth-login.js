@@ -2,18 +2,24 @@
 $(document).ready(function () {
     $("#loginModal .auth-login-form").on("submit", function (e) {
         e.preventDefault();
-        const form = $(this); // Custom: Store the form element in a variable
-        $("#login-button").prop("disabled", true); // Custom: Disable the login button during the request
+        const form = $(this);
+        $("#login-button").prop("disabled", true);
+
+        let captchaResponse = $("input[name='captcha']").val();
 
         $.ajax({
-            url: "/auth/login", // Custom: Adjust this URL to match your specific Laravel POST route for login
+            url: "/auth/login",
             type: "POST",
-            data: form.serialize(),
+            data: form.serialize() + "&captcha=" + captchaResponse,
             success: function (res) {
-                // Custom: Implement success logic
+                if (res.success) {
+                    window.location.href = res.redirectUrl;
+                } else {
+                    alert(res.message);
+                }
             },
             error: function (err) {
-                // Custom: Implement error handling
+                alert('An error occurred. Please try again.');
             }
         });
     });
