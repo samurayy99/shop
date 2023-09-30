@@ -3,7 +3,7 @@ $("#login-form").submit(function (e) {
     let form = $(this);
     let username = $("#login-username").val();
     let password = $("#login-password").val();
-    let captcha = $("#loginCaptcha").val();
+    let captcha = $("#loginCaptcha").val();  // Fetch the CAPTCHA value here
 
     // Validate the data before sending the request
     if (!username || username.length > 30) {
@@ -29,9 +29,8 @@ $("#login-form").submit(function (e) {
         success: function (response) {
             window.location.href = '/home';
         },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error('AJAX error:', textStatus, errorThrown, jqXHR.responseJSON);
-            // Log the validation errors
+        error: function (jqXHR) {
+            console.error('AJAX error:', jqXHR.statusText);
             console.error('Validation errors:', jqXHR.responseJSON.errors);
             if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
                 alert(jqXHR.responseJSON.message);

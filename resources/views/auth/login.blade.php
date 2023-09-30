@@ -52,7 +52,11 @@
                         <label for="loginCaptcha" class="col-md-4 col-form-label text-md-right">{{ __('Captcha')
                             }}</label>
                         <div class="col-md-6">
-                            <div>{!! captcha_img('flat') !!}</div>
+                            <div class="captcha">
+                                <span>{!! captcha_img() !!}</span>
+                                <button type="button" class="btn btn-success"><i class="fa fa-refresh"
+                                        id="refresh"></i></button>
+                            </div>
                             <input type="text" class="form-control" id="loginCaptcha" name="captcha" required>
                         </div>
                     </div>
@@ -80,5 +84,17 @@
 
 @section('js')
 <script src="{{ asset('js/scripts/pages/auth-login.js') }}"></script>
+
+<script>
+    $('#refresh').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/captcha/flat',
+            success: function (data) {
+                $('.captcha span').html(data);
+            }
+        });
+    });
+</script>
 
 @endsection

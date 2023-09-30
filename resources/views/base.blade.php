@@ -380,13 +380,16 @@
                 // AJAX call for login form
                 $('#loginForm').submit(function (e) {
                     e.preventDefault();
+                    var formData = $(this).serializeArray();
+                    formData.push({ name: 'captcha', value: $('#loginCaptcha').val() });
                     $.ajax({
                         type: 'POST',
                         url: '/auth/login',
-                        data: $(this).serialize(),
+                        data: formData,
                         success: function (data) {
                             if (data.error) {
                                 toastr.error(data.error);
+                                location.reload(); // This will refresh the page and the CAPTCHA
                             } else {
                                 location.reload();
                             }
@@ -461,5 +464,5 @@
                 }, 2000);
             }
 
-</body >
+        </body >
 </html >
