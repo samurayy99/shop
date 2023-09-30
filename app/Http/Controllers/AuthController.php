@@ -24,15 +24,12 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-        $captcha = $request->validate([
-            "captcha" => "required",
+        $request->validate([
+            "username" => "required|max:30|unique:users",
+            "jabber" => "nullable|email",
+            "password" => "required|min:6",
+            "captcha" => "required|captcha",
         ]);
-
-        if (captcha_check($request->captcha) == false) {
-            Session::flash('error', __('Captcha ungültig'));
-            toastr()->error(__('Captcha ungültig'));
-            return redirect()->back();
-        }
 
         $validated = $request->validate([
             "username" => "required|max:30|unique:users",
@@ -57,12 +54,27 @@ class AuthController extends Controller
 
     public function authenticate(Request $request)
     {
-        $request->validate([
-            "username" => "required|max:30",
-            "password" => "required|min:6",
-            "captcha" => "required|captcha",
-            // Validate CAPTCHA
-        ]);
+        // Log the request data
+        \Log::info("Request Data: " . json_encode($request->all()));
+        \Log::info("Captcha value: " . json_encode($request->input('captcha')));
+        \Log::info("Captcha session: " . json_encode($request->session()->get('captcha')));
+
+        \Log::info('Received Request Data:', $request->all());
+
+        try {
+            $request->validate([
+                'username' => 'required|max:30',
+                'password' => 'required|min:6',
+                'captcha' => 'required|captcha',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation Errors:', $e->errors());
+            throw $e;
+        }
+
+
+        // Rest of your code...
+
 
         if (Auth::attempt($request->only('username', 'password'))) {
             if (!Auth::user()->active) {

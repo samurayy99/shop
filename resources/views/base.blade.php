@@ -439,7 +439,6 @@
         <script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
         <script src="{{ asset('/app-assets/js/core/app.js') }}"></script>
         <script type="text/javascript" src="{{ asset('/js/froala_editor.pkgd.min.js') }}"></script>
-        <script src="{{ asset('js/scripts/pages/auth-login.js') }}"></script>
 
         <!-- Custom Scripts -->
         <script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
