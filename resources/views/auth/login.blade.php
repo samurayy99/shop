@@ -11,8 +11,8 @@
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" id="login-form"></form>
+                <form method="POST" id="login-form" action="{{ route('auth.login.post') }}">
+
                     @csrf <!-- CSRF token is generated here -->
 
                     <div class="form-group row">
@@ -70,11 +70,11 @@
                         {{ __('Forgot Your Password?') }}
                     </a>
                     @endif
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
 

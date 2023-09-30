@@ -2,10 +2,21 @@ $(document).ready(function () {
     $("#login-form").submit(function (e) {
         e.preventDefault();
         let form = $(this);
-        let username = $("#username").val();
-        let password = $("#password").val();
-        let captcha = $("#loginCaptcha").val();
+        let username = $("#login-username").val();  // Make sure this ID matches the Blade file
+        let password = $("#login-password").val();  // Make sure this ID matches the Blade file
+        let captcha = $("#loginCaptcha").val();  // This is correct as per your Blade file
 
+        // Validate the data before sending the request
+        if (!username || username.length > 30) {
+            alert('Username is required and should not exceed 30 characters');
+            return;
+        } else if (!password || password.length < 6) {
+            alert('Password is required and should be at least 6 characters');
+            return;
+        } else if (!captcha) {
+            alert('Captcha is required');
+            return;
+        }
 
         $.ajax({
             url: "/auth/login", // Make sure this URL matches your backend route
