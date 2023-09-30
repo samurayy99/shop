@@ -143,63 +143,6 @@ $(function () {
         });
     });
 
-    // credit card
-
-    // Credit Card
-    if (creditCard.length) {
-        creditCard.each(function () {
-            new Cleave($(this), {
-                creditCard: true,
-                onCreditCardTypeChanged: function (type) {
-                    const elementNodeList = document.querySelectorAll('.card-type');
-                    if (type != '' && type != 'unknown') {
-                        //! we accept this approach for multiple credit card masking
-                        for (let i = 0; i < elementNodeList.length; i++) {
-                            elementNodeList[i].innerHTML =
-                                '<img src="' + assetsPath + 'images/icons/payments/' + type + '-cc.png" height="24"/>';
-                        }
-                    } else {
-                        for (let i = 0; i < elementNodeList.length; i++) {
-                            elementNodeList[i].innerHTML = '';
-                        }
-                    }
-                }
-            });
-        });
-    }
-
-    // Expiry Date Mask
-    if (expiryDateMask.length) {
-        new Cleave(expiryDateMask, {
-            date: true,
-            delimiter: '/',
-            datePattern: ['m', 'y']
-        });
-    }
-
-    // CVV
-    if (cvvMask.length) {
-        new Cleave(cvvMask, {
-            numeral: true,
-            numeralPositiveOnly: true
-        });
-    }
-
-    // phone number mask
-    if (mobileNumberMask.length) {
-        new Cleave(mobileNumberMask, {
-            phone: true,
-            phoneRegionCode: 'US'
-        });
-    }
-
-    // Pincode
-    if (pinCodeMask.length) {
-        new Cleave(pinCodeMask, {
-            delimiter: '',
-            numeral: true
-        });
-    }
 
     // Include this block of code in your existing auth-register.js file
 
@@ -207,7 +150,7 @@ $(function () {
     var formAction = $('#registration-form').data('action');  // Assume you've set this data-action in your Blade template
 
     // Target the form using its action attribute
-    $('#registerForm').on('submit', function (e) {
+    $('#register-form').on('submit', function (e) {
         e.preventDefault();
         $(this).find('#register-button').attr('disabled', 'disabled');
         $.ajax({

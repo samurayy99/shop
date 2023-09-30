@@ -1,10 +1,11 @@
 $(document).ready(function () {
-    $("#loginForm").submit(function (e) {
+    $("#login-form").submit(function (e) {
         e.preventDefault();
         let form = $(this);
         let username = $("#username").val();
         let password = $("#password").val();
-        let captcha = $("#registerCaptcha").val();
+        let captcha = $("#loginCaptcha").val();
+
 
         $.ajax({
             url: "/auth/login", // Make sure this URL matches your backend route

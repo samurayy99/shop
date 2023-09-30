@@ -12,7 +12,10 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('auth.login.post') }}" id="login-form">
+                    <form method="POST" action="{{ route('auth.register') }}" id="register-form"
+                        data-action="{{ route('auth.register') }}">
+
+
                         @csrf <!-- CSRF token is generated here -->
 
                         <div class="form-group row">
