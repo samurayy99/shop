@@ -5,7 +5,7 @@ $(document).ready(function () {
         // Fetch form data
         const username = $("#username-field").val();
         const password = $("#password-field").val();
-        const captcha = $("#captcha").val();
+        const captcha = $("#captcha").val(); // Ensure this is the correct ID for the captcha input field
 
         // Debug logging
         console.log("Username:", username);
@@ -26,7 +26,7 @@ $(document).ready(function () {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 username: username,
                 password: password,
-                captcha: captcha
+                captcha: captcha // Ensure this matches the name in the server-side validation rules
             },
             success: function (response) {
                 console.log("AJAX Success:", response);
