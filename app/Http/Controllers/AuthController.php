@@ -95,14 +95,15 @@ class AuthController extends Controller
             // Authentication was successful
             return redirect()->intended('dashboard');
         } else {
-            // Authentication failed
+            // Generate a new captcha
+            $newCaptcha = captcha_img();
+
+            // Add the new captcha to the error response
             return back()->withErrors([
                 'username' => 'The provided credentials do not match our records.',
-            ]);
+            ])->withInput()->with(['new_captcha' => $newCaptcha]);
         }
     }
-
-
 
     public function logout(Request $request)
     {

@@ -35,6 +35,10 @@ $(document).ready(function () {
             error: function (jqXHR) {
                 console.error('AJAX error:', jqXHR.statusText);
                 console.error('Validation errors:', jqXHR.responseJSON.errors);
+                if (jqXHR.status === 422) {
+                    // Replace the captcha image
+                    $("#captcha-img").html(jqXHR.responseJSON.new_captcha);
+                }
             }
         });
     });

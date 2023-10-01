@@ -26,7 +26,7 @@
 
                         <div class="form-group">
                             <label for="captcha">{{ __('Captcha') }}</label>
-                            {!! captcha_img() !!}
+                            <div id="captcha-img">{!! captcha_img() !!}</div>
                             <input type="text" id="captcha" name="captcha" class="form-control" required>
                         </div>
 
