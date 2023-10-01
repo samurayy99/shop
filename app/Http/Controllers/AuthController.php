@@ -81,6 +81,28 @@ class AuthController extends Controller
         return response()->json(['captcha' => captcha_img('flat')]);
     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'captcha' => 'required|captcha'
+        ]);
+
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication was successful
+            return redirect()->intended('dashboard');
+        } else {
+            // Authentication failed
+            return back()->withErrors([
+                'username' => 'The provided credentials do not match our records.',
+            ]);
+        }
+    }
+
+
 
     public function logout(Request $request)
     {

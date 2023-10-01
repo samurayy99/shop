@@ -1,43 +1,41 @@
-$("#login-form").submit(function (e) {
-    e.preventDefault();
-    let form = $(this);
-    let username = $("#login-username").val();
-    let password = $("#login-password").val();
-    let captcha = $("#loginCaptcha").val();
-    // Fetch the CAPTCHA value here
+$(document).ready(function () {
+    $("#login-form").submit(function (e) {
+        e.preventDefault();
 
-    // Validate the data before sending the request
-    if (!username || username.length > 30) {
-        alert('Username is required and should not exceed 30 characters');
-        return;
-    } else if (!password || password.length < 6) {
-        alert('Password is required and should be at least 6 characters');
-        return;
-    } else if (!captcha) {
-        alert('Captcha is required');
-        return;
-    }
+        // Fetch form data
+        const username = $("#username-field").val();
+        const password = $("#password-field").val();
+        const captcha = $("#captcha").val();
 
-    $.ajax({
-        type: 'POST',
-        url: '/auth/login',
-        data: {
-            _token: $('meta[name="csrf-token"]').attr('content'),
-            username: username,
-            password: password,
-            captcha: captcha
-        },
-        success: function (response) {
-            window.location.href = '/home';
-        },
-        error: function (jqXHR) {
-            console.error('AJAX error:', jqXHR.statusText);
-            console.error('Validation errors:', jqXHR.responseJSON.errors);
-            if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
-                alert(jqXHR.responseJSON.message);
-            } else {
-                alert('Login failed');
-            }
+        // Debug logging
+        console.log("Username:", username);
+        console.log("Password:", password);
+        console.log("Captcha:", captcha);
+
+        // Validate form data
+        if (username === "" || password === "" || captcha === "") {
+            alert("Username, password, and captcha are required.");
+            return;
         }
+
+        // AJAX call for login
+        $.ajax({
+            type: 'POST',
+            url: '/auth/login',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                username: username,
+                password: password,
+                captcha: captcha
+            },
+            success: function (response) {
+                console.log("AJAX Success:", response);
+                window.location.href = '/home';
+            },
+            error: function (jqXHR) {
+                console.error('AJAX error:', jqXHR.statusText);
+                console.error('Validation errors:', jqXHR.responseJSON.errors);
+            }
+        });
     });
 });
