@@ -11,6 +11,7 @@ $(document).ready(function () {
         console.log("Username:", username);
         console.log("Password:", password);
         console.log("Captcha:", captcha);
+        console.log("Captcha value sent in AJAX request:", captcha);
 
         // Validate form data
         if (username === "" || password === "" || captcha === "") {
