@@ -48,18 +48,16 @@
                     </div>
 
                     <!-- CAPTCHA Widget -->
+                    <!-- CAPTCHA Widget -->
                     <div class="form-group row">
-                        <label for="loginCaptcha" class="col-md-4 col-form-label text-md-right">{{ __('Captcha')
-                            }}</label>
+                        <label for="captcha" class="col-md-4 col-form-label text-md-right">{{ __('Captcha') }}</label>
                         <div class="col-md-6">
-                            <div class="captcha">
-                                <span>{!! captcha_img() !!}</span>
-                                <button type="button" class="btn btn-success"><i class="fa fa-refresh"
-                                        id="refresh"></i></button>
-                            </div>
-                            <input type="text" class="form-control" id="loginCaptcha" name="captcha" required>
+                            <span>{!! captcha_img('flat') !!}</span>
+
+                            <input type="text" class="form-control" id="captcha" name="captcha" required>
                         </div>
                     </div>
+
 
                     <div class="form-group row mb-0">
                         <div class="col-md-8 offset-md-4">
@@ -89,12 +87,13 @@
     $('#refresh').click(function () {
         $.ajax({
             type: 'GET',
-            url: '/captcha/flat',
+            url: '/refresh-captcha',
             success: function (data) {
-                $('.captcha span').html(data);
+                $('.captcha span').html(data.captcha);
             }
         });
     });
 </script>
+
 
 @endsection

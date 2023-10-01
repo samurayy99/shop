@@ -6,7 +6,8 @@ use App\Models\Product;
 // Auth Routes
 Route::post('auth/general-login', 'App\Http\Controllers\AuthController@generalLogin')->name('auth.general.login');
 Route::post('/authenticate', 'App\Http\Controllers\AuthController@authenticate');
-Route::get('/refresh_captcha', 'App\Http\Controllers\AuthController@refreshCaptcha');
+Route::get('/refresh-captcha', 'AuthController@refreshCaptcha');
+
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
 Route::post('auth/login', 'App\\Http\\Controllers\\AuthController@authenticate')->name('auth.login.post');
 Route::get('auth/register', 'App\Http\Controllers\AuthController@create')->name('auth.register');

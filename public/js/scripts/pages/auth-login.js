@@ -3,7 +3,8 @@ $("#login-form").submit(function (e) {
     let form = $(this);
     let username = $("#login-username").val();
     let password = $("#login-password").val();
-    let captcha = $("#loginCaptcha").val();  // Fetch the CAPTCHA value here
+    let captcha = $("#loginCaptcha").val();
+    // Fetch the CAPTCHA value here
 
     // Validate the data before sending the request
     if (!username || username.length > 30) {

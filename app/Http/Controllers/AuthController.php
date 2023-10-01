@@ -26,7 +26,6 @@ class AuthController extends Controller
     {
         $request->validate([
             "username" => "required|max:30|unique:users",
-            "jabber" => "nullable|email",
             "password" => "required|min:6",
             "captcha" => "required|captcha",
         ]);
@@ -69,14 +68,6 @@ class AuthController extends Controller
             $request->session()->regenerate();
             toastr()->success(__('Willkommen zurück, :Name', ['name' => $request->username]));
             return redirect()->route('site.home');
-        } else {
-            toastr()->error(__('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'));
-            return back()->withErrors([
-                'username' => __('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'),
-            ])->withInput();
-
-
-            return redirect()->route('site.home');
         }
 
         toastr()->error(__('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'));
@@ -84,6 +75,12 @@ class AuthController extends Controller
             'username' => __('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'),
         ])->withInput();
     }
+
+    public function refreshCaptcha()
+    {
+        return response()->json(['captcha' => captcha_img('flat')]);
+    }
+
 
     public function logout(Request $request)
     {
