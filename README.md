@@ -1,66 +1,61 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+ Webshop is built on Laravel, which is a PHP framework that follows the MVC (Model-View-Controller) architectural pattern. Here's a brief      
+  overview of how this architecture works in your application:                                                                                       
+                                                                                                                                                     
+    1 Models: Models represent the data structure of your application. They interact with the database, perform data processing, and define          
+      relationships between different data entities. In your webshop, you likely have models for products, categories, orders, users, transactions,  
+      backups, and FAQs.                                                                                                                             
+    2 Views: Views are responsible for displaying data to the user. They are the templates that generate the HTML that is sent to the browser. In    
+      your current multi-page application, each route returns a different view. In the single-page application, there will be a single view that     
+      dynamically updates based on the data.                                                                                                         
+    3 Controllers: Controllers handle user requests and coordinate the models and views. They receive input from the user, interact with the models  
+      to process the data, and then pass the data to the views to be displayed. In your webshop, you have controllers for handling products,         
+      categories, orders, users, transactions, backups, and FAQs.                                                                                    
+    4 Routes: Routes define the URLs of your application and map them to specific controller actions. In your current application, you have routes   
+      for each page. In the single-page application, the routes will return data instead of views.                                                   
+    5 Middleware: Middleware provides a way to filter HTTP requests entering your application. For example, Laravel includes a middleware that       
+      verifies the user of your application is authenticated.                                                                                        
+    6 Service Providers: Service providers are the central place of all Laravel application bootstrapping. Your own application, as well as all of   
+      Laravel's core services are bootstrapped via service providers.                                                                                
+    7 Eloquent ORM: Laravel includes Eloquent, an Object-Relational Mapper (ORM) that makes it easy to interact with your database using             
+      object-oriented syntax.                                                                                                                        
+    8 Artisan Console: Laravel includes Artisan, a command-line interface that provides helpful commands for common tasks such as migrating your     
+      database or generating boilerplate code for new controllers.                                                                                   
+    9 Blade Templating Engine: Laravel includes Blade, a simple yet powerful templating engine. Unlike other PHP templating engines, Blade does not  
+      restrict you from using plain PHP code in your views.       
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+    Key Admin Controllers:
+* 		BackupController.php
+    * Functions: createBackup, deleteBackup, downloadBackup, index
+    * Usages: backups, fileName
+* 		BitcoinSettingsController.php
+    * Functions: index, sendBitcoin, update
+    * Usages: request, status, transaction
+* 		DashboardController.php
+    * Functions: create, destroy, edit, index, show, store, update
+    * Usages: request
+* 		OrderController.php
+    * Functions: create, destroy, edit, index, show, store, update
+    * Usages: order, request
+* 		ProductCategoryController.php
+    * Functions: create, destroy, edit, index, show, store, update
+    * Usages: category, product, products, removedProducts, request, validated
+* 		ProductController.php
+    * Functions: create, destroy, destroyById, edit, handleProductRequest, index, show, store, toggleListing, update, updateOrder
+    * Usages: product, productIds, request, validated
+* 		SettingsController.php
+    * Functions: create, destroy, edit, index, show, store, update
+    * Usages: appName, css_background_url, css_primary_color, pgp_key, request
+* 		TicketController.php
+    * Functions: add, closeOpenTicket, create, destroy, index, show, store, update, updateUserBalance
+    * Usages: messages, order, request, ticket, ticketMessage, ticket_id, user, user_id, validated
+* 		TransactionsController.php
+    * Functions: create, deepSearch, destroy, edit, index, show, store, update
+    * Usages: client, method, query, request, status, transaction
+* 		UserController.php
+    * Functions: create, destroy, destroyRequest, edit, index, show, store, update
+    * Usages: request, user, validated
+ 
 
-## About Laravel
+      
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+      
