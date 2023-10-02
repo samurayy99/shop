@@ -307,35 +307,17 @@
                     @toastr_render
 
 
-                    <!-- Your AJAX and Login Modal code here -->
+                    <!-- AJAX call for login form -->
                     <script>
                         $(document).ready(function () {
-                            // CSRF Token Setup
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                }
-                            });
-
-                            // Switch between login and register forms
-                            $('#register-link').click(function () {
-                                $('#loginForm').hide();
-                                $('#registerForm').show();
-                            });
-
-                            $('#login-link').click(function () {
-                                $('#registerForm').hide();
-                                $('#loginForm').show();
-                            });
-
-                            // AJAX call for login form
-                            $('#loginForm').submit(function (e) {
+                            $('#loginForm, #adminLoginForm').submit(function (e) {
                                 e.preventDefault();
                                 var formData = $(this).serializeArray();
-                                formData.push({ name: 'captcha', value: $('#loginCaptcha').val() });
+                                formData.push({ name: 'captcha', value: $(this).find('input[name="captcha"]').val() });
+                                var url = $(this).attr('id') === 'adminLoginForm' ? '/auth/admin/login' : '/auth/login';
                                 $.ajax({
                                     type: 'POST',
-                                    url: '/auth/login',
+                                    url: url,
                                     data: formData,
                                     success: function (data) {
                                         if (data.error) {

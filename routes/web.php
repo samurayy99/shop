@@ -9,7 +9,8 @@ Route::post('/authenticate', 'App\Http\Controllers\AuthController@authenticate')
 Route::get('/refresh-captcha', 'AuthController@refreshCaptcha');
 
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
-Route::post('auth/login', 'App\\Http\\Controllers\\AuthController@authenticate')->name('auth.login.post');
+Route::post('auth/login', 'App\\Http\\Controllers\\AuthController@login')->name('normal.login');
+Route::post('auth/admin/login', 'App\\Http\\Controllers\\AuthController@adminLogin')->name('admin.login');
 Route::get('auth/register', 'App\Http\Controllers\AuthController@create')->name('auth.register');
 Route::post('auth/register', 'App\Http\Controllers\AuthController@store')->name('auth.register.post');
 Route::get('auth/logout', 'App\Http\Controllers\AuthController@logout')->name('auth.logout');

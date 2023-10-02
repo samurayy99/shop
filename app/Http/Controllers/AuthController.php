@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+include_once app_path('common.php');
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
@@ -104,6 +107,18 @@ class AuthController extends Controller
                 'username' => 'The provided credentials do not match our records.',
             ])->withInput()->with(['new_captcha' => $newCaptcha]);
         }
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $credentials = $request->only('username', 'password');
+        if (Auth::attempt($credentials)) {
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin.dashboard');
+            }
+            return back()->with('error', 'Not an admin');
+        }
+        return back()->with('error', 'Credentials do not match');
     }
 
     public function logout(Request $request)

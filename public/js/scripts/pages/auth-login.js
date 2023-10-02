@@ -1,3 +1,6 @@
+import './commonImports';
+
+
 $(document).ready(function () {
     $("#login-form").submit(function (e) {
         e.preventDefault();
@@ -13,8 +16,8 @@ $(document).ready(function () {
         } else if (!password || password.length < 6) {
             alert('Password is required and should be at least 6 characters');
             return;
-        } else if (!captcha || captcha.length < 5) {  // Replace '5' with the actual minimum length of your captchas
-            alert('Captcha is required and should not be less than 5 characters');
+        } else if (!captcha) {
+            alert('Captcha is required');
             return;
         }
         if (!captcha || captcha.length < 5) {
@@ -37,10 +40,11 @@ $(document).ready(function () {
             error: function (jqXHR) {
                 console.error('AJAX error:', jqXHR.statusText);
                 console.error('Validation errors:', jqXHR.responseJSON.errors);
-                if (jqXHR.status === 422) {
-                    // Replace the captcha image
-                    $("#captcha-img").attr('src', jqXHR.responseJSON.new_captcha);
-                }
+
+                // Automatically refresh the captcha image
+                $.get('/refresh-captcha', function (data) {
+                    $("#captcha-img").attr('src', data);
+                });
             }
         });
     });
