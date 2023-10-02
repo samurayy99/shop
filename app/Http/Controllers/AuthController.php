@@ -9,6 +9,7 @@ use Hash;
 use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -50,7 +51,10 @@ class AuthController extends Controller
             $request->validate([
                 'username' => 'required|max:30',
                 'password' => 'required|min:6',
-                'captcha' => 'required|captcha',
+                'captcha' => [
+                    'required',
+                    Rule::exists('captcha_table', 'captcha_value') // Replace 'captcha_table' and 'captcha_value' with your actual captcha storage details
+                ],
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('Validation Errors:', $e->errors());
@@ -83,6 +87,9 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        \Log::info('Received CSRF token: ' . $request->input('_token'));
+        \Log::info('Received captcha: ' . $request->captcha);
+
         $request->validate([
             'username' => 'required',
             'password' => 'required',
@@ -92,13 +99,9 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Authentication was successful
             return redirect()->intended('dashboard');
         } else {
-            // Generate a new captcha
             $newCaptcha = captcha_img();
-
-            // Add the new captcha to the error response
             return back()->withErrors([
                 'username' => 'The provided credentials do not match our records.',
             ])->withInput()->with(['new_captcha' => $newCaptcha]);
