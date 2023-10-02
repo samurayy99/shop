@@ -51,10 +51,8 @@ class AuthController extends Controller
             $request->validate([
                 'username' => 'required|max:30',
                 'password' => 'required|min:6',
-                'captcha' => [
-                    'required',
-                    Rule::exists('captcha_table', 'captcha_value') // Replace 'captcha_table' and 'captcha_value' with your actual captcha storage details
-                ],
+                'captcha' => 'required|captcha',
+                Rule::exists('captcha_table', 'captcha_value') // Replace 'captcha_table' and 'captcha_value' with your actual captcha storage details
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('Validation Errors:', $e->errors());

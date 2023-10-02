@@ -17,6 +17,10 @@ $(document).ready(function () {
             alert('Captcha is required and should not be less than 5 characters');
             return;
         }
+        if (!captcha || captcha.length < 5) {
+            alert("Invalid Captcha");
+            return false;
+        }
 
         $.ajax({
             type: 'POST',
@@ -30,14 +34,12 @@ $(document).ready(function () {
             success: function (response) {
                 window.location.href = '/home';
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error('AJAX error:', textStatus, errorThrown, jqXHR.responseJSON);
+            error: function (jqXHR) {
+                console.error('AJAX error:', jqXHR.statusText);
+                console.error('Validation errors:', jqXHR.responseJSON.errors);
                 if (jqXHR.status === 422) {
-                    $("#captcha-img").html(jqXHR.responseJSON.new_captcha);
-                } else if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
-                    alert(jqXHR.responseJSON.message);
-                } else {
-                    alert('Login failed');
+                    // Replace the captcha image
+                    $("#captcha-img").attr('src', jqXHR.responseJSON.new_captcha);
                 }
             }
         });

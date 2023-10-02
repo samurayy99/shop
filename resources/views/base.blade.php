@@ -277,7 +277,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="registerCaptcha">Captcha</label>
-                                            <div class="col">{!! captcha_img('flat') !!}</div>
+                                            <div id="captcha-img" class="col">{!! captcha_img('flat') !!}</div>
                                             <input type="text" class="form-control" id="registerCaptcha"
                                                 name="registerCaptcha" required>
                                         </div>
