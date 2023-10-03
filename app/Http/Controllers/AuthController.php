@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 include_once app_path('common.php');
 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
@@ -25,7 +24,6 @@ class AuthController extends Controller
     {
         return view('auth.register');
     }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -111,6 +109,12 @@ class AuthController extends Controller
 
     public function adminLogin(Request $request)
     {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'captcha' => 'required|captcha'
+        ]);
+
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
             if (Auth::user()->isAdmin()) {

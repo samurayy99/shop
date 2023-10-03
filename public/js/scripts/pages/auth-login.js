@@ -1,6 +1,5 @@
 import './commonImports';
 
-
 $(document).ready(function () {
     $("#login-form").submit(function (e) {
         e.preventDefault();
@@ -27,7 +26,8 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '/auth/login',
+            url: '/auth/login', // Updated URL
+
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 username: username,
