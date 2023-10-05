@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-include_once app_path('common.php');
-
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;

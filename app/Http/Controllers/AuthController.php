@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-include_once app_path('common.php');
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
