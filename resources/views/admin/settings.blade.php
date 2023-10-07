@@ -61,11 +61,25 @@ Admin {{ __('Einstellungen') }}
 
 <div class="col-12">
 <div class="mb-1">
+<label class="form-label" for="show_full_stock">Vollständigen Bestand anzeigen</label>
+<div class="input-group input-group-merge">
+<select class="form-select" id="show_full_stock" name="show_full_stock" required>
+<option disabled>Bitte auswählen...</option>
+<option value="0" @if(!App\Models\Settings::get('shop.show_full_stock')) selected @endif>Nein</option>
+<option value="1" @if(App\Models\Settings::get('shop.show_full_stock')) selected @endif>Ja</option>
+</select>
+</div>
+<small>Legt fest, ob Bestand als Zahl angezeigt wird oder nur <span class="text-success">verfügbar</span>/<span class="text-danger">ausverkauft</span>.</small>
+</div>
+</div>
+
+<div class="col-12">
+<div class="mb-1">
 <label class="form-label text-primary" for="css_primary_color">Primärfarbe</label>
 <div class="input-group input-group-merge">
 <input type="text" id="css_primary_color" class="form-control" name="css_primary_color" value="{{ App\Models\Settings::get('css.primary_color') }}" pattern="#[a-fA-F\d]+" required>
 </div>
-<small>Default <span style="color: #000000;">(#000000)</span>. Beispielfarben: <a class="primary-color" href="https://flatuicolors.com">flatuicolors</a>.</small>
+<small>Default <span style="color: #7367f0;">(#7367f0)</span>. Beispielfarben: <a class="primary-color" href="https://flatuicolors.com">flatuicolors</a>.</small>
 </div>
 </div>
 
@@ -104,3 +118,6 @@ Admin {{ __('Einstellungen') }}
 </div>
 </div>
 @endsection
+
+
+

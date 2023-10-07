@@ -68,3 +68,6 @@ Admin {{ __('Kategorien hinzufügen') }}
 </div>
 </div>
 @endsection
+
+
+

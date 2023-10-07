@@ -40,3 +40,5 @@
 var editor = new FroalaEditor('#editor')
 </script>
 @endsection
+
+

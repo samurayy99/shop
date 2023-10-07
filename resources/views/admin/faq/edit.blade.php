@@ -46,3 +46,5 @@ Frage "{{ $faq->question }}" bearbeiten
 <!-- End Content -->
 </div>
 @endsection
+
+

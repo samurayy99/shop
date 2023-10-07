@@ -31,6 +31,17 @@
 <input type="number" class="form-control" placeholder="{{ __('Anzahl') }}" name="amount">
 </div>
 </div>
+<p class="mt-07 text-center">
+@if($product->product_type == 'virtuell')
+@if(App\Models\Settings::get('shop.show_full_stock'))
+{{ __('Verfügbar') }}: <span class="text-{{ App\Models\ProductStock::countStockAvailable($product->id) > 0 ? 'success' : 'danger' }}">{{ App\Models\ProductStock::countStockAvailable($product->id) }}</span>
+@else
+<span class="text-{{ App\Models\ProductStock::countStockAvailable($product->id) > 0 ? 'success' : 'danger' }}">{{ App\Models\ProductStock::countStockAvailable($product->id) > 0 ? __('Verfügbar') : __('Ausverkauft') }}</span>
+@endif
+@else
+<span class="text-success">{{ __('Verfügbar') }}</span>
+@endif
+</p>
 
 <div class="row">
 <div class="col px-1"><button type="submit" class="btn btn-primary btn-sm btn-block w-100 waves-effect waves-float waves-light mb-05">{{ __('Kaufen') }}</button></div>
@@ -41,3 +52,5 @@
 </div>
 
 </div>
+
+

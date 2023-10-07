@@ -62,3 +62,6 @@ Admin {{ __('Kategorien verwalten') }}
 </div>
 </div>
 @endsection
+
+
+

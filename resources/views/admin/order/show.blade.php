@@ -69,3 +69,6 @@ Bestellung #{{ $order->id }} <small>{{ $order->product_name }}</small>
 </div>
 </div>
 @endsection
+
+
+

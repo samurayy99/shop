@@ -47,17 +47,17 @@ class User extends Authenticatable
         return $this->newsletter;
     }
 
-    public static function getBalance()
+    public static function getBalance() 
     {
         return number_format(Auth::user()->balance, 2, ',', ' ');
     }
 
-    public static function getUserBalance($user_id)
+    public static function getUserBalance($user_id) 
     {
         return number_format(self::find($user_id)->balance, 2, ',', ' ');
     }
 
-    public static function updateBalance($user_id, $new_balance)
+    public static function updateBalance($user_id, $new_balance) 
     {
         $user = self::findOrFail($user_id);
 
@@ -68,53 +68,41 @@ class User extends Authenticatable
         return true;
     }
 
-    public static function countUsers()
-    {
+    public static function countUsers() {
         return self::all()->count();
     }
 
-    public static function getUsernameById($id)
-    {
+    public static function getUsernameById($id) {
         return self::find($id)->username ?: 'Deleted';
     }
 
-    public static function getUserById($id)
-    {
+    public static function getUserById($id) {
         return self::find($id);
     }
 
-    public static function getGroupById($id)
-    {
+    public static function getGroupById($id) {
         return self::find($id)->roles->pluck('name')[0] ?: 'Deleted';
     }
 
-    public static function getGroupColorById($id)
-    {
+    public static function getGroupColorById($id) {
         return self::find($id)->roles->pluck('color')[0] ?: 'Deleted';
     }
 
-    public static function getLast5Registrations()
-    {
+    public static function getLast5Registrations() {
         return self::orderBy('id', 'DESC')->take(5)->get();
     }
 
-    public static function getAllUsers()
-    {
+    public static function getAllUsers() {
         return self::all();
     }
 
-    public static function checkBanned()
-    {
-        if (!Auth::user()->active) {
+    public static function checkBanned() {
+        if(!Auth::user()->active) {
             Session::flash('error', __('Du wurdest vom System ausgeschlossen'));
             toastr()->error(__('Du wurdest vom System ausgeschlossen'));
             Auth::logout();
         }
     }
 
-    public function isAdmin()
-    {
-        return $this->can('Adminpanel Zugriff'); // This matches with what you have in your middleware.
-    }
     //public $timestamps = true;
 }

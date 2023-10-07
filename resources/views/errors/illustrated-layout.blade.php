@@ -228,7 +228,7 @@
             }
 
             .bg-white {
-                background-color: FFF;
+                background-color: #fff;
             }
 
             .bg-teal-light {
@@ -484,3 +484,6 @@
         </div>
     </body>
 </html>
+
+
+

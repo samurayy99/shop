@@ -69,3 +69,6 @@ Admin {{ __('Häufig gestellte Fragen') }}
 </div>
 </div>
 @endsection
+
+
+

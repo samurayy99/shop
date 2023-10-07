@@ -1,11 +1,17 @@
-/* HIGHSOCIETY */
 :root {
-    --bs-primary: {{ App\Models\Settings::get('css.primary_color') }} !important;
+    --bs-purple: {{ App\Models\Settings::get('css.primary_color') }} !important;
 }
+
+@if(strlen(App\Models\Settings::get('css.background_url')) > 0)
+body {
+    background: linear-gradient(0deg, rgb(24 24 24 / 88%), rgb(24 24 24 / 88%)), url({{ App\Models\Settings::get('css.background_url') }});
+}
+@endif
 
 .text-primary {
     color: {{ App\Models\Settings::get('css.primary_color') }} !important;
 }
+
 
 .btn-primary,
 .btn-primary[disabled],
@@ -97,13 +103,12 @@ a.primary-color {
 }
 
 .bg-primary {
-    background-color: {{ App\Models\Settings::get('css.primary_color') }} !important;
+    background-color = {{ App\Models\Settings::get('css.primary_color') }} !important;
 }
 
 .p primary-color {
     color: {{ App\Models\Settings::get('css.primary_color') }} !important;
 }
-
 
 
 
