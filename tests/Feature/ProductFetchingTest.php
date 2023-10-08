@@ -42,7 +42,7 @@ class ProductControllerTest1 extends TestCase
         $productData = [
             'name' => 'Test Product',
             'description' => 'This is a test product',
-            'price' => 100
+            'price_euro' => 100
         ];
 
         $response = $this->post('/admin/products', $productData);
@@ -59,7 +59,7 @@ class ProductControllerTest1 extends TestCase
             'name' => $this->faker->word,
             'description_short' => $this->faker->sentence,
             'category' => $this->faker->randomDigitNotNull,
-            'price' => $this->faker->randomFloat(2, 1, 100),
+            'price_euro' => $this->faker->randomFloat(2, 1, 100),
             'product_type' => 'virtuell'
         ];
         $response = $this->actingAs($this->user)->post('/admin/products', $data);
