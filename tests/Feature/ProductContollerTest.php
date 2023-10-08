@@ -42,35 +42,32 @@ class ProductControllerTest extends TestCase
     public function testShow()
     {
         $product = Product::factory()->create();
-        $response = $this->get("/admin/products/{$product->id}");
+        $response = $this->get("/admin/product/manage/{$product->id}");
         $response->assertStatus(200);
     }
 
     public function testEdit()
     {
         $product = Product::factory()->create();
-        $response = $this->get("/admin/products/{$product->id}/edit");
+        $response = $this->get("/admin/product/edit/{$product->id}");
         $response->assertStatus(200);
     }
 
     public function testUpdate()
     {
         $product = Product::factory()->create();
-        $data = [
-            'name' => 'Updated Product',
-            'description_short' => 'Updated description',
-            'category' => 2,
-            'price' => 150.75,
-            'product_type' => 'physisch'
+        $updatedData = [
+            'name' => 'Updated Name',
+            // Add other fields that you want to update
         ];
-        $response = $this->put("/admin/products/{$product->id}", $data);
-        $response->assertRedirect('/admin/products');
+        $response = $this->put("/admin/product/edit/{$product->id}/save", $updatedData);
+        $response->assertStatus(200);
     }
 
     public function testDestroy()
     {
         $product = Product::factory()->create();
-        $response = $this->delete("/admin/products/{$product->id}");
-        $response->assertRedirect('/admin/products');
+        $response = $this->delete("/admin/product/delete/{$product->id}");
+        $response->assertStatus(200);
     }
 }

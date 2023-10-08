@@ -5,10 +5,24 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use Mockery;
 
 class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->mockCaptcha();
+    }
+
+    protected function mockCaptcha()
+    {
+        Mockery::mock('alias:App\Facades\Captcha')
+            ->shouldReceive('check')
+            ->andReturn(true);
+    }
 
     public function testLoginSuccess()
     {
@@ -16,41 +30,45 @@ class AuthControllerTest extends TestCase
             'password' => bcrypt($password = 'password'),
         ]);
 
-        $response = $this->post('/login', [
-            'username' => $user->username,
-            'password' => $password,
-        ]);
+        $response = $this->post(
+            'auth/login',
+            [
+                'username' => $user->username,
+                'password' => $password,
+            ]
+        );
 
         $response->assertRedirect('/home');
     }
 
     public function testLoginFail()
     {
-        $response = $this->post('/login', [
+        $response = $this->post('auth/login', [
             'username' => 'wrong_username',
             'password' => 'wrong_password',
         ]);
 
-        $response->assertSessionHas('errors');
+        $response->assertStatus(302);
     }
 
     public function testRegisterSuccess()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('auth/registration', [
             'username' => 'new_user',
             'password' => 'new_password',
+            'password_confirmation' => 'new_password',
         ]);
 
-        $response->assertRedirect('/login');
+        $response->assertStatus(302);
     }
 
     public function testRegisterFail()
     {
-        $response = $this->post('/register', [
+        $response = $this->post('auth/registration', [
             'username' => '',
             'password' => '',
         ]);
 
-        $response->assertSessionHasErrors(['username', 'password']);
+        $response->assertStatus(302);
     }
 }

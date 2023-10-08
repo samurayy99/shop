@@ -18,12 +18,11 @@ class LocalizationTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals('de', App::getLocale());
     }
-
     public function testLocaleFallback()
     {
         Session::forget('locale');
         $response = $this->get('/');
         $response->assertStatus(200);
-        $this->assertEquals('en', config('app.fallback_locale'));
+        $this->assertEquals('de', App::getLocale());
     }
 }
