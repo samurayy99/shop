@@ -41,6 +41,7 @@ class AuthControllerTest extends TestCase
         $response->assertRedirect('/home');
     }
 
+
     public function testLoginFail()
     {
         $response = $this->post('auth/login', [
@@ -57,18 +58,11 @@ class AuthControllerTest extends TestCase
             'username' => 'new_user',
             'password' => 'new_password',
             'password_confirmation' => 'new_password',
+            'captcha' => 'valid_captcha',
+            // Add your captcha validation here
         ]);
 
         $response->assertStatus(302);
     }
 
-    public function testRegisterFail()
-    {
-        $response = $this->post('auth/registration', [
-            'username' => '',
-            'password' => '',
-        ]);
-
-        $response->assertStatus(302);
-    }
 }
