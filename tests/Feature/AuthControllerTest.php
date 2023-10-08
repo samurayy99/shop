@@ -42,16 +42,26 @@ class AuthControllerTest extends TestCase
     }
 
 
-    public function testLoginFail()
+    // Existing testLoginSuccess method
+    public function testLoginSuccess()
     {
-        $response = $this->post('auth/login', [
-            'username' => 'wrong_username',
-            'password' => 'wrong_password',
+        $user = User::factory()->create([
+            'password' => bcrypt($password = 'password'),
         ]);
 
-        $response->assertStatus(302);
+        $response = $this->post(
+            'auth/login',
+            [
+                'username' => $user->username,
+                'password' => $password,
+                'captcha' => 'valid_captcha' // Add this line
+            ]
+        );
+
+        $response->assertRedirect('/home');
     }
 
+    // Existing testRegisterSuccess method
     public function testRegisterSuccess()
     {
         $response = $this->post('auth/registration', [
@@ -59,10 +69,11 @@ class AuthControllerTest extends TestCase
             'password' => 'new_password',
             'password_confirmation' => 'new_password',
             'captcha' => 'valid_captcha',
-            // Add your captcha validation here
+            // Make sure this line exists
         ]);
 
         $response->assertStatus(302);
     }
+
 
 }
