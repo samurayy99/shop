@@ -34,6 +34,23 @@ class ProductControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_create_product()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $productData = [
+            'name' => 'Test Product',
+            'description' => 'This is a test product',
+            'price' => 100
+        ];
+
+        $response = $this->post('/admin/products', $productData);
+
+        $response->assertStatus(302); // Redirect after successful creation
+        $this->assertDatabaseHas('products', $productData); // Check if data is in the database
+    }
+
     public function testStore()
     {
         $this->user->givePermissionTo('Produkte verwalten');
