@@ -24,6 +24,6 @@ class LocalizationTest extends TestCase
         Session::forget('locale');
         $response = $this->get('/');
         $response->assertStatus(200);
-        $this->assertEquals('en', App::getLocale());
+        $this->assertEquals(config('app.fallback_locale'), App::getLocale());
     }
 }

@@ -31,7 +31,7 @@ class AuthControllerTest extends TestCase
             'password' => 'wrong_password',
         ]);
 
-        $response->assertSessionHasErrors();
+        $response->assertSessionHasErrors('username');
     }
 
     public function testRegisterSuccess()
@@ -51,6 +51,6 @@ class AuthControllerTest extends TestCase
             'password' => '',
         ]);
 
-        $response->assertSessionHasErrors();
+        $response->assertSessionHasErrors(['username', 'password']);
     }
 }
