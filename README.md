@@ -69,17 +69,7 @@
 - **User Authentication**: Ensure robust and secure user authentication mechanisms.
 - **Bitcoin Transactions**: Ensure the security and anonymity of Bitcoin transactions.
 
-## Additional Insights from Repository Analysis
-- **Scheduled Tasks**: `DeleteOldOrders.php` deletes orders older than 30 days.
-- **Middleware**: `IsAdmin.php` checks if the authenticated user is an admin.
-- **Database Migrations**: Additional details about the database schema and relationships should be documented.
-- **Testing**: Exploration of the tests directory to understand what aspects of the application are being tested.
-- **Additional Functionalities**: Exploration of controllers like `CashinController`, `CheckoutController`, etc.
-- **Admin Functionalities**: Exploration of controllers under `app/Http/Controllers/Admin`.
-- **User and Product Models**: Exploration of models like `User`, `Product`, etc.
-- **CSS and JS Assets**: Exploration of the usage and dependencies of CSS and JS assets.
-- **Localization**: Exploration of how localization is handled.
-- **Error Handling**: Exploration of custom error views under `resources/views/errors`.
-
 ## Note 
 - This README is designed to assist GitHubGPT in understanding the project structure, goals, and technical architecture for the redesign collaboration. It will be deleted post-redesign.
+
+Disclaimer: This is written from a beginner user. Chatgpt should always do its own research. DYOR!
