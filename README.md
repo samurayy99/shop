@@ -8,8 +8,7 @@
 - **Backend**: Laravel (PHP)
 - **Frontend**: Transition from jQuery to a suitable SPA framework.
 
-## Current Project Status
-- Engaged in a redesign phase, addressing technical and UX challenges.
+
 
 ## Detailed Technical Architecture
 
@@ -18,7 +17,7 @@
 - **Authentication**: Managed through `AuthController.php` (username, password, captcha).
 - **Bitcoin Transactions**: Managed by `BitcoinCheck.php`.
 - **Validation**: Utilizes Laravel’s built-in validation, including captcha validation.
-- **Routes**: Defined within `web.php` and `api.php`.
+- **Routes**: Defined within `web.php`
 - **Middleware**: Includes custom middleware for specific functionalities.
 - **Service Providers**: Potential usage of custom service providers.
 
@@ -70,6 +69,6 @@
 - **Bitcoin Transactions**: Ensure the security and anonymity of Bitcoin transactions.
 
 ## Note 
-- This README is designed to assist GitHubGPT in understanding the project structure, goals, and technical architecture for the redesign collaboration. It will be deleted post-redesign.
+- This README is designed to assist ChatGPT in understanding the project structure, goals, and technical architecture for the redesign collaboration. It will be deleted post-redesign.
 
 Disclaimer: This is written from a beginner user. Chatgpt should always do its own research. DYOR!
