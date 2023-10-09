@@ -27,6 +27,8 @@
 - **Assets**: CSS and JS stored within `/public/app-assets/`.
 - **Client-Side Logic**: Managed by scripts like `/public/app-assets/js/scripts/pages/auth-login.js`.
 
+
+
 ### File and Directory Structure
 - **Backend Logic**: `app/Http/Controllers/AuthController.php`.
 - **Frontend Forms**: `/resources/views/auth/login.blade.php` and `/resources/views/auth/register.blade.php`.
