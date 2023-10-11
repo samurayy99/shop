@@ -46,6 +46,14 @@
 - **About Us**: Section just below the hero header.
 - **Product Category Buttons**: Two attractive buttons with category pictures as backgrounds, opening a modal displaying products from the selected category upon click.
 
+## Undesired Functionalities to be Removed
+- **FAQ Functionality**: Dynamic FAQ management and display functionality.
+- **Top Seller Functionality**: Managing and displaying top-seller products.
+- **Product Stock Functionality**: Displaying product stock information.
+- **Custom CSS Controller**: Dynamic CSS changes, especially controlling color from the admin panel.
+- **News Functionality**: Related to 'news.blade.php' functionality for posting and displaying news.
+- **Jabber Functionality**: Sending messages and managing Jabber settings.
+
 ## Authentication Details
 - **Mechanism**: Username, password, and captcha without utilizing email.
 
