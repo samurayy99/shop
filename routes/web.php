@@ -2,23 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// CSS Routes
-Route::get('/custom/css', 'App\Http\Controllers\Custom\CSSController@generateCSS')->name('custom-css');
-
-
-// News Routes
-Route::get('/', 'App\Http\Controllers\NewsController@index')->name('site.home');
+Route::get('/', function () {
+    return view('base');
+});
 
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
@@ -72,14 +58,7 @@ Route::get('lang/{locale}', function ($locale) {
 Route::middleware([IsAdmin::class])->group(function () {
     Route::get('/admin/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('admin.dashboard');
 
-    Route::get('/admin/news', 'App\Http\Controllers\Admin\NewsController@index')->name('admin.news');
-    Route::post('/admin/news/save', 'App\Http\Controllers\Admin\NewsController@store')->name('admin.news.save');
-    Route::get('/admin/news/delete/{id}', 'App\Http\Controllers\Admin\NewsController@destroy')->name('admin.news.delete');
-    Route::post('/admin/news/edit/{id}', 'App\Http\Controllers\Admin\NewsController@edit')->name('admin.news.update');
 
-    Route::get('admin/jabber', 'App\Http\Controllers\Admin\JabberController@index')->name('admin.jabber');
-    Route::post('admin/jabber/update', 'App\Http\Controllers\Admin\JabberController@store')->name('admin.jabber.update');
-    Route::post('admin/jabber/send', 'App\Http\Controllers\Admin\JabberController@sendMessage')->name('admin.jabber.send');
 
     Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
     Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
@@ -137,11 +116,6 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::get('admin/backup/download/{fileName}', 'App\Http\Controllers\Admin\BackupController@downloadBackup')->name('admin.backup.download');
     Route::get('admin/backup/delete/{fileName}', 'App\Http\Controllers\Admin\BackupController@deleteBackup')->name('admin.backup.delete');
 
-    Route::get('admin/faq', 'App\Http\Controllers\Admin\FAQController@index')->name('admin.faq');
-    Route::post('admin/faq', 'App\Http\Controllers\Admin\FAQController@store')->name('admin.faq.create');
-    Route::get('admin/faq/{id}', 'App\Http\Controllers\Admin\FAQController@edit')->name('admin.faq.edit');
-    Route::post('admin/faq/{id}', 'App\Http\Controllers\Admin\FAQController@update')->name('admin.faq.update');
-    Route::get('admin/faq/delete/{id}', 'App\Http\Controllers\Admin\FAQController@destroy')->name('admin.faq.delete');
 
 
 });
