@@ -2,11 +2,11 @@
 <html class="loading dark-layout" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <!-- BEGIN: Head-->
 
-@if(Auth::check())
+@auth
 {{ Auth::user()->checkBanned() }}
 @else
 {{ App\Models\Settings::checkLoginOnly() }}
-@endif
+@endauth
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -46,6 +46,7 @@
     <!-- END: Custom CSS-->
 
     <script src="https://code.jquery.com/jquery-3.6.3.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
 
 </head>
 <!-- END: Head-->
@@ -78,21 +79,21 @@
                 <li class="nav-item dropdown dropdown-language">
                     <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown"
                         aria-haspopup="true">
-                        <i class="flag-icon flag-icon-{{ Config::get('app.locale') == 'de' ? 'de' : 'us'}}"></i>
+                        <i class="flag-icon flag-icon-{{ app()->getLocale() == 'de' ? 'de' : 'us'}}"></i>
                         <span class="selected-language">
-                            {{ Config::get('app.locale') == "de" ? "Deutsch" : "English"}}
+                            {{ __(app()->getLocale() == "de" ? "Deutsch" : "English") }}
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag">
                         <a class="dropdown-item" href="{{ route('lang', 'en') }}" data-language="en">
-                            <i class="flag-icon flag-icon-us"></i> English
+                            <i class="flag-icon flag-icon-us"></i> {{ __('English') }}
                         </a>
                         <a class="dropdown-item" href="{{ route('lang', 'de') }}" data-language="de">
-                            <i class="flag-icon flag-icon-de"></i> Deutsch
+                            <i class="flag-icon flag-icon-de"></i> {{ __('Deutsch') }}
                         </a>
                     </div>
                 </li>
-                @if(Auth::check())
+                @auth
                 <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link"
                         id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
@@ -113,7 +114,7 @@
                                 data-feather="power"></i> {{ __('Abmelden') }}</a>
                     </div>
                 </li>
-                @endif
+                @endauth
             </ul>
         </div>
     </nav>
@@ -206,18 +207,6 @@
     <!-- BEGIN: Page JS-->
     <!-- END: Page JS-->
 
-    <script>
-        $(window).on('load', function () {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script>
-
-
     @jquery
     @toastr_js
     @toastr_render
@@ -225,6 +214,17 @@
     <script src="{{ asset('/js/scripts.js') }}"></script>
     <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
     @yield('js')
+
+</body>
+<!-- END: Body-->
+
+</html>uery
+@toastr_js
+@toastr_render
+
+<script src="{{ asset('/js/scripts.js') }}"></script>
+<script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
+@yield('js')
 
 </body>
 <!-- END: Body-->

@@ -169,6 +169,75 @@
 - **CSSController.php**: Manages CSS styles.
 - **DeleteRequestController.php**: Manages delete requests.
 
+## Removed Functionalities & Associated Files
+
+### 1. FAQ Functionality
+Dynamic FAQ management and display functionality, controlled from the admin panel.
+
+#### Associated Files:
+- `app/Http/Controllers/FaqController.php`
+- `app/Http/Controllers/Admin/FAQController.php`
+- `app/Models/Faq.php`
+- `resources/views/faq.blade.php`
+- `resources/views/admin/faq/edit.blade.php`
+- `resources/views/admin/faq/index.blade.php`
+- `routes/web.php`
+
+### 2. Top Seller Functionality
+Managing and displaying top-seller products.
+
+#### Associated Files:
+- `resources/views/shop/entry.blade.php`
+- `resources/views/shop/topseller.blade.php`
+
+### 3. Product Stock Functionality
+Displaying product stock information.
+
+#### Associated Files:
+- `app/Http/Controllers/CheckoutController.php`
+- `app/Http/Controllers/Admin/ProductCategoryController.php`
+- `app/Http/Controllers/Admin/ProductController.php`
+- `app/Http/Controllers/Admin/ProductStockController.php`
+- `app/Models/ProductStock.php`
+- `resources/views/admin/product/manage.blade.php`
+- `resources/views/admin/product/view.blade.php`
+- `resources/views/shop/product.blade.php`
+- `resources/views/shop/topseller.blade.php`
+
+### 4. Custom CSS Controller
+Dynamic CSS changes, especially controlling color from the admin panel.
+
+#### Associated Files:
+- `app/Http/Controllers/Admin/SettingsController.php`
+- `app/Http/Controllers/Custom/CSSController.php`
+- `database/migrations/2022_01_13_124614_create_settings_table.php`
+- `resources/views/admin/settings.blade.php`
+- `resources/views/custom/css.blade.php`
+- `webpack.mix.js`
+
+### 5. News Functionality
+Related to 'news.blade.php' functionality for posting and displaying news.
+
+#### Associated Files:
+- `app/Http/Controllers/NewsController.php`
+- `app/Http/Controllers/Admin/NewsController.php`
+- `app/Models/News.php`
+- `database/migrations/2022_01_03_072148_create_news_table.php`
+- `resources/views/news.blade.php`
+- `resources/views/admin/news.blade.php`
+- `routes/web.php`
+
+### 6. Jabber Functionality
+Sending messages and managing Jabber settings.
+
+#### Associated Files:
+- `app/Http/Controllers/Admin/JabberController.php`
+- `resources/views/admin/jabber.blade.php`
+- `routes/web.php`
+
+#### Note: 
+Ensure that any dependencies, routes, or additional references to these functionalities are also adequately handled during the redesign to prevent potential issues. Thoroughly test the application after removing these functionalities to ensure that no unexpected behaviors occur due to their removal.
+
 ## Security and Anonymity
 - **Data Transmission**: Ensure secure data transmission using HTTPS and other secure protocols.
 - **Data Storage**: Safeguard stored data with encryption and secure access controls.
