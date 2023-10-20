@@ -19,7 +19,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product.view');
+        return view('admin.product.add');
     }
 
     /**
@@ -41,7 +41,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
+        if (!Auth::user()->can('Produkte verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -70,25 +70,24 @@ class ProductController extends Controller
         $product->category_id = $request->category;
         $product->weight_text = $request->weight_text ?: 'g';
 
-        if($request->has('dropable')) {
+        if ($request->has('dropable')) {
             $product->dropable = 1;
         }
 
 
-        if($request->product_type == 'virtuell') {
+        if ($request->product_type == 'virtuell') {
             $product->use_stock = 1;
             $product->product_type = 'virtuell';
-        } elseif($request->product_type == 'unlimited') {
+        } elseif ($request->product_type == 'unlimited') {
             $product->product_type = 'unlimited';
 
-            if(empty($product->content)) 
-            {
+            if (empty($product->content)) {
                 Session::flash('error', __("Produkt konnte nicht erstellt werden, du hast keine Nachricht für den Käufer angegeben."));
                 toastr()->error(__("Produkt konnte nicht erstellt werden, du hast keine Nachricht für den Käufer angegeben."));
 
                 return redirect()->back();
             }
-        } elseif($request->product_type == 'physisch') {
+        } elseif ($request->product_type == 'physisch') {
             $product->product_type = 'physisch';
         }
 
@@ -110,14 +109,14 @@ class ProductController extends Controller
     public function show($id)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
+        if (!Auth::user()->can('Produkte verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
             return redirect()->back();
         }
 
-        
+
         $product = Product::findOrFail($id);
         return view('admin.product.manage', ['product' => $product]);
     }
@@ -131,7 +130,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
+        if (!Auth::user()->can('Produkte verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -152,7 +151,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
+        if (!Auth::user()->can('Produkte verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -181,27 +180,26 @@ class ProductController extends Controller
         $product->category_id = $request->category;
         $product->weight_text = $request->weight_text ?: 'g';
 
-        if($request->has('dropable')) {
+        if ($request->has('dropable')) {
             $product->dropable = 1;
         } else {
             $product->dropable = 0;
         }
 
-        
-        if($request->product_type == 'virtuell') {
+
+        if ($request->product_type == 'virtuell') {
             $product->use_stock = 1;
             $product->product_type = 'virtuell';
-        } elseif($request->product_type == 'unlimited') {
+        } elseif ($request->product_type == 'unlimited') {
             $product->product_type = 'unlimited';
 
-            if(empty($product->content)) 
-            {
+            if (empty($product->content)) {
                 Session::flash('error', __("Produkt konnte nicht bearbeitet werden, du hast keine Nachricht für den Käufer angegeben."));
                 toastr()->error(__("Produkt konnte nicht bearbeitet werden, du hast keine Nachricht für den Käufer angegeben."));
 
                 return redirect()->back();
             }
-        } elseif($request->product_type == 'physisch') {
+        } elseif ($request->product_type == 'physisch') {
             $product->product_type = 'physisch';
         }
 
@@ -223,7 +221,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Produkte verwalten')) {
+        if (!Auth::user()->can('Produkte verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -238,7 +236,7 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function destroyById(Request $request) 
+    public function destroyById(Request $request)
     {
         $productIds = $request->input('id');
         $products = Product::whereIn('id', $productIds);
@@ -251,13 +249,12 @@ class ProductController extends Controller
         die();
     }
 
-    public function toggleListing(Request $request, $id = null) 
+    public function toggleListing(Request $request, $id = null)
     {
-        if($id != null) 
-        {
+        if ($id != null) {
             $product = Product::findOrFail($id);
 
-            if($product->listed) {
+            if ($product->listed) {
                 $product->listed = false;
             } else {
                 $product->listed = true;
@@ -268,9 +265,8 @@ class ProductController extends Controller
             $ids = $request->input('id');
             $products = Product::whereIn('id', $ids);
 
-            foreach($products->get() as $product) 
-            {
-                if($product->listed) {
+            foreach ($products->get() as $product) {
+                if ($product->listed) {
                     $product->listed = 0;
                 } else {
                     $product->listed = 1;
@@ -286,8 +282,7 @@ class ProductController extends Controller
 
     public function updateOrder(Request $request)
     {
-        foreach($request->input('order', []) as $row)
-        {
+        foreach ($request->input('order', []) as $row) {
             Product::find($row['id'])->update([
                 'position' => $row['position']
             ]);

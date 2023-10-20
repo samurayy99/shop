@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Main Routes
 Route::get('/', function () {
     return view('base');
-});
+})->name('site.home');
+
+
 
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
@@ -21,8 +24,7 @@ Route::post('shop/checkout', 'App\Http\Controllers\CheckoutController@create')->
 Route::get('shop/checkout/overview', 'App\Http\Controllers\CheckoutController@index')->middleware('auth')->name('shop.checkout.overview');
 Route::post('shop/checkout/create', 'App\Http\Controllers\CheckoutController@store')->middleware('auth')->name('shop.checkout.create');
 
-// FAQ Routes
-Route::get('faq', 'App\Http\Controllers\FaqController@index')->name('faq');
+
 
 Route::get('user/orders', 'App\Http\Controllers\UserOrderController@index')->middleware('auth')->name('user.orders');
 Route::get('user/order/{id}', 'App\Http\Controllers\UserOrderController@show')->middleware('auth')->name('user.order.show');
