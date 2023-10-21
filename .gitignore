@@ -7,7 +7,8 @@
 .env
 .env.*
 .env.backup
-.env.save
+.env
+.codescene
 /public/css
 /public/fonts
 /public/img
@@ -20,7 +21,9 @@ package-lock.json
 npm-debug.log
 composer.lock
 purgecss.config.js
-/public/app-assets/
+/public/app-assets/data
+/resources/lang/vendor/backup
+/tests/
 
 # Various IDE and editor files
 .idea
