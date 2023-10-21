@@ -9,19 +9,12 @@
 .env.backup
 .env
 .codescene
-/public/css
-/public/fonts
-/public/img
-/public/images
-/public/uploads
-/public/vendor
 /storage/
 /.phpunit.result.cache
 package-lock.json
 npm-debug.log
 composer.lock
 purgecss.config.js
-/public/app-assets/data
 /resources/lang/vendor/backup
 /tests/
 
