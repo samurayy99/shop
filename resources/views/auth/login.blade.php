@@ -116,7 +116,7 @@
 
                                 <p class="text-center mt-2">
                                     <span>{{ __('Noch kein Mitglied?') }}</span>
-                                    <a href="{{ route('auth.register') }}" class="primary-color">
+                                    <a href="{{ route('auth.registeration') }}" class="primary-color">
                                         <span>{{ __('Konto erstellen') }}</span>
                                     </a>
                                 </p>

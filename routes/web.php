@@ -13,8 +13,8 @@ Route::get('/', 'App\Http\Controllers\Admin\ProductCategoryController@showCatego
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
 Route::post('auth/login', 'App\Http\Controllers\AuthController@login')->name('auth.login.post');
-Route::get('auth/register', 'App\Http\Controllers\AuthController@create')->name('auth.register');
-Route::post('auth/register', 'App\Http\Controllers\AuthController@store')->name('auth.register.post');
+Route::get('auth/registeration', 'App\Http\Controllers\AuthController@create')->name('auth.registeration');
+Route::post('auth/registeration', 'App\Http\Controllers\AuthController@store')->name('auth.registeration.post');
 Route::get('auth/logout', 'App\Http\Controllers\AuthController@logout')->name('auth.logout');
 
 // Shop Routes

@@ -222,12 +222,10 @@
     <div class="drag-target"></div>
 
     <!-- Login Form -->
-    @component('components.login-form')
-    @endcomponent
+    @include('auth.login')
 
     <!-- Register Form -->
-    @component('components.register-form')
-    @endcomponent
+    @include('auth.register')
 
     <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
