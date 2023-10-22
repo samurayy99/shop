@@ -1,22 +1,12 @@
 <!DOCTYPE html>
 <html class="loading dark-layout" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<!-- BEGIN: Head-->
-@auth
-{{ Auth::user()->checkBanned() }}
-@else
-{{ App\Models\Settings::checkLoginOnly() }}
-@endauth
 
 <head>
-    @if(Auth::check())
-    {{ Auth::user()->checkBanned() }}
-    @else
-    {{ App\Models\Settings::checkLoginOnly() }}
-    @endif
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="width=device-width, initial-scale=1, user-scalable=0, minimal-ui" name="viewport" />
     <meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Dynamic title -->
     <title>
         Highsociety > @yield('title')
@@ -33,7 +23,6 @@
     <link href="{{ asset('/app-assets/css/colors.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/app-assets/css/components.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet" type="text/css" />
-    @toastr_css
     <!-- Font Awesome and Froala -->
     <link crossorigin="anonymous" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
     <link href="{{ asset('/css/froala.min.css') }}" rel="stylesheet" type="text/css">
@@ -42,14 +31,6 @@
     <!-- jQuery Script -->
     <script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.3.js">
     </script>
-    </link>
-    </link>
-    <meta charset="utf-8" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <meta content="" name="keywords" />
-    <meta content="" name="description" />
-    <meta content="" name="author" />
 </head>
 <!-- BEGIN: Body-->
 
@@ -69,14 +50,10 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#about">
-                        About
-                    </a>
+                    <a class="nav-link js-scroll-trigger" href="#about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#portfolio">
-                        Products
-                    </a>
+                    <a class="nav-link js-scroll-trigger" href="#products">Products</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="#faq-section">
@@ -95,7 +72,6 @@
                 </li>
             </ul>
         </div>
-        @include('navBar')
     </nav>
     <!-- END: Main Menu-->
     <!-- BEGIN: Home Section -->
@@ -199,66 +175,39 @@
         <!-- end container -->
     </div>
     <!-- end section -->
+
+    <!-- BEGIN: Categories and Products -->
     <main class="container categories">
-        <section class="card category-card" onclick="scrollToCategory('category1')">
+        @foreach($categories as $category)
+        <section class="card category-card">
             <div class="product-image">
-                <img alt="Category 1" draggable="false" src="https://i.ibb.co/cNWqxGx/red.png">
-                </img>
+                <!-- Replace 'path_to_your_static_category_image' with the actual path to your static category image -->
+                <img alt="{{ $category->name }}" src="/path_to_your_static_category_image.jpg" />
             </div>
         </section>
-        <section class="card category-card" onclick="scrollToCategory('category2')">
-            <div class="product-image">
-                <img alt="Category 2" draggable="false" src="https://i.ibb.co/0JKpmgd/blue.png" />
-            </div>
-        </section>
-        <!-- Product Display for Category 1 -->
-        <div class="products" id="category1">
-            @foreach($products ?? [] as $product)
-            @if($product->category_id === 1)
+        <div class="products" id="{{ $category->slug }}">
+            @foreach($category->products as $product)
             <div class="product-card">
                 <img alt="{{ $product->name }}" src="{{ $product->image }}" />
-                <h3>
-                    {{ $product->name }}
-                </h3>
-                <p>
-                    Price: {{ $product->price }}
-                </p>
+                <h3>{{ $product->name }}</h3>
+                <p>Price: {{ $product->price }}</p>
             </div>
-            @endif
             @endforeach
         </div>
-        <!-- Product Display for Category 2 -->
-        <div class="products" id="category2">
-            @foreach($products ?? [] as $product)
-            @if($product->category_id === 2)
-            <div class="product-card">
-                <img alt="{{ $product->name }}" src="{{ $product->image }}" />
-                <h3>
-                    {{ $product->name }}
-                </h3>
-                <p>
-                    Price: {{ $product->price }}
-                </p>
-            </div>
-            @endif
-            @endforeach
-        </div>
+        @endforeach
     </main>
+    <!-- END: Categories and Products -->
     <!-- Closing the main tag -->
     <!-- BEGIN: Content-->
     <div class="app-content">
-        <div class="content-overlay">
-        </div>
-        <div class="header-navbar-shadow">
-        </div>
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
         <div class="content-wrapper container-xxl p-0">
             <div class="content-header row">
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="mb-0">
-                                @yield('subtitle')
-                            </h2>
+                            <h2 class="mb-0">@yield('subtitle')</h2>
                         </div>
                     </div>
                 </div>
@@ -268,72 +217,24 @@
         </div>
     </div>
     <!-- END: Content-->
-    <div class="sidenav-overlay">
-    </div>
-    <div class="drag-target">
-    </div>
-    <div class="modal-body">
-        <!-- Login Form -->
-        <form action="{{ route('auth.login') }}" id="loginForm" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="username">
-                    Username
-                </label>
-                <input class="form-control" id="username" name="username" required="" type="text" />
-            </div>
-            <div class="form-group">
-                <label for="password">
-                    Password
-                </label>
-                <input class="form-control" id="password" name="password" required="" type="password" />
-            </div>
-            <div class="form-group">
-            </div>
-            <button class="btn btn-primary" type="submit">
-                Login
-            </button>
-        </form>
-        <!-- Register Form -->
-        <form action="{{ route('auth.register') }}" id="registerForm" method="POST" style="display: none;">
-            @csrf
-            <div class="form-group">
-                <label for="registerUsername">
-                    Username
-                </label>
-                <input class="form-control" id="registerUsername" name="registerUsername" required="" type="text" />
-            </div>
-            <div class="form-group">
-                <label for="registerPassword">
-                    Password
-                </label>
-                <input class="form-control" id="registerPassword" name="registerPassword" required="" type="password" />
-            </div>
-            <div class="form-group">
-                <label for="registerCaptcha">
-                    Captcha
-                </label>
-                <div class="col">
-                    {!! captcha_img('flat') !!}
-                </div>
-                <input class="form-control" id="registerCaptcha" name="registerCaptcha" required="" type="text" />
-            </div>
-            <button class="btn btn-primary" type="submit">
-                Register
-            </button>
-        </form>
-    </div>
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- Login Form -->
+    @component('components.login-form')
+    @endcomponent
+
+    <!-- Register Form -->
+    @component('components.register-form')
+    @endcomponent
+
     <div class="modal-footer">
-        <button class="btn btn-secondary" data-dismiss="modal" type="button">
-            Close
-        </button>
-        <button class="btn btn-primary" id="switchFormButton" type="button">
-            Switch to Register
-        </button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+        <button class="btn btn-primary" id="switchFormButton" type="button">Switch to Register</button>
     </div>
 </body>
 
-</html>
 <!-- END: Page JS-->
 <script>
     $(window).on('load', function () {
@@ -345,9 +246,6 @@
         }
     })
 </script>
-@jquery
-@toastr_js
-@toastr_render
 <!-- Your AJAX and Login Modal code here -->
 <script>
     $(document).ready(function () {
@@ -412,46 +310,30 @@
 <!-- Your HTML content here -->
 <!-- BEGIN: JavaScript Section -->
 <!-- Core Libraries -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
-</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- Theme Scripts -->
-<script src="{{ asset('js/app-menu.js') }}">
-</script>
-<script src="{{ asset('js/app.js') }}">
-</script>
+<script src="{{ asset('js/app-menu.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 <!-- Vendor Scripts -->
-<script src="{{ asset('js/vendors.min.js') }}">
-</script>
-<script src="{{ asset('js/jquery.sticky.js') }}">
-</script>
+<script src="{{ asset('js/vendors.min.js') }}"></script>
+<script src="{{ asset('js/jquery.sticky.js') }}"></script>
 <!-- Page & Theme Scripts -->
-<script src="{{ asset('js/auth-login.js') }}">
-</script>
+<script src="{{ asset('js/auth-login.js') }}"></script>
 <!-- Additional Libraries -->
-<script src="{{ asset('js/froala_editor.pkgd.min.js') }}">
-</script>
-<script src="https://cdn.quilljs.com/1.1.9/quill.js">
-</script>
+<script src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script>
+<script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
 <!-- Custom Scripts -->
-<script src="{{ asset('js/jquery.easing.1.3.js') }}">
-</script>
-<script src="{{ asset('js/parallaxie.js') }}">
-</script>
-<script src="{{ asset('js/headline.js') }}">
-</script>
-<script src="{{ asset('js/modernizr.js') }}">
-</script>
-<script src="{{ asset('js/jqBootstrapValidation.js') }}">
-</script>
-<script src="{{ asset('js/jquery.vide.js') }}">
-</script>
-<script src="{{ asset('js/custom.js') }}" type="module">
-</script>
-<!-- Inline JavaScript -->
-<script>
- // Your inline JavaScript code here
-</script>
+<script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
+<script src="{{ asset('js/parallaxie.js') }}"></script>
+<script src="{{ asset('js/headline.js') }}"></script>
+<script src="{{ asset('js/modernizr.js') }}"></script>
+<script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
+<script src="{{ asset('js/jquery.vide.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}" type="module"></script>
 <!-- Page-Specific Scripts -->
 @yield('js')
 <!-- END: JavaScript Section -->
 <!-- BEGIN: Vendor JS-->
+<!-- ... existing content ... -->
+
+</html>

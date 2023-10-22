@@ -19,7 +19,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product.add');
+        $categories = ProductCategory::with('products')->get();
+        return view('base', ['categories' => $categories]);
     }
 
     /**

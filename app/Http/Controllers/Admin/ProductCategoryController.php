@@ -33,7 +33,7 @@ class ProductCategoryController extends Controller
     public function create()
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Kategorien verwalten')) {
+        if (!Auth::user()->can('Kategorien verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -52,7 +52,7 @@ class ProductCategoryController extends Controller
     public function store(Request $request)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Kategorien verwalten')) {
+        if (!Auth::user()->can('Kategorien verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -65,7 +65,7 @@ class ProductCategoryController extends Controller
             "category_featured" => "required|boolean"
         ]);
 
-        if(empty($request->category_slug)) {
+        if (empty($request->category_slug)) {
             $request->category_slug = $request->name;
         }
 
@@ -92,7 +92,11 @@ class ProductCategoryController extends Controller
     {
         //
     }
-
+    public function showCategoriesWithProducts()
+    {
+        $categories = ProductCategory::with('products')->get();
+        return view('base', ['categories' => $categories]);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -102,7 +106,7 @@ class ProductCategoryController extends Controller
     public function edit($id)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Kategorien verwalten')) {
+        if (!Auth::user()->can('Kategorien verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -110,7 +114,7 @@ class ProductCategoryController extends Controller
         }
 
         $category = ProductCategory::findOrFail($id);
-        $products = Product::where('category_id', $id)->orderBy('position','ASC')->get();
+        $products = Product::where('category_id', $id)->orderBy('position', 'ASC')->get();
 
         return view('admin.category.edit', ['category' => $category, 'products' => $products]);
     }
@@ -125,7 +129,7 @@ class ProductCategoryController extends Controller
     public function update(Request $request, $id)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Kategorien verwalten')) {
+        if (!Auth::user()->can('Kategorien verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -140,7 +144,7 @@ class ProductCategoryController extends Controller
 
         $category = ProductCategory::findOrFail($id);
 
-        if(!empty($request->category_slug) && $request->category_slug != $category->slug) {
+        if (!empty($request->category_slug) && $request->category_slug != $category->slug) {
             $category->slug = Str::slug($request->category_slug);
         }
 
@@ -163,7 +167,7 @@ class ProductCategoryController extends Controller
     public function destroy($id)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Kategorien verwalten')) {
+        if (!Auth::user()->can('Kategorien verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -176,7 +180,7 @@ class ProductCategoryController extends Controller
         $removedProducts = 0;
         $removedData = 0;
 
-        foreach(Product::where('category_id', '=', $id)->get() as $product) {
+        foreach (Product::where('category_id', '=', $id)->get() as $product) {
             $removedData = $removedData + ProductStock::where('product_id', '=', $product->id)->count();
             ProductStock::where('product_id', '=', $product->id)->delete();
             $product->delete();

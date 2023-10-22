@@ -21,6 +21,12 @@ npm-debug.log
 composer.lock
 purgecss.config.js
 /public/app-assets/
+.codescene
+.phpunit.result.cache
+.vscode
+package-lock.json
+composer.lock
+/tests/
 
 # Various IDE and editor files
 .idea

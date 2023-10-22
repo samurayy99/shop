@@ -7,6 +7,7 @@ Route::get('/', function () {
     return view('base');
 })->name('site.home');
 
+Route::get('/', 'App\Http\Controllers\Admin\ProductCategoryController@showCategoriesWithProducts')->name('site.home');
 
 
 // Auth Routes
@@ -59,7 +60,6 @@ Route::get('lang/{locale}', function ($locale) {
 // Admin Panel Routes
 Route::middleware([IsAdmin::class])->group(function () {
     Route::get('/admin/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('admin.dashboard');
-
 
 
     Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');

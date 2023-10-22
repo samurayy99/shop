@@ -12,25 +12,32 @@ class ProductCategory extends Model
     protected $table = 'product_categories';
 
     protected $fillable = [
-        'name', 'slug', 'featured'
+        'name',
+        'slug',
+        'featured'
     ];
 
-    public static function getCategoriesBlade() 
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'category_id');
+    }
+
+    public static function getCategoriesBlade()
     {
         return self::orderBy('featured', 'DESC')->get();
     }
 
-    public static function getAllCategories() 
+    public static function getAllCategories()
     {
         return self::orderBy('id', 'DESC')->get();
     }
 
-    public static function getIdBySlug($slug) 
+    public static function getIdBySlug($slug)
     {
         return self::where('slug', '=', $slug)->firstOrFail();
     }
 
-    public static function getCategoryById($id) 
+    public static function getCategoryById($id)
     {
         return self::find($id) ?: 'Kategorie nicht gefunden';
     }
