@@ -116,7 +116,7 @@
 
                                 <p class="text-center mt-2">
                                     <span>{{ __('Noch kein Mitglied?') }}</span>
-                                    <a href="{{ route('auth.registration') }}" class="primary-color">
+                                    <a href="{{ route('auth.register') }}" class="primary-color">
                                         <span>{{ __('Konto erstellen') }}</span>
                                     </a>
                                 </p>
@@ -146,7 +146,7 @@
             <!-- END: Theme JS-->
 
             <!-- BEGIN: Page JS-->
-            <script src="{{ asset('/app-assets/js/scripts/pages/auth-login.js') }}"></script>
+            <script src="{{ asset('js/auth-login.js') }}"></script>
             <!-- END: Page JS-->
 
             <script>

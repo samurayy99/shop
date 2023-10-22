@@ -44,7 +44,7 @@ class AuthController extends Controller
             "captcha" => "required",
         ]);
 
-        if ( captcha_check($request->captcha) == false ) {
+        if (captcha_check($request->captcha) == false) {
             Session::flash('error', __('Captcha ungültig'));
             toastr()->error(__('Captcha ungültig'));
             return redirect()->back();
@@ -52,17 +52,13 @@ class AuthController extends Controller
 
         $validated = $request->validate([
             "username" => "required|max:30|unique:users",
-            "jabber" => "nullable|email",
             "password" => "required|min:6",
         ]);
-
-        $users = User::all();
 
         // Neuen Benutzer erstellen
         $user = new User();
         $user->username = $request->username;
         $user->password = Hash::make($request->password);
-        $user->jabber = $request->jabber ?: Str::random(20);
         $user->save();
 
         // Mitglieds Rolle zu User geben
@@ -73,13 +69,13 @@ class AuthController extends Controller
         return redirect()->route('auth.login');
     }
 
-    public function authenticate(Request $request) 
+    public function authenticate(Request $request)
     {
         $captcha = $request->validate([
             "captcha" => "required",
         ]);
 
-        if ( captcha_check($request->captcha) == false ) {
+        if (captcha_check($request->captcha) == false) {
             Session::flash('error', __('Captcha ungültig'));
             toastr()->error(__('Captcha ungültig'));
             return redirect()->back();
@@ -92,7 +88,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Bancheck
-            if(!Auth::user()->active) {
+            if (!Auth::user()->active) {
                 Session::flash('error', __('Du wurdest vom System ausgeschlossen'));
                 toastr()->error(__('Du wurdest vom System ausgeschlossen'));
                 Auth::logout();
@@ -160,5 +156,5 @@ class AuthController extends Controller
     {
         //
     }
-    
+
 }

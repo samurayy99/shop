@@ -11,9 +11,9 @@ Route::get('/', function () {
 
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
-Route::post('auth/login', 'App\Http\Controllers\AuthController@authenticate')->name('auth.login.post');
-Route::get('auth/registration', 'App\Http\Controllers\AuthController@create')->name('auth.registration');
-Route::post('auth/registration', 'App\Http\Controllers\AuthController@store')->name('auth.registration.post');
+Route::post('auth/login', 'App\Http\Controllers\AuthController@login')->name('auth.login.post');
+Route::get('auth/register', 'App\Http\Controllers\AuthController@create')->name('auth.register');
+Route::post('auth/register', 'App\Http\Controllers\AuthController@store')->name('auth.register.post');
 Route::get('auth/logout', 'App\Http\Controllers\AuthController@logout')->name('auth.logout');
 
 // Shop Routes
