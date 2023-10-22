@@ -18,7 +18,7 @@ purgecss.config.js
 /resources/lang/vendor/backup
 /tests/
 /public/app-assets/css
-/resources/lang
+/resources/lang/
 
 # Various IDE and editor files
 .idea
