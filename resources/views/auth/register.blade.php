@@ -67,7 +67,7 @@
                                 <p class="card-text mb-2">{{ __('Bitte erstelle ein Konto um auf diese Seite
                                     zuzugreifen') }}</p>
 
-                                <form class="auth-login-form mt-2" action="{{ route('auth.registration.post') }}"
+                                <form class="auth-login-form mt-2" action="{{ route('auth.registeration.post') }}"
                                     method="POST">
                                     @csrf
                                     @include('flash-message')

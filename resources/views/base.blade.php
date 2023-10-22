@@ -235,36 +235,7 @@
 
 <!-- END: Page JS-->
 <script>
-    $(window).on('load', function () {
-        if (feather) {
-            feather.replace({
-                width: 14,
-                height: 14
-            });
-        }
-    })
-</script>
-<!-- Your AJAX and Login Modal code here -->
-<script>
-    $(document).ready(function () {
-        // CSRF Token Setup
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        // Switch between login and register forms
-        $('#register-link').click(function () {
-            $('#loginForm').hide();
-            $('#registerForm').show();
-        });
-
-        $('#login-link').click(function () {
-            $('#registerForm').hide();
-            $('#loginForm').show();
-        });
-
+    $(documentundefined.ready(function () {
         // AJAX call for login form
         $('#loginForm').submit(function (e) {
             e.preventDefault();
@@ -278,6 +249,9 @@
                     } else {
                         location.reload();
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(jqXHR.responseJSON.error);
                 }
             });
         });
@@ -295,15 +269,13 @@
                     } else {
                         location.reload();
                     }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(jqXHR.responseJSON.error);
                 }
             });
         });
-    });
-</script>
-<script>
-    function showLoginModal() {
-        $('#loginModal').modal('show');
-    }
+    }));
 </script>
 <!-- Your HTML content here -->
 <!-- BEGIN: JavaScript Section -->

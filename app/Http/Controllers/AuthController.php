@@ -76,9 +76,7 @@ class AuthController extends Controller
         ]);
 
         if (captcha_check($request->captcha) == false) {
-            Session::flash('error', __('Captcha ungültig'));
-            toastr()->error(__('Captcha ungültig'));
-            return redirect()->back();
+            return response()->json(['error' => __('Captcha ungültig')], 400);
         }
 
         $credentials = $request->validate([
@@ -87,23 +85,32 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            // Bancheck
             if (!Auth::user()->active) {
-                Session::flash('error', __('Du wurdest vom System ausgeschlossen'));
-                toastr()->error(__('Du wurdest vom System ausgeschlossen'));
                 Auth::logout();
-                return redirect()->back();
+                return response()->json(['error' => __('Du wurdest vom System ausgeschlossen')], 403);
             }
 
             $request->session()->regenerate();
-            toastr()->success(__('Willkommen zurück, :Name', ['name' => $request->username]));
-            return redirect()->route('site.home');
+            return response()->json(['success' => __('Willkommen zurück, :Name', ['name' => $request->username])]);
         }
 
-        toastr()->error(__('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'));
-        return back()->withErrors([
-            'username' => __('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein'),
-        ])->withInput();
+        return response()->json(['error' => __('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein')], 401);
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'username' => ['required'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['error' => 'The provided credentials do not match our records.']);
     }
 
     public function logout(Request $request)

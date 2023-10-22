@@ -27,7 +27,7 @@ purgecss.config.js
 package-lock.json
 composer.lock
 /tests/
-
+/public/js/app.js
 # Various IDE and editor files
 .idea
 *.swp
