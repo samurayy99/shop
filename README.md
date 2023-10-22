@@ -61,12 +61,8 @@
 - **Artisan Console**: Provide helpful commands for common tasks.
 - **Blade Templating Engine**: Allow the use of plain PHP code in views.
 
-## Reference file for the Redesign
-- Working file: 'resources/views/baseV2.blade.php'
 
-## Removed Functionalities
-We have removed certain functionalities including FAQ, top seller, product stock, custom CSS controller, news, and Jabber functionalities.
-
-# Additional Notes
-
-- This repository and README are designed to assist the ChatGPT model in understanding the project structure and technical architecture.
+NEW GENERATED:
+base.blade.php
+INSPIRATION:
+index.html
