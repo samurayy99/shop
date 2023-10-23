@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet" />
     <!-- Vendor, Theme, and Custom CSS -->
-    <link href="{{ asset('/app-assets/vendors/css/vendors.min.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('js/vendors.min.js') }}"></script>
     <link href="{{ asset('/app-assets/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/app-assets/css/bootstrap-extended.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/app-assets/css/colors.css') }}" rel="stylesheet" type="text/css" />
@@ -315,7 +315,7 @@
 <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
 
 <!-- Page & Theme Scripts -->
-<script src="{{ asset('js/auth-login.js') }}" type="module"></script>
+<script src="{{ asset('js/auth-login.js') }}"></script>
 <!-- Additional Libraries -->
 <script src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script>
 <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>

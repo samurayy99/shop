@@ -15,7 +15,6 @@ package-lock.json
 npm-debug.log
 composer.lock
 purgecss.config.js
-/resources/lang/vendor/backup
 /tests/
 /public/app-assets/css
 /resources/lang/

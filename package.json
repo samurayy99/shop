@@ -19,6 +19,8 @@
         "sass-loader": "^12.6.0"
     },
     "dependencies": {
+        "imagesloaded": "^5.0.0",
+        "jquery": "^3.7.1",
         "purgecss": "^5.0.0",
         "toastr": "^2.1.4"
     }
