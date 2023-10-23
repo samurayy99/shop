@@ -178,22 +178,45 @@
 
     <!-- BEGIN: Categories and Products -->
     <main class="container categories">
+        @php
+        $staticImages = [
+        'category-a' => asset('images/img_2.jpg'),
+        'category-b' => asset('images/img_3.jpg')
+        ];
+        @endphp
         @foreach($categories as $category)
         <section class="card category-card">
             <div class="product-image">
-                <!-- Replace 'path_to_your_static_category_image' with the actual path to your static category image -->
-                <img alt="{{ $category->name }}" src="/path_to_your_static_category_image.jpg" />
+                <!-- Category button with background image -->
+                <button type="button" data-toggle="modal" data-target="#{{ $category->slug }}Modal"
+                    style="background-image: url('{{ array_key_exists($category->slug, $staticImages) ? $staticImages[$category->slug] : 'default_image_path' }}');">
+                    {{ $category->name }}
+                </button>
+            </div>
+            <!-- Modal for the category -->
+            <div class="modal fade" id="{{ $category->slug }}Modal" tabindex="-1" role="dialog"
+                aria-labelledby="{{ $category->slug }}ModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="{{ $category->slug }}ModalLabel">{{ $category->name }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @foreach($category->products as $product)
+                            <div class="product-card">
+                                <img alt="{{ $product->name }}" src="{{ $product->image }}" />
+                                <h3>{{ $product->name }}</h3>
+                                <p>Price: {{ $product->price }}</p>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
-        <div class="products" id="{{ $category->slug }}">
-            @foreach($category->products as $product)
-            <div class="product-card">
-                <img alt="{{ $product->name }}" src="{{ $product->image }}" />
-                <h3>{{ $product->name }}</h3>
-                <p>Price: {{ $product->price }}</p>
-            </div>
-            @endforeach
-        </div>
         @endforeach
     </main>
     <!-- END: Categories and Products -->
@@ -235,7 +258,7 @@
 
 <!-- END: Page JS-->
 <script>
-    $(documentundefined.ready(function () {
+    $(document).ready(function () {
         // AJAX call for login form
         $('#loginForm').submit(function (e) {
             e.preventDefault();
@@ -275,7 +298,7 @@
                 }
             });
         });
-    }));
+    });
 </script>
 <!-- Your HTML content here -->
 <!-- BEGIN: JavaScript Section -->
@@ -287,8 +310,12 @@
 <!-- Vendor Scripts -->
 <script src="{{ asset('js/vendors.min.js') }}"></script>
 <script src="{{ asset('js/jquery.sticky.js') }}"></script>
+
+<!-- jQuery Validation Plugin -->
+<script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+
 <!-- Page & Theme Scripts -->
-<script src="{{ asset('js/auth-login.js') }}"></script>
+<script src="{{ asset('js/auth-login.js') }}" type="module"></script>
 <!-- Additional Libraries -->
 <script src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script>
 <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
