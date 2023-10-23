@@ -28,6 +28,7 @@ package-lock.json
 composer.lock
 /tests/
 /public/js/app.js
+/public/app-assets/vendors/
 # Various IDE and editor files
 .idea
 *.swp

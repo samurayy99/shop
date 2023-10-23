@@ -73,40 +73,36 @@
                                     @include('flash-message')
 
                                     <div class="mb-1">
-                                        <label for="login-email" class="form-label">{{ __('Benutzername') }}</label>
-                                        <input type="text" class="form-control" id="login-username" name="username"
-                                            placeholder="..." value="{{ old('username') }}"
-                                            aria-describedby="login-username" tabindex="1" maxlength="30" autofocus
-                                            required />
-                                    </div>
-
-                                    <div class="mb-1">
-                                        <label for="login-email" class="form-label">{{ __('Jabber Adresse') }}
-                                            (optional)</label>
-                                        <input type="text" class="form-control" id="login-jabber" name="jabber"
-                                            placeholder="name@exploit.im" value="{{ old('jabber') }}"
-                                            aria-describedby="login-jabber" tabindex="1" autofocus />
+                                        <label for="login-username-register" class="form-label">{{ __('Benutzername')
+                                            }}</label>
+                                        <input type="text" class="form-control" id="login-username-register"
+                                            name="username" placeholder="..." value="{{ old('username') }}"
+                                            aria-describedby="login-username-register" tabindex="1" maxlength="30"
+                                            autofocus required />
                                     </div>
 
                                     <div class="mb-1">
                                         <div class="d-flex justify-content-between">
-                                            <label class="form-label" for="login-password">{{ __('Passwort') }}</label>
+                                            <label class="form-label" for="login-password-register">{{ __('Passwort')
+                                                }}</label>
                                         </div>
                                         <div class="input-group input-group-merge form-password-toggle">
                                             <input type="password" class="form-control form-control-merge"
-                                                id="login-password" name="password" tabindex="2"
+                                                id="login-password-register" name="password" tabindex="2"
                                                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                aria-describedby="login-password" required />
+                                                aria-describedby="login-password-register" required />
                                             <span class="input-group-text cursor-pointer"><i
                                                     data-feather="eye"></i></span>
                                         </div>
                                         <div class="row mt-1">
-                                            <label for="login-email" class="form-label">{{ __('Captcha') }}</label>
+                                            <label for="login-captcha-register" class="form-label">{{ __('Captcha')
+                                                }}</label>
                                             <div class="col-6">
                                                 <div class="mb-1">
-                                                    <input type="text" class="form-control" id="login-captcha"
+                                                    <input type="text" class="form-control" id="login-captcha-register"
                                                         name="captcha" placeholder="..." maxlength="30"
-                                                        aria-describedby="login-captcha" tabindex="4" autofocus />
+                                                        aria-describedby="login-captcha-register" tabindex="4"
+                                                        autofocus />
                                                 </div>
                                             </div>
                                             <div class="col">{!! captcha_img('flat') !!}</div>
@@ -138,6 +134,7 @@
             <!-- BEGIN Vendor JS-->
 
             <!-- BEGIN: Page Vendor JS-->
+            <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> <!-- Primary jQuery -->
             <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
             <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
             <!-- END: Page Vendor JS-->

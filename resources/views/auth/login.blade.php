@@ -73,10 +73,12 @@
                                     @include('flash-message')
 
                                     <div class="mb-1">
-                                        <label for="login-email" class="form-label">{{ __('Benutzername') }}</label>
-                                        <input type="text" class="form-control" id="login-username" name="username"
-                                            placeholder="..." value="{{ old('username') }}" maxlength="30"
-                                            aria-describedby="login-username" tabindex="1" autofocus />
+                                        <label for="login-username-login" class="form-label">{{ __('Benutzername')
+                                            }}</label>
+                                        <input type="text" class="form-control" id="login-username-login"
+                                            name="username" placeholder="..." value="{{ old('username') }}"
+                                            maxlength="30" aria-describedby="login-username-login" tabindex="1"
+                                            autofocus />
                                     </div>
 
                                     <div class="mb-1">
@@ -85,20 +87,20 @@
                                         </div>
                                         <div class="input-group input-group-merge form-password-toggle">
                                             <input type="password" class="form-control form-control-merge"
-                                                id="login-password" name="password" tabindex="2"
+                                                id="login-password-login" name="password" tabindex="2"
                                                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                aria-describedby="login-password" />
+                                                aria-describedby="login-password-login" />
                                             <span class="input-group-text cursor-pointer"><i
                                                     data-feather="eye"></i></span>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <label for="login-email" class="form-label">{{ __('Captcha') }}</label>
+                                        <label for="login-captcha-login" class="form-label">{{ __('Captcha') }}</label>
                                         <div class="col-6">
                                             <div class="mb-1">
-                                                <input type="text" class="form-control" id="login-captcha"
+                                                <input type="text" class="form-control" id="login-captcha-login"
                                                     name="captcha" placeholder="..." maxlength="30"
-                                                    aria-describedby="login-captcha" tabindex="3" autofocus />
+                                                    aria-describedby="login-captcha-login" tabindex="3" autofocus />
                                             </div>
                                         </div>
                                         <div class="col">{!! captcha_img('flat') !!}</div>
@@ -136,6 +138,7 @@
             <!-- BEGIN Vendor JS-->
 
             <!-- BEGIN: Page Vendor JS-->
+            <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> <!-- Primary jQuery -->
             <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
             <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
             <!-- END: Page Vendor JS-->

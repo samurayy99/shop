@@ -1,3 +1,4 @@
+// Import jQuery
 import $ from 'jquery';
 import imagesLoaded from 'imagesloaded';
 
@@ -42,20 +43,15 @@ $(function () {
                                 $('#content-wrapper').html($(data).find('#content-wrapper').html());
                             });
                         } else {
-                            toastr.error(response.message);
+                            console.error(response.message);
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.error("AJAX error: ", textStatus, errorThrown);
-                        toastr.error('An error occurred. Please try again.');
+                        console.error('An error occurred. Please try again.');
                     }
                 });
             }
-        });
+        }); // Added closing parenthesis and brace here
     }
-});
-
-// Use the imagesLoaded function with the '.product-image' selector
-imagesLoaded('.product-image', function () {
-    // Image loaded
-});
+}); // Added closing parenthesis here
