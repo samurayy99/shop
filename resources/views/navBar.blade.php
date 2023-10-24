@@ -2,8 +2,17 @@
 
 <div class="navbar-container main-menu-content" data-menu="menu-container">
     <ul class="nav navbar-nav mr-auto" id="main-menu-navigation" data-menu="menu-navigation">
-        <li class="nav-item"><a class="nav-link d-flex align-items-center" href="{{ route('admin.dashboard') }}"><i
-                    class="fal fa-home"></i> {{ __('Dashboard') }}</span></a></li>
+        @can('Adminpanel Zugriff')
+<li class="nav-item">
+    <a class="nav-link d-flex align-items-center" href="{{ route('admin.dashboard') }}">
+        <i class="fal fa-arrow-alt-from-left"></i> 
+        {{ __('Admin Panel') }}
+        @if(Auth::check())
+        <span>{{ Auth::user()->name }}</span>
+        @endif
+    </a>
+</li>
+@endcan
 
         <!-- Verwaltung -->
         <li class="nav-item dropdown" data-menu="dropdown">

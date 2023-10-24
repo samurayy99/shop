@@ -16,10 +16,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet" />
-    <!-- jQuery Script -->
-    <script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <!-- Vendor, Theme, and Custom CSS -->
-    <script src="{{ asset('js/vendors.min.js') }}"></script>
     <link href="{{ asset('/app-assets/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/app-assets/css/bootstrap-extended.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/app-assets/css/colors.css') }}" rel="stylesheet" type="text/css" />
@@ -279,16 +276,16 @@
 <button style="display:none;" id="superadmin-button" onclick="location.href='{{ route('superadmin.settings') }}'">Superadmin Login</button>
 
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.3.js"></script>
 
 <!-- jQuery Validation Plugin -->
 <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
 
-<!-- Feather Icons -->
-<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-
 <!-- Vendor Scripts -->
 <script src="{{ asset('js/vendors.min.js') }}"></script>
+
+<!-- Feather Icons -->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
 <!-- Theme Scripts -->
 <script src="{{ asset('js/app-menu.js') }}"></script>
@@ -312,7 +309,7 @@
 
 <!-- Page-Specific Scripts -->
 @yield('js')
-
+</script>
 
 
 <script>
