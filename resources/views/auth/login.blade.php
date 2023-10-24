@@ -134,24 +134,25 @@
 
 
             <!-- BEGIN: Vendor JS-->
-            <script src="{{ asset('js/vendors.min.js') }}"></script>
-            <!-- BEGIN Vendor JS-->
+<script src="{{ asset('js/vendors.min.js') }}"></script>
+<!-- BEGIN Vendor JS-->
 
-            <!-- BEGIN: Page Vendor JS-->
-            <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> <!-- Primary jQuery -->
-            <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
-            <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
-            <!-- END: Page Vendor JS-->
+<!-- BEGIN: Page Vendor JS-->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> <!-- Retain this primary jQuery -->
+<!-- Remove redundant jQuery -->
+<script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
+<script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+<!-- END: Page Vendor JS-->
 
-            <!-- BEGIN: Theme JS-->
-            <script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
-            <script src="{{ asset('js/app.js') }}"></script>
-            <!-- END: Theme JS-->
+<!-- BEGIN: Theme JS-->
+<script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<!-- END: Theme JS-->
 
-            <!-- BEGIN: Page JS-->
-            <script src="{{ asset('js/auth-login.js') }}"></script>
+<!-- BEGIN: Page JS-->
+<script src="{{ asset('js/auth-login.js') }}"></script>
+<!-- END: Page JS-->
 
-            <!-- END: Page JS-->
 
             <script>
                 $(window).on('load', function () {

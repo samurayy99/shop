@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html class="loading dark-layout" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!-- BEGIN: Head-->
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
@@ -16,6 +16,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet" />
+         <!-- jQuery Script -->
+    <script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <!-- Vendor, Theme, and Custom CSS -->
     <script src="{{ asset('js/vendors.min.js') }}"></script>
     <link href="{{ asset('/app-assets/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
@@ -28,8 +30,7 @@
     <link href="{{ asset('/css/froala.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Yield additional CSS -->
     @yield('css')
-    <!-- jQuery Script -->
-    <script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.3.js">
+   
     </script>
 </head>
 <!-- BEGIN: Body-->
@@ -37,9 +38,7 @@
 <body class="politics_version" id="page-top">
     <!-- BEGIN: Main Menu-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">
-            <img alt="" class="img-fluid" src="{{ asset('images/logo.png') }}" />
-        </a>
+        <a class="nav-link custom-login-button" data-toggle="modal" data-target="#loginRegisterModal">Login</a>
         <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" data-toggle="collapse"
             type="button">
@@ -73,6 +72,37 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Login/Register Modal -->
+    <div class="modal fade" id="loginRegisterModal" tabindex="-1" role="dialog" aria-labelledby="loginRegisterModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!-- Login Form -->
+                <div class="modal-body" id="loginForm">
+                    <h5 class="modal-title">Login</h5>
+                    <form action="/auth/login" method="post">
+                        <input type="text" name="username" placeholder="Username" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <!-- Add your captcha field here -->
+                        <button type="submit">Login</button>
+                    </form>
+                    <button id="switchToRegister">Switch to Register</button>
+                </div>
+
+                <!-- Register Form -->
+                <div class="modal-body" id="registerForm" style="display: none;">
+                    <h5 class="modal-title">Register</h5>
+                    <form action="/auth/register" method="post">
+                        <input type="text" name="username" placeholder="Username" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <!-- Add your captcha field here -->
+                        <button type="submit">Register</button>
+                    </form>
+                    <button id="switchToLogin">Switch to Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- END: Main Menu-->
     <!-- BEGIN: Home Section -->
     <section class="main-banner parallaxie" id="home" style="background: url('uploads/banner-01.jpg')">
@@ -241,74 +271,71 @@
     </div>
     <!-- END: Content-->
 
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
+    <!-- jQuery and Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <!-- Login Form -->
-    @include('auth.login')
+    <script>
+        $(document).ready(function () {
+            // Switch to Register form
+            $('#switchToRegister').click(function () {
+                $('#loginForm').hide();
+                $('#registerForm').show();
+            });
 
-    <!-- Register Form -->
-    @include('auth.register')
+            // Switch to Login form
+            $('#switchToLogin').click(function () {
+                $('#registerForm').hide();
+                $('#loginForm').show();
+            });
 
-    <div class="modal-footer">
-        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-        <button class="btn btn-primary" id="switchFormButton" type="button">Switch to Register</button>
-    </div>
-</body>
-
-<!-- END: Page JS-->
-<script>
-    $(document).ready(function () {
-        // AJAX call for login form
-        $('#loginForm').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '/auth/login',
-                data: $(this).serialize(),
-                success: function (data) {
-                    if (data.error) {
-                        toastr.error(data.error);
-                    } else {
-                        location.reload();
+            // AJAX call for login form
+            $('#loginForm form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        if (data.error) {
+                            toastr.error(data.error);
+                        } else {
+                            location.reload();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        toastr.error(jqXHR.responseJSON.error);
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(jqXHR.responseJSON.error);
-                }
+                });
+            });
+
+            // AJAX call for register form
+            $('#registerForm form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        if (data.error) {
+                            toastr.error(data.error);
+                        } else {
+                            location.reload();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        toastr.error(jqXHR.responseJSON.error);
+                    }
+                });
             });
         });
+    </script>
 
-        // AJAX call for register form
-        $('#registerForm').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '/auth/register',
-                data: $(this).serialize(),
-                success: function (data) {
-                    if (data.error) {
-                        toastr.error(data.error);
-                    } else {
-                        location.reload();
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(jqXHR.responseJSON.error);
-                }
-            });
-        });
-    });
-</script>
 <!-- Your HTML content here -->
-<!-- BEGIN: JavaScript Section -->
-<!-- Core Libraries -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 <!-- Theme Scripts -->
 <script src="{{ asset('js/app-menu.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <!-- Vendor Scripts -->
-<script src="{{ asset('js/vendors.min.js') }}"></script>
 <script src="{{ asset('js/jquery.sticky.js') }}"></script>
 
 <!-- jQuery Validation Plugin -->
@@ -326,7 +353,7 @@
 <script src="{{ asset('js/modernizr.js') }}"></script>
 <script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
 <script src="{{ asset('js/jquery.vide.js') }}"></script>
-<script src="{{ asset('js/custom.js') }}" type="module"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
 <!-- Page-Specific Scripts -->
 @yield('js')
 <!-- END: JavaScript Section -->
