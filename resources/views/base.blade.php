@@ -16,7 +16,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet" />
-         <!-- jQuery Script -->
+    <!-- jQuery Script -->
     <script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.3.js"></script>
     <!-- Vendor, Theme, and Custom CSS -->
     <script src="{{ asset('js/vendors.min.js') }}"></script>
@@ -30,15 +30,12 @@
     <link href="{{ asset('/css/froala.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Yield additional CSS -->
     @yield('css')
-   
-    </script>
 </head>
 <!-- BEGIN: Body-->
 
 <body class="politics_version" id="page-top">
     <!-- BEGIN: Main Menu-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-        <a class="nav-link custom-login-button" data-toggle="modal" data-target="#loginRegisterModal">Login</a>
         <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" data-toggle="collapse"
             type="button">
@@ -80,7 +77,8 @@
                 <!-- Login Form -->
                 <div class="modal-body" id="loginForm">
                     <h5 class="modal-title">Login</h5>
-                    <form action="/auth/login" method="post">
+                    <form method="POST" action="{{ route('auth.login.post') }}">
+                        @csrf
                         <input type="text" name="username" placeholder="Username" required>
                         <input type="password" name="password" placeholder="Password" required>
                         <!-- Add your captcha field here -->
@@ -92,7 +90,8 @@
                 <!-- Register Form -->
                 <div class="modal-body" id="registerForm" style="display: none;">
                     <h5 class="modal-title">Register</h5>
-                    <form action="/auth/register" method="post">
+                    <form method="POST" action="{{ route('auth.registeration.post') }}">
+                        @csrf
                         <input type="text" name="username" placeholder="Username" required>
                         <input type="password" name="password" placeholder="Password" required>
                         <!-- Add your captcha field here -->
@@ -271,81 +270,34 @@
     </div>
     <!-- END: Content-->
 
-    <!-- jQuery and Bootstrap -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- Your HTML content here -->
 
-    <script>
-        $(document).ready(function () {
-            // Switch to Register form
-            $('#switchToRegister').click(function () {
-                $('#loginForm').hide();
-                $('#registerForm').show();
-            });
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-            // Switch to Login form
-            $('#switchToLogin').click(function () {
-                $('#registerForm').hide();
-                $('#loginForm').show();
-            });
+<!-- Feather Icons -->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
-            // AJAX call for login form
-            $('#loginForm form').submit(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'),
-                    data: $(this).serialize(),
-                    success: function (data) {
-                        if (data.error) {
-                            toastr.error(data.error);
-                        } else {
-                            location.reload();
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        toastr.error(jqXHR.responseJSON.error);
-                    }
-                });
-            });
-
-            // AJAX call for register form
-            $('#registerForm form').submit(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'),
-                    data: $(this).serialize(),
-                    success: function (data) {
-                        if (data.error) {
-                            toastr.error(data.error);
-                        } else {
-                            location.reload();
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        toastr.error(jqXHR.responseJSON.error);
-                    }
-                });
-            });
-        });
-    </script>
-
-<!-- Your HTML content here -->
-
-<!-- Theme Scripts -->
-<script src="{{ asset('js/app-menu.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
-<!-- Vendor Scripts -->
-<script src="{{ asset('js/jquery.sticky.js') }}"></script>
+<!-- Bootstrap -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <!-- jQuery Validation Plugin -->
 <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
 
+<!-- Theme Scripts -->
+<script src="{{ asset('js/app-menu.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+
+<!-- Vendor Scripts -->
+<script src="{{ asset('js/jquery.sticky.js') }}"></script>
+
 <!-- Page & Theme Scripts -->
 <script src="{{ asset('js/auth-login.js') }}"></script>
+
 <!-- Additional Libraries -->
 <script src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script>
 <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
+
 <!-- Custom Scripts -->
 <script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
 <script src="{{ asset('js/parallaxie.js') }}"></script>
@@ -354,10 +306,67 @@
 <script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
 <script src="{{ asset('js/jquery.vide.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
+
 <!-- Page-Specific Scripts -->
 @yield('js')
-<!-- END: JavaScript Section -->
-<!-- BEGIN: Vendor JS-->
-<!-- ... existing content ... -->
 
+<script>
+    $(document).ready(function () {
+        feather.replace(); // initialize Feather icons
+        // Switch to Register form
+        $('#switchToRegister').click(function () {
+            $('#loginForm').hide();
+            $('#registerForm').show();
+        });
+
+        // Switch to Login form
+        $('#switchToLogin').click(function () {
+            $('#registerForm').hide();
+            $('#loginForm').show();
+        });
+
+        // AJAX call for login form
+        $('#loginForm form').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data.error) {
+                        toastr.error(data.error);
+                    } else {
+                        location.reload();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(jqXHR.responseJSON.error);
+                }
+            });
+        });
+
+        // AJAX call for register form
+        $('#registerForm form').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data.error) {
+                        toastr.error(data.error);
+                    } else {
+                        location.reload();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(jqXHR.responseJSON.error);
+                }
+            });
+        });
+    });
+</script>
+
+<!-- END: JavaScript Section -->
+</body>
 </html>
