@@ -65,6 +65,9 @@
                     <a class="nav-link custom-login-button" href="{{ route('auth.login') }}">
                         Login
                     </a>
+                  <!-- Hidden Superadmin Login Link -->
+<a style="display:none;" id="superadmin-link" href="{{ route('superadmin.settings') }}"></a>
+  
                 </li>
             </ul>
         </div>
@@ -272,24 +275,24 @@
 
   <!-- Your HTML content here -->
 
+  <!-- Hidden Superadmin Login Button -->
+<button style="display:none;" id="superadmin-button" onclick="location.href='{{ route('superadmin.settings') }}'">Superadmin Login</button>
+
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<!-- Feather Icons -->
-<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-
-<!-- Bootstrap -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <!-- jQuery Validation Plugin -->
 <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
 
+<!-- Feather Icons -->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+<!-- Vendor Scripts -->
+<script src="{{ asset('js/vendors.min.js') }}"></script>
+
 <!-- Theme Scripts -->
 <script src="{{ asset('js/app-menu.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
-
-<!-- Vendor Scripts -->
-<script src="{{ asset('js/jquery.sticky.js') }}"></script>
 
 <!-- Page & Theme Scripts -->
 <script src="{{ asset('js/auth-login.js') }}"></script>
@@ -309,6 +312,8 @@
 
 <!-- Page-Specific Scripts -->
 @yield('js')
+
+
 
 <script>
     $(document).ready(function () {
@@ -344,6 +349,13 @@
                 }
             });
         });
+
+        // Event listener for 'Ctrl + Shift + A'
+$(document).keydown(function(e) {
+    if (e.ctrlKey && e.shiftKey && e.which == 65) {
+        $('#superadmin-link').show();
+    }
+});
 
         // AJAX call for register form
         $('#registerForm form').submit(function (e) {
