@@ -19,7 +19,7 @@ class SettingsController extends Controller
     public function index()
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Einstellungen verwalten')) {
+        if (!Auth::user()->can('Einstellungen verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -48,7 +48,7 @@ class SettingsController extends Controller
     public function store(Request $request)
     {
         // Berechtigungs überprüfung
-        if(!Auth::user()->can('Einstellungen verwalten')) {
+        if (!Auth::user()->can('Einstellungen verwalten')) {
             Session::flash('error', __('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
             toastr()->error(__('Du hast nicht die benötigten Berechtigungen um diese Aktion durchzuführen'));
 
@@ -71,8 +71,6 @@ class SettingsController extends Controller
         Settings::set('app.registered_only', $request->website_registered_only);
         Settings::set('shop.btc_confirms_needed', $request->btc_confirms_needed);
         Settings::set('shop.show_full_stock', $request->show_full_stock);
-        Settings::set('css.primary_color', $css_primary_color);
-        Settings::set('css.background_url', $css_background_url);
         Settings::set('shop.pgp_key', $pgp_key);
 
         Session::flash('success', __('App Einstellungen erfolgreich bearbeitet'));
@@ -124,5 +122,14 @@ class SettingsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function superAdminIndex()
+    {
+        // Fetch settings data from the database
+        $settings = Settings::all();
+
+        // Pass the data to the view
+        return view('admin.superadmin.settings', ['settings' => $settings]);
     }
 }

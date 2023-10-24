@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\IsSuperAdmin;
+
 
 // Main Routes
 Route::get('/', function () {
@@ -57,11 +59,10 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('lang');
 
 
-// Admin Panel Routes
-Route::middleware([IsAdmin::class])->group(function () {
-    Route::get('/admin/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('admin.dashboard');
-
-
+// Admin/SuperAdmin Panel Routes
+Route::middleware([IsSuperAdmin::class])->group(function () {
+    Route::get('/superadmin/dashboard', 'App\Http\Controllers\SuperAdminController@index')->name('superadmin.dashboard');
+    Route::get('/superadmin/settings', 'App\Http\Controllers\SuperAdminController@settings')->name('superadmin.settings');
     Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
     Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
 
@@ -117,6 +118,11 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::get('admin/create-backup', 'App\Http\Controllers\Admin\BackupController@createBackup')->name('admin.create.backup');
     Route::get('admin/backup/download/{fileName}', 'App\Http\Controllers\Admin\BackupController@downloadBackup')->name('admin.backup.download');
     Route::get('admin/backup/delete/{fileName}', 'App\Http\Controllers\Admin\BackupController@deleteBackup')->name('admin.backup.delete');
+});
+
+// SuperAdmin Panel Routes
+Route::middleware([IsSuperAdmin::class])->group(function () {
+    Route::get('/superadmin/settings', 'App\Http\Controllers\Admin\SettingsController@superAdminIndex')->name('superadmin.settings');
 
 
 
