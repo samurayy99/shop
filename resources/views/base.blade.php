@@ -3,9 +3,9 @@
 <!-- BEGIN: Head-->
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="width=device-width, initial-scale=1, user-scalable=0, minimal-ui" name="viewport" />
-    <meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Dynamic title -->
     <title>
@@ -292,7 +292,8 @@
 <script src="{{ asset('js/app.js') }}"></script>
 
 <!-- Page & Theme Scripts -->
-<script src="{{ asset('js/auth-login.js') }}"></script>
+<script type="module" src="{{ asset('js/auth-login.js') }}"></script>
+
 
 <!-- Additional Libraries -->
 <script src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script>

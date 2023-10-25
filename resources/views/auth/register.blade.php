@@ -145,7 +145,8 @@
             <!-- END: Theme JS-->
 
             <!-- BEGIN: Page JS-->
-            <script src="{{ asset('js/auth-login.js') }}"></script>
+            <script type="module" src="{{ asset('js/auth-login.js') }}"></script>
+
 
             <!-- END: Page JS-->
 
