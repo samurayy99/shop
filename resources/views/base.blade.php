@@ -331,23 +331,26 @@
         $('#loginForm form').submit(function (e) {
     e.preventDefault();
     $.ajax({
-        type: 'POST',
-        url: $(this).attr('action'),
-        data: $(this).serialize(),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function (data) {
-            if (data.error) {
-                toastr.error(data.error);
-            } else {
-                location.reload();
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            toastr.error(jqXHR.responseJSON.error);
-        }
-    });
+       type: 'POST',
+       url: $(this).attr('action'),
+       data: $(this).serialize(),
+       headers: {
+           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+       },
+       xhrFields: {
+           withCredentials: true
+       },
+       success: function (data) {
+           if (data.error) {
+               toastr.error(data.error);
+           } else {
+               location.reload();
+           }
+       },
+       error: function (jqXHR, textStatus, errorThrown) {
+           toastr.error(jqXHR.responseJSON.error);
+       }
+   });
 });
 
         // Event listener for 'Ctrl + Shift + A'
@@ -379,8 +382,6 @@
         }
     });
 });
-</script>
-
 <!-- END: JavaScript Section -->
 </body>
 </html>

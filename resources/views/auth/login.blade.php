@@ -70,12 +70,14 @@
 
                                 <form class="auth-login-form mt-2" action="{{ route('auth.login.post') }}"
                                     method="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     @csrf
                                     @include('flash-message')
 
                                     <div class="mb-1">
                                         <label for="login-username-login" class="form-label">{{ __('Benutzername')
                                             }}</label>
+                                            
                                         <input type="text" class="form-control" id="login-username-login"
                                             name="username" placeholder="..." value="{{ old('username') }}"
                                             maxlength="30" aria-describedby="login-username-login" tabindex="1"

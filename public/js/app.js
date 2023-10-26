@@ -9,71 +9,55 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var jquery_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery-validation */ "./node_modules/jquery-validation/dist/jquery.validate.js");
-/* harmony import */ var jquery_validation__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery_validation__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var imagesloaded__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! imagesloaded */ "./node_modules/imagesloaded/imagesloaded.js");
-/* harmony import */ var imagesloaded__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(imagesloaded__WEBPACK_IMPORTED_MODULE_2__);
-// Import jQuery and jQuery Validation plugin
+/* harmony import */ var imagesloaded__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! imagesloaded */ "./node_modules/imagesloaded/imagesloaded.js");
+/* harmony import */ var imagesloaded__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(imagesloaded__WEBPACK_IMPORTED_MODULE_0__);
+// Import imagesLoaded
 
-
-
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
+document.addEventListener("DOMContentLoaded", function () {
   'use strict';
 
   // Setup CSRF token for AJAX POST requests
-  jquery__WEBPACK_IMPORTED_MODULE_0___default().ajaxSetup({
-    headers: {
-      'X-CSRF-TOKEN': jquery__WEBPACK_IMPORTED_MODULE_0___default()('meta[name="csrf-token"]').attr('content')
-    }
-  });
-  var pageLoginForm = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.auth-login-form');
-  if (pageLoginForm.length) {
-    pageLoginForm.validate({
-      rules: {
-        'username': {
-          required: true
+  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  var pageLoginForm = document.querySelector('.auth-login-form');
+  if (pageLoginForm) {
+    // Add your validation logic here
+    pageLoginForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var formData = new FormData(pageLoginForm);
+      var actionUrl = pageLoginForm.getAttribute('action');
+      fetch(actionUrl, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken
         },
-        'password': {
-          required: true
-        },
-        'captcha': {
-          required: true
-        }
-      },
-      messages: {
-        'username': {
-          required: "Please enter your username."
-        },
-        'password': {
-          required: "Please enter your password."
-        },
-        'captcha': {
-          required: "Please enter the captcha."
-        }
-      },
-      submitHandler: function submitHandler(form) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
-          url: jquery__WEBPACK_IMPORTED_MODULE_0___default()(form).attr('action'),
-          type: 'POST',
-          data: jquery__WEBPACK_IMPORTED_MODULE_0___default()(form).serialize(),
-          success: function success(response) {
-            if (response && response.success) {
-              // Load the new page content without a full page reload
-              jquery__WEBPACK_IMPORTED_MODULE_0___default().get(response.redirect, function (data) {
-                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#content-wrapper').html(jquery__WEBPACK_IMPORTED_MODULE_0___default()(data).find('#content-wrapper').html());
-              });
-            } else {
-              console.error(response ? response.message : 'Response is undefined.');
-            }
-          },
-          error: function error(jqXHR, textStatus, errorThrown) {
-            console.error("AJAX error: ", textStatus, errorThrown);
-            console.error('An error occurred. Please try again.');
+        body: formData,
+        credentials: 'same-origin'
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        if (data && data.success) {
+          // Check if data.redirect is not undefined
+          if (data.redirect) {
+            // Load the new page content without a full page reload
+            fetch(data.redirect, {
+              credentials: 'same-origin'
+            }).then(function (response) {
+              return response.text();
+            }).then(function (html) {
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(html, 'text/html');
+              document.querySelector('#content-wrapper').innerHTML = doc.querySelector('#content-wrapper').innerHTML;
+            });
+          } else {
+            console.error('Redirect URL is undefined.');
           }
-        });
-      }
+        } else {
+          console.error(data ? data.message : 'Response is undefined.');
+        }
+      })["catch"](function (error) {
+        console.error("AJAX error: ", error);
+        console.error('An error occurred. Please try again.');
+      });
     });
   }
 });

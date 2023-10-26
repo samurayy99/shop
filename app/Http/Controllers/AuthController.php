@@ -69,54 +69,51 @@ class AuthController extends Controller
         return redirect()->route('auth.login');
     }
 
-    public function authenticate(Request $request)
-    {
+    public function authenticate(Request $request) {
         $captcha = $request->validate([
             "captcha" => "required",
         ]);
-
+    
         if (captcha_check($request->captcha) == false) {
             return response()->json(['error' => __('Captcha ungültig')], 400);
         }
-
+    
         $credentials = $request->validate([
             "username" => "required|max:30",
             "password" => "required|min:6",
         ]);
-
+    
         if (Auth::attempt($credentials)) {
             if (!Auth::user()->active) {
                 Auth::logout();
                 return response()->json(['error' => __('Du wurdest vom System ausgeschlossen')], 403);
             }
-
+    
             $request->session()->regenerate();
             return response()->json(['success' => __('Willkommen zurück, :Name', ['name' => $request->username])]);
         }
-
+    
         return response()->json(['error' => __('Die angegebenen Logindaten stimmen nicht mit den von uns hinterlegten Daten überein')], 401);
     }
-
-    public function login(Request $request)
-    {
+    
+    public function login(Request $request) {
         $credentials = $request->validate([
             'username' => ['required'],
             'password' => ['required'],
         ]);
-
+    
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
-            return response()->json(['success' => true]);
+            return response()->json(['redirect' => '/home']);
         }
-
-        return response()->json(['error' => 'The provided credentials do not match our records.']);
+    
+        return response()->json(['error' => 'The provided credentials do not match our records.', 'redirect' => '/login']);
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->back();
+        return response()->json(['redirect' => '/login']);
     }
 
     /**

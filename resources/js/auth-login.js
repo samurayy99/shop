@@ -19,24 +19,29 @@ document.addEventListener("DOMContentLoaded", function() {
       fetch(actionUrl, {
         method: 'POST',
         headers: {
-          'X-CSRF-TOKEN': csrfToken
+            'X-CSRF-TOKEN': csrfToken
         },
         body: formData,
-        credentials: 'same-origin' // Added this line
+        credentials: 'same-origin'
       })
       .then(response => response.json())
       .then(data => {
         if (data && data.success) {
-          // Load the new page content without a full page reload
-          fetch(data.redirect, {
-            credentials: 'same-origin' // Added this line
-          })
-          .then(response => response.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            document.querySelector('#content-wrapper').innerHTML = doc.querySelector('#content-wrapper').innerHTML;
-          });
+          // Check if data.redirect is not undefined
+          if (data.redirect) {
+            // Load the new page content without a full page reload
+            fetch(data.redirect, {
+              credentials: 'same-origin'
+            })
+            .then(response => response.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
+              document.querySelector('#content-wrapper').innerHTML = doc.querySelector('#content-wrapper').innerHTML;
+            });
+          } else {
+            console.error('Redirect URL is undefined.');
+          }
         } else {
           console.error(data ? data.message : 'Response is undefined.');
         }
