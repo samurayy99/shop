@@ -293,6 +293,7 @@
 
 <!-- Page & Theme Scripts -->
 <script type="module" src="{{ asset('js/auth-login.js') }}"></script>
+<script type="module" src="{{ asset('js/auth-register.js') }}"></script>
 
 <!-- Additional Libraries -->
 <script src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script>
@@ -328,23 +329,26 @@
 
         // AJAX call for login form
         $('#loginForm form').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                success: function (data) {
-                    if (data.error) {
-                        toastr.error(data.error);
-                    } else {
-                        location.reload();
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(jqXHR.responseJSON.error);
-                }
-            });
-        });
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            if (data.error) {
+                toastr.error(data.error);
+            } else {
+                location.reload();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            toastr.error(jqXHR.responseJSON.error);
+        }
+    });
+});
 
         // Event listener for 'Ctrl + Shift + A'
         $(document).keydown(function(e) {
@@ -355,24 +359,26 @@
 
         // AJAX call for register form
         $('#registerForm form').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                success: function (data) {
-                    if (data.error) {
-                        toastr.error(data.error);
-                    } else {
-                        location.reload();
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(jqXHR.responseJSON.error);
-                }
-            });
-        });
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            if (data.error) {
+                toastr.error(data.error);
+            } else {
+                location.reload();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            toastr.error(jqXHR.responseJSON.error);
+        }
     });
+});
 </script>
 
 <!-- END: JavaScript Section -->
