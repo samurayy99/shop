@@ -272,17 +272,17 @@
 
   <!-- Your HTML content here -->
 
- <!-- Hidden Superadmin Login Button -->
+<!-- Hidden Superadmin Login Button -->
 <button style="display:none;" id="superadmin-button" onclick="location.href='{{ route('superadmin.settings') }}'">Superadmin Login</button>
 
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<!-- jQuery Validation Plugin -->
-<script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
-
 <!-- Vendor Scripts -->
 <script src="{{ asset('js/vendors.min.js') }}"></script>
+
+<!-- jQuery Validation Plugin -->
+<script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
 
 <!-- Feather Icons -->
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
@@ -306,6 +306,7 @@
 <script src="{{ asset('js/jqBootstrapValidation.js') }}"></script>
 <script src="{{ asset('js/jquery.vide.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
+
 
 <!-- Page-Specific Scripts -->
 @yield('js')

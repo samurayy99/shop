@@ -5,6 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
     <title>{{ App\Models\Settings::get('app.name', '🦁 example') }} > Log In</title>
     <link rel="shortcut icon" type="image/x-icon" href="">
@@ -133,36 +134,32 @@
             <!-- END: Content-->
 
 
-            <!-- BEGIN: Vendor JS-->
+<!-- BEGIN: Vendor JS-->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script src="{{ asset('js/vendors.min.js') }}"></script>
-<!-- BEGIN Vendor JS-->
+<!-- END: Vendor JS-->
 
 <!-- BEGIN: Page Vendor JS-->
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> <!-- Retain this primary jQuery -->
 <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
 <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
 <!-- END: Page Vendor JS-->
 
 <!-- BEGIN: Theme JS-->
 <script src="{{ asset('/app-assets/js/core/app-menu.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+<!-- other scripts -->
 <!-- END: Theme JS-->
 
-<!-- BEGIN: Page JS-->
+<!-- Custom Script -->
 <script type="module" src="{{ asset('js/auth-login.js') }}"></script>
-<!-- END: Page JS-->
 
+<!-- Feather Icons -->
 <script>
-    $(window).on('load', function () {
-        if (feather) {
-            feather.replace({
-                width: 14,
-                height: 14
-            });
-        }
-    })
+$(window).on('load', function () {
+    if (feather) {
+        feather.replace({ width: 14, height: 14 });
+    }
+})
 </script>
 
-@jquery
 @toastr_js
 @toastr_render

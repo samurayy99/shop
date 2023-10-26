@@ -6,6 +6,13 @@ import imagesLoaded from 'imagesloaded';
 $(function () {
     'use strict';
 
+    // Setup CSRF token for AJAX POST requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     var pageLoginForm = $('.auth-login-form');
 
     if (pageLoginForm.length) {

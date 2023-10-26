@@ -22,6 +22,12 @@ __webpack_require__.r(__webpack_exports__);
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
   'use strict';
 
+  // Setup CSRF token for AJAX POST requests
+  jquery__WEBPACK_IMPORTED_MODULE_0___default().ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': jquery__WEBPACK_IMPORTED_MODULE_0___default()('meta[name="csrf-token"]').attr('content')
+    }
+  });
   var pageLoginForm = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.auth-login-form');
   if (pageLoginForm.length) {
     pageLoginForm.validate({
