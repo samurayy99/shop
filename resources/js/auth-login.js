@@ -1,5 +1,6 @@
-// Import jQuery
+// Import jQuery and jQuery Validation plugin
 import $ from 'jquery';
+import 'jquery-validation';
 import imagesLoaded from 'imagesloaded';
 
 $(function () {
@@ -37,13 +38,13 @@ $(function () {
                     type: 'POST',
                     data: $(form).serialize(),
                     success: function (response) {
-                        if (response.success) {
+                        if (response && response.success) {
                             // Load the new page content without a full page reload
                             $.get(response.redirect, function (data) {
                                 $('#content-wrapper').html($(data).find('#content-wrapper').html());
                             });
                         } else {
-                            console.error(response.message);
+                            console.error(response ? response.message : 'Response is undefined.');
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -52,6 +53,6 @@ $(function () {
                     }
                 });
             }
-        }); // Added closing parenthesis and brace here
+        });
     }
-}); // Added closing parenthesis here
+});

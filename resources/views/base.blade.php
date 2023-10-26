@@ -272,11 +272,11 @@
 
   <!-- Your HTML content here -->
 
-  <!-- Hidden Superadmin Login Button -->
+ <!-- Hidden Superadmin Login Button -->
 <button style="display:none;" id="superadmin-button" onclick="location.href='{{ route('superadmin.settings') }}'">Superadmin Login</button>
 
 <!-- jQuery -->
-<script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.3.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- jQuery Validation Plugin -->
 <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
@@ -294,7 +294,6 @@
 <!-- Page & Theme Scripts -->
 <script type="module" src="{{ asset('js/auth-login.js') }}"></script>
 
-
 <!-- Additional Libraries -->
 <script src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script>
 <script src="https://cdn.quilljs.com/1.1.9/quill.js"></script>
@@ -310,8 +309,6 @@
 
 <!-- Page-Specific Scripts -->
 @yield('js')
-</script>
-
 
 <script>
     $(document).ready(function () {
@@ -349,11 +346,11 @@
         });
 
         // Event listener for 'Ctrl + Shift + A'
-$(document).keydown(function(e) {
-    if (e.ctrlKey && e.shiftKey && e.which == 65) {
-        $('#superadmin-link').show();
-    }
-});
+        $(document).keydown(function(e) {
+            if (e.ctrlKey && e.shiftKey && e.which == 65) {
+                $('#superadmin-link').show();
+            }
+        });
 
         // AJAX call for register form
         $('#registerForm form').submit(function (e) {

@@ -29,6 +29,7 @@ composer.lock
 /tests/
 /public/js/app.js
 /public/app-assets/vendors/
+/resources/js/
 # Various IDE and editor files
 .idea
 *.swp

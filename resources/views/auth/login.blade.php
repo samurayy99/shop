@@ -83,7 +83,7 @@
 
                                     <div class="mb-1">
                                         <div class="d-flex justify-content-between">
-                                            <label class="form-label" for="password">{{ __('Passwort') }}</label>
+                                        <label class="form-label" for="login-password-login">{{ __('Passwort') }}</label>
                                         </div>
                                         <div class="input-group input-group-merge form-password-toggle">
                                             <input type="password" class="form-control form-control-merge"
@@ -139,7 +139,6 @@
 
 <!-- BEGIN: Page Vendor JS-->
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> <!-- Retain this primary jQuery -->
-<!-- Remove redundant jQuery -->
 <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
 <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
 <!-- END: Page Vendor JS-->
@@ -151,26 +150,19 @@
 
 <!-- BEGIN: Page JS-->
 <script type="module" src="{{ asset('js/auth-login.js') }}"></script>
-
 <!-- END: Page JS-->
 
+<script>
+    $(window).on('load', function () {
+        if (feather) {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
+    })
+</script>
 
-            <script>
-                $(window).on('load', function () {
-                    if (feather) {
-                        feather.replace({
-                            width: 14,
-                            height: 14
-                        });
-                    }
-                })
-            </script>
-
-            @jquery
-            @toastr_js
-            @toastr_render
-
-</body>
-<!-- END: Body-->
-
-</html>
+@jquery
+@toastr_js
+@toastr_render
