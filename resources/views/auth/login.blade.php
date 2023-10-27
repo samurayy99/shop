@@ -152,8 +152,6 @@
 <!-- other scripts -->
 <!-- END: Theme JS-->
 
-<!-- Custom Script -->
-<script type="module" src="{{ asset('js/auth-login.js') }}"></script>
 
 <!-- Feather Icons -->
 <script>
