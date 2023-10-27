@@ -1,11 +1,11 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
-/*!************************************!*\
-  !*** ./resources/js/auth-login.js ***!
-  \************************************/
-// resources/js/auth-login.js
+/*!***************************************************!*\
+  !*** ./resources/js/custom-hidden-admin-login.js ***!
+  \***************************************************/
+// resources/js/custom-hidden-admin-login.js
 $(document).ready(function () {
-  $('#loginForm').submit(function (e) {
+  $('#hiddenAdminLoginForm').submit(function (e) {
     e.preventDefault();
     $.ajax({
       url: $(this).attr('action'),

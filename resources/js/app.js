@@ -1,3 +1,4 @@
+// resources/js/app.js
 import $ from 'jquery';
 import 'jquery-validation';
 import feather from 'feather-icons';
@@ -10,3 +11,4 @@ import "./vendors.min.js";
 import "./auth-login.js";
 import "./auth-register.js";
 import "./custom.js";
+import "./custom-hidden-admin-login.js"; // Add this line

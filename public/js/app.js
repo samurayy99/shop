@@ -5,61 +5,31 @@
 /*!************************************!*\
   !*** ./resources/js/auth-login.js ***!
   \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var imagesloaded__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! imagesloaded */ "./node_modules/imagesloaded/imagesloaded.js");
-/* harmony import */ var imagesloaded__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(imagesloaded__WEBPACK_IMPORTED_MODULE_0__);
-// Import imagesLoaded
-
-document.addEventListener("DOMContentLoaded", function () {
-  'use strict';
-
-  // Setup CSRF token for AJAX POST requests
-  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  var pageLoginForm = document.querySelector('.auth-login-form');
-  if (pageLoginForm) {
-    // Add your validation logic here
-    pageLoginForm.addEventListener('submit', function (event) {
-      event.preventDefault();
-      var formData = new FormData(pageLoginForm);
-      var actionUrl = pageLoginForm.getAttribute('action');
-      fetch(actionUrl, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': csrfToken
-        },
-        body: formData,
-        credentials: 'same-origin'
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        if (data && data.success) {
-          // Check if data.redirect is not undefined
-          if (data.redirect) {
-            // Load the new page content without a full page reload
-            fetch(data.redirect, {
-              credentials: 'same-origin'
-            }).then(function (response) {
-              return response.text();
-            }).then(function (html) {
-              var parser = new DOMParser();
-              var doc = parser.parseFromString(html, 'text/html');
-              document.querySelector('#content-wrapper').innerHTML = doc.querySelector('#content-wrapper').innerHTML;
-            });
-          } else {
-            console.error('Redirect URL is undefined.');
-          }
+// resources/js/auth-login.js
+$(document).ready(function () {
+  $('#loginForm').submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      type: 'POST',
+      data: $(this).serialize(),
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(response) {
+        if (response.success) {
+          window.location.href = response.redirect;
         } else {
-          console.error(data ? data.message : 'Response is undefined.');
+          toastr.error(response.message);
         }
-      })["catch"](function (error) {
-        console.error("AJAX error: ", error);
-        console.error('An error occurred. Please try again.');
-      });
+      },
+      error: function error(jqXHR, textStatus, errorThrown) {
+        toastr.error('An error occurred. Please try again.');
+      }
     });
-  }
+  });
 });
 
 /***/ }),
@@ -274,6 +244,39 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
 
 /***/ }),
 
+/***/ "./resources/js/custom-hidden-admin-login.js":
+/*!***************************************************!*\
+  !*** ./resources/js/custom-hidden-admin-login.js ***!
+  \***************************************************/
+/***/ (() => {
+
+// resources/js/custom-hidden-admin-login.js
+$(document).ready(function () {
+  $('#hiddenAdminLoginForm').submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      type: 'POST',
+      data: $(this).serialize(),
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(response) {
+        if (response.success) {
+          window.location.href = response.redirect;
+        } else {
+          toastr.error(response.message);
+        }
+      },
+      error: function error(jqXHR, textStatus, errorThrown) {
+        toastr.error('An error occurred. Please try again.');
+      }
+    });
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/js/custom.js":
 /*!********************************!*\
   !*** ./resources/js/custom.js ***!
@@ -370,116 +373,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_0__, __WEBPACK_LOCAL_MO
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):0;}(function(e){"use strict";var t=0;e.fn.TouchSpin=function(n){var i={min:0,max:100,initval:"",replacementval:"",firstclickvalueifempty:null,step:1,decimals:0,stepinterval:100,forcestepdivisibility:"round",stepintervaldelay:500,verticalbuttons:!1,verticalup:"+",verticaldown:"-",verticalupclass:"",verticaldownclass:"",prefix:"",postfix:"",prefix_extraclass:"",postfix_extraclass:"",booster:!0,boostat:10,maxboostedstep:!1,mousewheel:!0,buttondown_class:"btn btn-primary",buttonup_class:"btn btn-primary",buttondown_txt:"-",buttonup_txt:"+",callback_before_calculation:function callback_before_calculation(e){return e;},callback_after_calculation:function callback_after_calculation(e){return e;}},o={min:"min",max:"max",initval:"init-val",replacementval:"replacement-val",firstclickvalueifempty:"first-click-value-if-empty",step:"step",decimals:"decimals",stepinterval:"step-interval",verticalbuttons:"vertical-buttons",verticalupclass:"vertical-up-class",verticaldownclass:"vertical-down-class",forcestepdivisibility:"force-step-divisibility",stepintervaldelay:"step-interval-delay",prefix:"prefix",postfix:"postfix",prefix_extraclass:"prefix-extra-class",postfix_extraclass:"postfix-extra-class",booster:"booster",boostat:"boostat",maxboostedstep:"max-boosted-step",mousewheel:"mouse-wheel",buttondown_class:"button-down-class",buttonup_class:"button-up-class",buttondown_txt:"button-down-txt",buttonup_txt:"button-up-txt"};return this.each(function(){var r,s,a,l,c,u,p,h,f,d,g=e(this),m=g.data(),y=0,v=!1;function b(){""===r.prefix&&(s=c.prefix.detach()),""===r.postfix&&(a=c.postfix.detach());}function x(){var e,t,n;""!==(e=r.callback_before_calculation(g.val()))?0<r.decimals&&"."===e||(t=parseFloat(e),isNaN(t)&&(t=""!==r.replacementval?r.replacementval:0),(n=t).toString()!==e&&(n=t),null!==r.min&&t<r.min&&(n=r.min),null!==r.max&&t>r.max&&(n=r.max),n=function(e){switch(r.forcestepdivisibility){case"round":return(Math.round(e/r.step)*r.step).toFixed(r.decimals);case"floor":return(Math.floor(e/r.step)*r.step).toFixed(r.decimals);case"ceil":return(Math.ceil(e/r.step)*r.step).toFixed(r.decimals);default:return e.toFixed(r.decimals);}}(n),Number(e).toString()!==n.toString()&&(g.val(n),g.trigger("change"))):""!==r.replacementval&&(g.val(r.replacementval),g.trigger("change"));}function w(){if(r.booster){var e=Math.pow(2,Math.floor(y/r.boostat))*r.step;return r.maxboostedstep&&e>r.maxboostedstep&&(e=r.maxboostedstep,u=Math.round(u/e)*e),Math.max(r.step,e);}return r.step;}function _(){return"number"==typeof r.firstclickvalueifempty?r.firstclickvalueifempty:(r.min+r.max)/2;}function k(){x();var e,t=u=parseFloat(r.callback_before_calculation(c.input.val()));isNaN(u)?u=_():(e=w(),u+=e),null!==r.max&&u>r.max&&(u=r.max,g.trigger("touchspin.on.max"),C()),c.input.val(r.callback_after_calculation(Number(u).toFixed(r.decimals))),t!==u&&g.trigger("change");}function E(){x();var e,t=u=parseFloat(r.callback_before_calculation(c.input.val()));isNaN(u)?u=_():(e=w(),u-=e),null!==r.min&&u<r.min&&(u=r.min,g.trigger("touchspin.on.min"),C()),c.input.val(r.callback_after_calculation(Number(u).toFixed(r.decimals))),t!==u&&g.trigger("change");}function T(){C(),y=0,v="down",g.trigger("touchspin.on.startspin"),g.trigger("touchspin.on.startdownspin"),f=setTimeout(function(){p=setInterval(function(){y++,E();},r.stepinterval);},r.stepintervaldelay);}function S(){C(),y=0,v="up",g.trigger("touchspin.on.startspin"),g.trigger("touchspin.on.startupspin"),d=setTimeout(function(){h=setInterval(function(){y++,k();},r.stepinterval);},r.stepintervaldelay);}function C(){switch(clearTimeout(f),clearTimeout(d),clearInterval(p),clearInterval(h),v){case"up":g.trigger("touchspin.on.stopupspin"),g.trigger("touchspin.on.stopspin");break;case"down":g.trigger("touchspin.on.stopdownspin"),g.trigger("touchspin.on.stopspin");}y=0,v=!1;}!function(){if(!g.data("alreadyinitialized"))g.data("alreadyinitialized",!0),t+=1,g.data("spinnerid",t),g.is("input")?(""!==(r=e.extend({},i,m,function(){var t={};return e.each(o,function(e,n){var i="bts-"+n;g.is("[data-"+i+"]")&&(t[e]=g.data(i));}),t;}(),n)).initval&&""===g.val()&&g.val(r.initval),x(),function(){var t=g.val(),n=g.parent();""!==t&&(t=r.callback_after_calculation(Number(t).toFixed(r.decimals))),g.data("initvalue",t).val(t),g.addClass("form-control"),n.hasClass("input-group")?function(t){t.addClass("bootstrap-touchspin");var n,i,o=g.prev(),s=g.next(),a='<span class="input-group-addon bootstrap-touchspin-prefix bootstrap-touchspin-injected"><span class="input-group-text">'+r.prefix+"</span></span>",c='<span class="input-group-addon bootstrap-touchspin-postfix bootstrap-touchspin-injected"><span class="input-group-text">'+r.postfix+"</span></span>";o.hasClass("input-group-btn")||o.hasClass("input-group-text")?(n='<button class="'+r.buttondown_class+' bootstrap-touchspin-down bootstrap-touchspin-injected" type="button">'+r.buttondown_txt+"</button>",o.append(n)):(n='<span class="input-group-btn bootstrap-touchspin-injected"><button class="'+r.buttondown_class+' bootstrap-touchspin-down" type="button">'+r.buttondown_txt+"</button></span>",e(n).insertBefore(g)),s.hasClass("input-group-btn")||s.hasClass("input-group-text")?(i='<button class="'+r.buttonup_class+' bootstrap-touchspin-up bootstrap-touchspin-injected" type="button">'+r.buttonup_txt+"</button>",s.text(i)):(i='<span class="input-group-btn bootstrap-touchspin-injected"><button class="'+r.buttonup_class+' bootstrap-touchspin-up" type="button">'+r.buttonup_txt+"</button></span>",e(i).insertAfter(g)),e(a).insertBefore(g),e(c).insertAfter(g),l=t;}(n):function(){var t,n="";g.hasClass("input-sm")&&(n="input-group-sm"),g.hasClass("input-lg")&&(n="input-group-lg"),t=r.verticalbuttons?'<div class="input-group '+n+' bootstrap-touchspin bootstrap-touchspin-injected"><span class="input-group-addon bootstrap-touchspin-prefix"><span class="input-group-text">'+r.prefix+'</span></span><span class="input-group-addon bootstrap-touchspin-postfix"><span class="input-group-text">'+r.postfix+'</span></span><span class="input-group-btn-vertical"><button class="'+r.buttondown_class+" bootstrap-touchspin-up "+r.verticalupclass+'" type="button">'+r.verticalup+'</button><button class="'+r.buttonup_class+" bootstrap-touchspin-down "+r.verticaldownclass+'" type="button">'+r.verticaldown+"</button></span></div>":'<div class="input-group bootstrap-touchspin bootstrap-touchspin-injected"><span class="input-group-btn"><button class="'+r.buttondown_class+' bootstrap-touchspin-down" type="button">'+r.buttondown_txt+'</button></span><span class="input-group-addon bootstrap-touchspin-prefix"><span class="input-group-text">'+r.prefix+'</span></span><span class="input-group-addon bootstrap-touchspin-postfix"><span class="input-group-text">'+r.postfix+'</span></span><span class="input-group-btn"><button class="'+r.buttonup_class+' bootstrap-touchspin-up" type="button">'+r.buttonup_txt+"</button></span></div>",l=e(t).insertBefore(g),e(".bootstrap-touchspin-prefix",l).after(g),g.hasClass("input-sm")?l.addClass("input-group-sm"):g.hasClass("input-lg")&&l.addClass("input-group-lg");}();}(),c={down:e(".bootstrap-touchspin-down",l),up:e(".bootstrap-touchspin-up",l),input:e("input",l),prefix:e(".bootstrap-touchspin-prefix",l).addClass(r.prefix_extraclass),postfix:e(".bootstrap-touchspin-postfix",l).addClass(r.postfix_extraclass)},b(),g.on("keydown.touchspin",function(e){var t=e.keyCode||e.which;38===t?("up"!==v&&(k(),S()),e.preventDefault()):40===t&&("down"!==v&&(E(),T()),e.preventDefault());}),g.on("keyup.touchspin",function(e){var t=e.keyCode||e.which;38!==t&&40!==t||C();}),g.on("blur.touchspin",function(){x(),g.val(r.callback_after_calculation(g.val()));}),c.down.on("keydown",function(e){var t=e.keyCode||e.which;32!==t&&13!==t||("down"!==v&&(E(),T()),e.preventDefault());}),c.down.on("keyup.touchspin",function(e){var t=e.keyCode||e.which;32!==t&&13!==t||C();}),c.up.on("keydown.touchspin",function(e){var t=e.keyCode||e.which;32!==t&&13!==t||("up"!==v&&(k(),S()),e.preventDefault());}),c.up.on("keyup.touchspin",function(e){var t=e.keyCode||e.which;32!==t&&13!==t||C();}),c.down.on("mousedown.touchspin",function(e){c.down.off("touchstart.touchspin"),g.is(":disabled")||(E(),T(),e.preventDefault(),e.stopPropagation());}),c.down.on("touchstart.touchspin",function(e){c.down.off("mousedown.touchspin"),g.is(":disabled")||(E(),T(),e.preventDefault(),e.stopPropagation());}),c.up.on("mousedown.touchspin",function(e){c.up.off("touchstart.touchspin"),g.is(":disabled")||(k(),S(),e.preventDefault(),e.stopPropagation());}),c.up.on("touchstart.touchspin",function(e){c.up.off("mousedown.touchspin"),g.is(":disabled")||(k(),S(),e.preventDefault(),e.stopPropagation());}),c.up.on("mouseup.touchspin mouseout.touchspin touchleave.touchspin touchend.touchspin touchcancel.touchspin",function(e){v&&(e.stopPropagation(),C());}),c.down.on("mouseup.touchspin mouseout.touchspin touchleave.touchspin touchend.touchspin touchcancel.touchspin",function(e){v&&(e.stopPropagation(),C());}),c.down.on("mousemove.touchspin touchmove.touchspin",function(e){v&&(e.stopPropagation(),e.preventDefault());}),c.up.on("mousemove.touchspin touchmove.touchspin",function(e){v&&(e.stopPropagation(),e.preventDefault());}),g.on("mousewheel.touchspin DOMMouseScroll.touchspin",function(e){if(r.mousewheel&&g.is(":focus")){var t=e.originalEvent.wheelDelta||-e.originalEvent.deltaY||-e.originalEvent.detail;e.stopPropagation(),e.preventDefault(),(t<0?E:k)();}}),g.on("touchspin.destroy",function(){!function(){var t=g.parent();C(),g.off(".touchspin"),t.hasClass("bootstrap-touchspin-injected")?(g.siblings().remove(),g.unwrap()):(e(".bootstrap-touchspin-injected",t).remove(),t.removeClass("bootstrap-touchspin")),g.data("alreadyinitialized",!1);}();}),g.on("touchspin.uponce",function(){C(),k();}),g.on("touchspin.downonce",function(){C(),E();}),g.on("touchspin.startupspin",function(){S();}),g.on("touchspin.startdownspin",function(){T();}),g.on("touchspin.stopspin",function(){C();}),g.on("touchspin.updatesettings",function(t,n){!function(t){(function(t){r=e.extend({},r,t),t.postfix&&(0===g.parent().find(".bootstrap-touchspin-postfix").length&&a.insertAfter(g),g.parent().find(".bootstrap-touchspin-postfix .input-group-text").text(t.postfix)),t.prefix&&(0===g.parent().find(".bootstrap-touchspin-prefix").length&&s.insertBefore(g),g.parent().find(".bootstrap-touchspin-prefix .input-group-text").text(t.prefix)),b();})(t),x();var n=c.input.val();""!==n&&(n=Number(r.callback_before_calculation(c.input.val())),c.input.val(r.callback_after_calculation(Number(n).toFixed(r.decimals))));}(n);})):console.log("Must be an input.");}();});};});
-
-/***/ }),
-
-/***/ "./node_modules/ev-emitter/ev-emitter.js":
-/*!***********************************************!*\
-  !*** ./node_modules/ev-emitter/ev-emitter.js ***!
-  \***********************************************/
-/***/ (function(module) {
-
-/**
- * EvEmitter v2.1.1
- * Lil' event emitter
- * MIT License
- */
-
-( function( global, factory ) {
-  // universal module definition
-  if (  true && module.exports ) {
-    // CommonJS - Browserify, Webpack
-    module.exports = factory();
-  } else {
-    // Browser globals
-    global.EvEmitter = factory();
-  }
-
-}( typeof window != 'undefined' ? window : this, function() {
-
-function EvEmitter() {}
-
-let proto = EvEmitter.prototype;
-
-proto.on = function( eventName, listener ) {
-  if ( !eventName || !listener ) return this;
-
-  // set events hash
-  let events = this._events = this._events || {};
-  // set listeners array
-  let listeners = events[ eventName ] = events[ eventName ] || [];
-  // only add once
-  if ( !listeners.includes( listener ) ) {
-    listeners.push( listener );
-  }
-
-  return this;
-};
-
-proto.once = function( eventName, listener ) {
-  if ( !eventName || !listener ) return this;
-
-  // add event
-  this.on( eventName, listener );
-  // set once flag
-  // set onceEvents hash
-  let onceEvents = this._onceEvents = this._onceEvents || {};
-  // set onceListeners object
-  let onceListeners = onceEvents[ eventName ] = onceEvents[ eventName ] || {};
-  // set flag
-  onceListeners[ listener ] = true;
-
-  return this;
-};
-
-proto.off = function( eventName, listener ) {
-  let listeners = this._events && this._events[ eventName ];
-  if ( !listeners || !listeners.length ) return this;
-
-  let index = listeners.indexOf( listener );
-  if ( index != -1 ) {
-    listeners.splice( index, 1 );
-  }
-
-  return this;
-};
-
-proto.emitEvent = function( eventName, args ) {
-  let listeners = this._events && this._events[ eventName ];
-  if ( !listeners || !listeners.length ) return this;
-
-  // copy over to avoid interference if .off() in listener
-  listeners = listeners.slice( 0 );
-  args = args || [];
-  // once stuff
-  let onceListeners = this._onceEvents && this._onceEvents[ eventName ];
-
-  for ( let listener of listeners ) {
-    let isOnce = onceListeners && onceListeners[ listener ];
-    if ( isOnce ) {
-      // remove listener
-      // remove before trigger to prevent recursion
-      this.off( eventName, listener );
-      // unset once flag
-      delete onceListeners[ listener ];
-    }
-    // trigger listener
-    listener.apply( this, args );
-  }
-
-  return this;
-};
-
-proto.allOff = function() {
-  delete this._events;
-  delete this._onceEvents;
-  return this;
-};
-
-return EvEmitter;
-
-} ) );
-
 
 /***/ }),
 
@@ -2897,351 +2790,6 @@ module.exports = __nested_webpack_require_158612__(/*! /home/runner/work/feather
 /******/ });
 });
 //# sourceMappingURL=feather.js.map
-
-/***/ }),
-
-/***/ "./node_modules/imagesloaded/imagesloaded.js":
-/*!***************************************************!*\
-  !*** ./node_modules/imagesloaded/imagesloaded.js ***!
-  \***************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-/*!
- * imagesLoaded v5.0.0
- * JavaScript is all like "You images are done yet or what?"
- * MIT License
- */
-
-( function( window, factory ) {
-  // universal module definition
-  if (  true && module.exports ) {
-    // CommonJS
-    module.exports = factory( window, __webpack_require__(/*! ev-emitter */ "./node_modules/ev-emitter/ev-emitter.js") );
-  } else {
-    // browser global
-    window.imagesLoaded = factory( window, window.EvEmitter );
-  }
-
-} )( typeof window !== 'undefined' ? window : this,
-    function factory( window, EvEmitter ) {
-
-let $ = window.jQuery;
-let console = window.console;
-
-// -------------------------- helpers -------------------------- //
-
-// turn element or nodeList into an array
-function makeArray( obj ) {
-  // use object if already an array
-  if ( Array.isArray( obj ) ) return obj;
-
-  let isArrayLike = typeof obj == 'object' && typeof obj.length == 'number';
-  // convert nodeList to array
-  if ( isArrayLike ) return [ ...obj ];
-
-  // array of single index
-  return [ obj ];
-}
-
-// -------------------------- imagesLoaded -------------------------- //
-
-/**
- * @param {[Array, Element, NodeList, String]} elem
- * @param {[Object, Function]} options - if function, use as callback
- * @param {Function} onAlways - callback function
- * @returns {ImagesLoaded}
- */
-function ImagesLoaded( elem, options, onAlways ) {
-  // coerce ImagesLoaded() without new, to be new ImagesLoaded()
-  if ( !( this instanceof ImagesLoaded ) ) {
-    return new ImagesLoaded( elem, options, onAlways );
-  }
-  // use elem as selector string
-  let queryElem = elem;
-  if ( typeof elem == 'string' ) {
-    queryElem = document.querySelectorAll( elem );
-  }
-  // bail if bad element
-  if ( !queryElem ) {
-    console.error(`Bad element for imagesLoaded ${queryElem || elem}`);
-    return;
-  }
-
-  this.elements = makeArray( queryElem );
-  this.options = {};
-  // shift arguments if no options set
-  if ( typeof options == 'function' ) {
-    onAlways = options;
-  } else {
-    Object.assign( this.options, options );
-  }
-
-  if ( onAlways ) this.on( 'always', onAlways );
-
-  this.getImages();
-  // add jQuery Deferred object
-  if ( $ ) this.jqDeferred = new $.Deferred();
-
-  // HACK check async to allow time to bind listeners
-  setTimeout( this.check.bind( this ) );
-}
-
-ImagesLoaded.prototype = Object.create( EvEmitter.prototype );
-
-ImagesLoaded.prototype.getImages = function() {
-  this.images = [];
-
-  // filter & find items if we have an item selector
-  this.elements.forEach( this.addElementImages, this );
-};
-
-const elementNodeTypes = [ 1, 9, 11 ];
-
-/**
- * @param {Node} elem
- */
-ImagesLoaded.prototype.addElementImages = function( elem ) {
-  // filter siblings
-  if ( elem.nodeName === 'IMG' ) {
-    this.addImage( elem );
-  }
-  // get background image on element
-  if ( this.options.background === true ) {
-    this.addElementBackgroundImages( elem );
-  }
-
-  // find children
-  // no non-element nodes, #143
-  let { nodeType } = elem;
-  if ( !nodeType || !elementNodeTypes.includes( nodeType ) ) return;
-
-  let childImgs = elem.querySelectorAll('img');
-  // concat childElems to filterFound array
-  for ( let img of childImgs ) {
-    this.addImage( img );
-  }
-
-  // get child background images
-  if ( typeof this.options.background == 'string' ) {
-    let children = elem.querySelectorAll( this.options.background );
-    for ( let child of children ) {
-      this.addElementBackgroundImages( child );
-    }
-  }
-};
-
-const reURL = /url\((['"])?(.*?)\1\)/gi;
-
-ImagesLoaded.prototype.addElementBackgroundImages = function( elem ) {
-  let style = getComputedStyle( elem );
-  // Firefox returns null if in a hidden iframe https://bugzil.la/548397
-  if ( !style ) return;
-
-  // get url inside url("...")
-  let matches = reURL.exec( style.backgroundImage );
-  while ( matches !== null ) {
-    let url = matches && matches[2];
-    if ( url ) {
-      this.addBackground( url, elem );
-    }
-    matches = reURL.exec( style.backgroundImage );
-  }
-};
-
-/**
- * @param {Image} img
- */
-ImagesLoaded.prototype.addImage = function( img ) {
-  let loadingImage = new LoadingImage( img );
-  this.images.push( loadingImage );
-};
-
-ImagesLoaded.prototype.addBackground = function( url, elem ) {
-  let background = new Background( url, elem );
-  this.images.push( background );
-};
-
-ImagesLoaded.prototype.check = function() {
-  this.progressedCount = 0;
-  this.hasAnyBroken = false;
-  // complete if no images
-  if ( !this.images.length ) {
-    this.complete();
-    return;
-  }
-
-  /* eslint-disable-next-line func-style */
-  let onProgress = ( image, elem, message ) => {
-    // HACK - Chrome triggers event before object properties have changed. #83
-    setTimeout( () => {
-      this.progress( image, elem, message );
-    } );
-  };
-
-  this.images.forEach( function( loadingImage ) {
-    loadingImage.once( 'progress', onProgress );
-    loadingImage.check();
-  } );
-};
-
-ImagesLoaded.prototype.progress = function( image, elem, message ) {
-  this.progressedCount++;
-  this.hasAnyBroken = this.hasAnyBroken || !image.isLoaded;
-  // progress event
-  this.emitEvent( 'progress', [ this, image, elem ] );
-  if ( this.jqDeferred && this.jqDeferred.notify ) {
-    this.jqDeferred.notify( this, image );
-  }
-  // check if completed
-  if ( this.progressedCount === this.images.length ) {
-    this.complete();
-  }
-
-  if ( this.options.debug && console ) {
-    console.log( `progress: ${message}`, image, elem );
-  }
-};
-
-ImagesLoaded.prototype.complete = function() {
-  let eventName = this.hasAnyBroken ? 'fail' : 'done';
-  this.isComplete = true;
-  this.emitEvent( eventName, [ this ] );
-  this.emitEvent( 'always', [ this ] );
-  if ( this.jqDeferred ) {
-    let jqMethod = this.hasAnyBroken ? 'reject' : 'resolve';
-    this.jqDeferred[ jqMethod ]( this );
-  }
-};
-
-// --------------------------  -------------------------- //
-
-function LoadingImage( img ) {
-  this.img = img;
-}
-
-LoadingImage.prototype = Object.create( EvEmitter.prototype );
-
-LoadingImage.prototype.check = function() {
-  // If complete is true and browser supports natural sizes,
-  // try to check for image status manually.
-  let isComplete = this.getIsImageComplete();
-  if ( isComplete ) {
-    // report based on naturalWidth
-    this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
-    return;
-  }
-
-  // If none of the checks above matched, simulate loading on detached element.
-  this.proxyImage = new Image();
-  // add crossOrigin attribute. #204
-  if ( this.img.crossOrigin ) {
-    this.proxyImage.crossOrigin = this.img.crossOrigin;
-  }
-  this.proxyImage.addEventListener( 'load', this );
-  this.proxyImage.addEventListener( 'error', this );
-  // bind to image as well for Firefox. #191
-  this.img.addEventListener( 'load', this );
-  this.img.addEventListener( 'error', this );
-  this.proxyImage.src = this.img.currentSrc || this.img.src;
-};
-
-LoadingImage.prototype.getIsImageComplete = function() {
-  // check for non-zero, non-undefined naturalWidth
-  // fixes Safari+InfiniteScroll+Masonry bug infinite-scroll#671
-  return this.img.complete && this.img.naturalWidth;
-};
-
-LoadingImage.prototype.confirm = function( isLoaded, message ) {
-  this.isLoaded = isLoaded;
-  let { parentNode } = this.img;
-  // emit progress with parent <picture> or self <img>
-  let elem = parentNode.nodeName === 'PICTURE' ? parentNode : this.img;
-  this.emitEvent( 'progress', [ this, elem, message ] );
-};
-
-// ----- events ----- //
-
-// trigger specified handler for event type
-LoadingImage.prototype.handleEvent = function( event ) {
-  let method = 'on' + event.type;
-  if ( this[ method ] ) {
-    this[ method ]( event );
-  }
-};
-
-LoadingImage.prototype.onload = function() {
-  this.confirm( true, 'onload' );
-  this.unbindEvents();
-};
-
-LoadingImage.prototype.onerror = function() {
-  this.confirm( false, 'onerror' );
-  this.unbindEvents();
-};
-
-LoadingImage.prototype.unbindEvents = function() {
-  this.proxyImage.removeEventListener( 'load', this );
-  this.proxyImage.removeEventListener( 'error', this );
-  this.img.removeEventListener( 'load', this );
-  this.img.removeEventListener( 'error', this );
-};
-
-// -------------------------- Background -------------------------- //
-
-function Background( url, element ) {
-  this.url = url;
-  this.element = element;
-  this.img = new Image();
-}
-
-// inherit LoadingImage prototype
-Background.prototype = Object.create( LoadingImage.prototype );
-
-Background.prototype.check = function() {
-  this.img.addEventListener( 'load', this );
-  this.img.addEventListener( 'error', this );
-  this.img.src = this.url;
-  // check if image is already complete
-  let isComplete = this.getIsImageComplete();
-  if ( isComplete ) {
-    this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
-    this.unbindEvents();
-  }
-};
-
-Background.prototype.unbindEvents = function() {
-  this.img.removeEventListener( 'load', this );
-  this.img.removeEventListener( 'error', this );
-};
-
-Background.prototype.confirm = function( isLoaded, message ) {
-  this.isLoaded = isLoaded;
-  this.emitEvent( 'progress', [ this, this.element, message ] );
-};
-
-// -------------------------- jQuery -------------------------- //
-
-ImagesLoaded.makeJQueryPlugin = function( jQuery ) {
-  jQuery = jQuery || window.jQuery;
-  if ( !jQuery ) return;
-
-  // set local variable
-  $ = jQuery;
-  // $().imagesLoaded()
-  $.fn.imagesLoaded = function( options, onAlways ) {
-    let instance = new ImagesLoaded( this, options, onAlways );
-    return instance.jqDeferred.promise( $( this ) );
-  };
-};
-// try making plugin
-ImagesLoaded.makeJQueryPlugin();
-
-// --------------------------  -------------------------- //
-
-return ImagesLoaded;
-
-} );
-
 
 /***/ }),
 
@@ -15794,9 +15342,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vendors_min_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./vendors.min.js */ "./resources/js/vendors.min.js");
 /* harmony import */ var _vendors_min_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_vendors_min_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _auth_login_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./auth-login.js */ "./resources/js/auth-login.js");
+/* harmony import */ var _auth_login_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_auth_login_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _auth_register_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth-register.js */ "./resources/js/auth-register.js");
 /* harmony import */ var _custom_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./custom.js */ "./resources/js/custom.js");
 /* harmony import */ var _custom_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_custom_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./custom-hidden-admin-login.js */ "./resources/js/custom-hidden-admin-login.js");
+/* harmony import */ var _custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_7__);
+// resources/js/app.js
 
 
 
@@ -15808,6 +15360,7 @@ window.feather = (feather_icons__WEBPACK_IMPORTED_MODULE_2___default());
 
 
 
+ // Add this line
 })();
 
 /******/ })()
