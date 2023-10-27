@@ -354,11 +354,11 @@
 });
 
         // Event listener for 'Ctrl + Shift + A'
-        $(document).keydown(function(e) {
-            if (e.ctrlKey && e.shiftKey && e.which == 65) {
-                $('#superadmin-link').show();
-            }
-        });
+$(document).keydown(function(e) {
+    if (e.ctrlKey && e.shiftKey && e.which == 65) {
+        window.location.href = $('#superadmin-link').attr('href');
+    }
+});
 
         // AJAX call for register form
         $('#registerForm form').submit(function (e) {

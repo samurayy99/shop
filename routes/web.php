@@ -5,12 +5,19 @@ use App\Http\Middleware\IsSuperAdmin;
 
 
 // Main Routes
-Route::get('/', function () {
-    return view('base');
-})->name('site.home');
-
 Route::get('/', 'App\Http\Controllers\Admin\ProductCategoryController@showCategoriesWithProducts')->name('site.home');
 
+// SuperAdmin Panel Routes
+Route::middleware([IsSuperAdmin::class])->group(function () {
+    Route::get('/superadmin/dashboard', 'App\Http\Controllers\SuperAdminController@index')->name('superadmin.dashboard');
+    Route::get('/superadmin/settings', 'App\Http\Controllers\SuperAdminController@settings')->name('superadmin.settings');
+});
+
+// Admin/SuperAdmin Panel Routes
+Route::middleware([IsSuperAdmin::class])->group(function () {
+    Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
+    Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
+});
 
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
@@ -120,10 +127,4 @@ Route::middleware([IsSuperAdmin::class])->group(function () {
     Route::get('admin/backup/delete/{fileName}', 'App\Http\Controllers\Admin\BackupController@deleteBackup')->name('admin.backup.delete');
 });
 
-// SuperAdmin Panel Routes
-Route::middleware([IsSuperAdmin::class])->group(function () {
-    Route::get('/superadmin/settings', 'App\Http\Controllers\Admin\SettingsController@superAdminIndex')->name('superadmin.settings');
 
-
-
-});
