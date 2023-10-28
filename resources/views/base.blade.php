@@ -292,9 +292,9 @@
 <script src="{{ asset('js/app.js') }}"></script>
 
 <!-- Page & Theme Scripts -->
-<script type="module" src="{{ asset('js/auth-login.js') }}"></script>
+<script src="{{ asset('js/auth-login.js') }}"></script>
 <script src="{{ asset('js/custom-hidden-admin-login.js') }}"></script>
-<script type="module" src="{{ asset('js/auth-register.js') }}"></script>
+<script src="{{ asset('js/auth-register.js') }}"></script>
 
 <!-- Additional Libraries -->
 <script src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script>

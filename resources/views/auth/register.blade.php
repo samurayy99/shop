@@ -146,7 +146,7 @@
             <!-- END: Theme JS-->
 
             <!-- BEGIN: Page JS-->
-            <script type="module" src="{{ asset('js/auth-login.js') }}"></script>
+            <script src="{{ asset('js/auth-register.js') }}"></script>
 
 
             <!-- END: Page JS-->
