@@ -319,7 +319,26 @@
             // Show the superadmin button
             $('#superadmin-button').show();
         }
+    });$('#hiddenAdminLoginForm').on('submit', function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'POST',
+        url: '/auth/hidden-admin-login',
+        data: $(this).serialize(),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            // Handle success
+        },
+        error: function(response) {
+            // Handle error
+        }
     });
+});
+
+
 </script>
 <!-- END: JavaScript Section -->
 </body>

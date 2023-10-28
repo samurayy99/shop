@@ -152,6 +152,7 @@
 <!-- END: Theme JS-->
 
 <script src="{{ asset('js/auth-login.js') }}"></script>
+<script src="{{ asset('js/custom-hidden-admin-login.js') }}"></script>
 <!-- Feather Icons -->
 <script>
 $(window).on('load', function () {
