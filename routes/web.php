@@ -9,10 +9,16 @@ Route::get('/', 'App\Http\Controllers\Admin\ProductCategoryController@showCatego
 // Admin/SuperAdmin Panel Routes
 Route::middleware([IsSuperAdmin::class])->group(function () {
     Route::get('/superadmin/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('superadmin.dashboard');
-    Route::get('/superadmin/settings', 'App\Http\Controllers\Admin\SettingsController@superAdminIndex')->name('superadmin.settings');
-    Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
-    Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
+    Route::get('/superadmin/settings', 'App\Http\Controllers\Admin\SettingsController@superAdminIndex')->name('superadmin.settings');  // Modified
 });
+
+Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
+Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
+
+
+Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
+Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
+
 
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
