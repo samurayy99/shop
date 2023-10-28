@@ -20,6 +20,8 @@
         "sass-loader": "^12.6.0"
     },
     "dependencies": {
+        "datatables.net-bs5": "^1.13.6",
+        "datatables.net-responsive": "^2.5.0",
         "feather-icons": "^4.29.1",
         "imagesloaded": "^5.0.0",
         "jquery": "^3.7.1",

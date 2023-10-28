@@ -9,7 +9,8 @@ $(document).ready(function() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            success: function(response) {
+            
+            success: function success(response) {
                 if (response.success) {
                     window.location.href = response.redirect;
                 } else {

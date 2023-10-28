@@ -71,37 +71,37 @@
     </nav>
 
     <!-- Login/Register Modal -->
-    <div class="modal fade" id="loginRegisterModal" tabindex="-1" role="dialog" aria-labelledby="loginRegisterModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <!-- Login Form -->
-                <div class="modal-body" id="loginForm">
-                    <h5 class="modal-title">Login</h5>
-                    <form method="POST" action="{{ route('auth.login.post') }}">
-                        @csrf
-                        <input type="text" name="username" placeholder="Username" required>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <!-- Add your captcha field here -->
-                        <button type="submit">Login</button>
-                    </form>
-                    <button id="switchToRegister">Switch to Register</button>
-                </div>
+<div class="modal fade" id="loginRegisterModal" tabindex="-1" role="dialog" aria-labelledby="loginRegisterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Login Form -->
+            <div class="modal-body" id="loginForm">
+                <h5 class="modal-title">Login</h5>
+                <form method="POST" action="/auth/login">
+                    @csrf
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <!-- Add your captcha field here -->
+                    <button type="submit">Login</button>
+                </form>
+                <button id="switchToRegister">Switch to Register</button>
+            </div>
 
-                <!-- Register Form -->
-                <div class="modal-body" id="registerForm" style="display: none;">
-                    <h5 class="modal-title">Register</h5>
-                    <form method="POST" action="{{ route('auth.registeration.post') }}">
-                        @csrf
-                        <input type="text" name="username" placeholder="Username" required>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <!-- Add your captcha field here -->
-                        <button type="submit">Register</button>
-                    </form>
-                    <button id="switchToLogin">Switch to Login</button>
-                </div>
+            <!-- Register Form -->
+            <div class="modal-body" id="registerForm" style="display: none;">
+                <h5 class="modal-title">Register</h5>
+                <form method="POST" action="/auth/register">
+                    @csrf
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <!-- Add your captcha field here -->
+                    <button type="submit">Register</button>
+                </form>
+                <button id="switchToLogin">Switch to Login</button>
             </div>
         </div>
     </div>
+</div>
     <!-- END: Main Menu-->
     <!-- BEGIN: Home Section -->
     <section class="main-banner parallaxie" id="home" style="background: url('uploads/banner-01.jpg')">
@@ -293,6 +293,7 @@
 
 <!-- Page & Theme Scripts -->
 <script type="module" src="{{ asset('js/auth-login.js') }}"></script>
+<script src="{{ asset('js/custom-hidden-admin-login.js') }}"></script>
 <script type="module" src="{{ asset('js/auth-register.js') }}"></script>
 
 <!-- Additional Libraries -->

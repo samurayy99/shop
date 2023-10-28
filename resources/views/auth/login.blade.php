@@ -164,3 +164,10 @@ $(window).on('load', function () {
 
 @toastr_js
 @toastr_render
+
+<!-- Include auth-login.js and custom-hidden-admin-login.js -->
+<script src="{{ asset('js/auth-login.js') }}"></script>
+<script src="{{ asset('js/custom-hidden-admin-login.js') }}"></script>
+
+</body>
+</html>
