@@ -316,69 +316,13 @@
 
 
 <script>
-    // AJAX call for login form
-$('#loginForm form').submit(function (e) {
-    e.preventDefault();
-    $.ajax({
-        type: 'POST',
-        url: $(this).attr('action'),
-        data: $(this).serialize(),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        beforeSend: function() {
-            console.log('Sending login request...');
-        },
-        success: function (data) {
-            if (data.error) {
-                toastr.error(data.error);
-            } else {
-                location.reload();
-            }
-            // Hide the login form
-            $('#loginForm').hide();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            toastr.error(jqXHR.responseJSON.error);
+    // Key combination Ctrl + Shift + A
+    $(document).keydown(function(e) {
+        if (e.ctrlKey && e.shiftKey && e.which == 65) { // 65 is the keycode for 'A'
+            // Show the superadmin button
+            $('#superadmin-button').show();
         }
     });
-});
-
-    // AJAX call for register form
-    $('#registerForm form').submit(function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            beforeSend: function() {
-                console.log('Sending register request...');
-            },
-            success: function (data) {
-                if (data.error) {
-                    toastr.error(data.error);
-                } else {
-                    location.reload();
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                toastr.error(jqXHR.responseJSON.error);
-            }
-        });
-    });
-
-      // Key combination Ctrl + Shift + A
-      $(document).keydown(function(e) {
-       if (e.ctrlKey && e.shiftKey && e.which == 65) { // 65 is the keycode for 'A'
-           // Show the superadmin button
-           $('#superadmin-button').show();
-       }
-   });
-
-
 </script>
 <!-- END: JavaScript Section -->
 </body>

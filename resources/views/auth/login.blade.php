@@ -68,8 +68,7 @@
                                 <p class="card-text mb-2">{{ __('Bitte melde dich mit einem existierendem Konto an') }}
                                 </p>
 
-                                <form class="auth-login-form mt-2" action="{{ route('auth.login.post') }}"
-                                    method="POST">
+                                <form id="loginForm" class="mt-2" action="{{ route('auth.login.post') }}" method="POST">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     @csrf
                                     @include('flash-message')
@@ -165,9 +164,6 @@ $(window).on('load', function () {
 @toastr_js
 @toastr_render
 
-<!-- Include auth-login.js and custom-hidden-admin-login.js -->
-<script src="{{ asset('js/auth-login.js') }}"></script>
-<script src="{{ asset('js/custom-hidden-admin-login.js') }}"></script>
 
 </body>
 </html>
