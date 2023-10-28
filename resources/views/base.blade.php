@@ -369,13 +369,13 @@ $('#loginForm form').submit(function (e) {
         });
     });
 
-    // Key combination Ctrl + Shift + A
-$(document).keydown(function(e) {
-    if (e.ctrlKey && e.shiftKey && e.which == 65) { // 65 is the keycode for 'A'
-        // Show the superadmin button
-        $('#superadmin-button').show();
-    }
-});
+      // Key combination Ctrl + Shift + A
+      $(document).keydown(function(e) {
+       if (e.ctrlKey && e.shiftKey && e.which == 65) { // 65 is the keycode for 'A'
+           // Show the superadmin button
+           $('#superadmin-button').show();
+       }
+   });
 
 
 </script>

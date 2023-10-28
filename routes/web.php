@@ -12,6 +12,12 @@ Route::middleware([IsSuperAdmin::class])->group(function () {
     Route::get('/superadmin/settings', 'App\Http\Controllers\Admin\SettingsController@superAdminIndex')->name('superadmin.settings');  // Modified
 });
 
+// Define the POST route for auth.registeration.post
+Route::post('auth/registeration', 'App\Http\Controllers\AuthController@store')->name('auth.registeration.post');
+
+// Define the GET route for superadmin.settings
+Route::get('superadmin/settings', 'App\Http\Controllers\Admin\SettingsController@superAdminIndex')->name('superadmin.settings');
+
 Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
 Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
 
