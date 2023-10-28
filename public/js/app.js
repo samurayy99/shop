@@ -7,249 +7,10 @@
   \************************************/
 /***/ (() => {
 
-$('#loginForm').submit(function (e) {
-  e.preventDefault();
-  $.ajax({
-    url: $(this).attr('action'),
-    type: 'POST',
-    data: $(this).serialize(),
-    headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    success: function success(response) {
-      if (response.success) {
-        window.location.href = response.redirect;
-      } else {
-        toastr.error(response.message);
-      }
-    },
-    error: function error(jqXHR, textStatus, errorThrown) {
-      toastr.error('An error occurred. Please try again.');
-    }
-  });
-});
-
-/***/ }),
-
-/***/ "./resources/js/auth-register.js":
-/*!***************************************!*\
-  !*** ./resources/js/auth-register.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-/*=========================================================================================
-  File Name: auth-register.js
-  Description: Auth register js file.
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: PIXINVENT
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
-  'use strict';
-  var assetsPath = '../../../app-assets/',
-    registerMultiStepsWizard = document.querySelector('.register-multi-steps-wizard'),
-    pageResetForm = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.auth-register-form'),
-    select = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.select2'),
-    creditCard = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.credit-card-mask'),
-    expiryDateMask = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.expiry-date-mask'),
-    cvvMask = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.cvv-code-mask'),
-    mobileNumberMask = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.mobile-number-mask'),
-    pinCodeMask = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.pin-code-mask');
-  if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').attr('data-framework') === 'laravel') {
-    assetsPath = jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').attr('data-asset-path');
-  }
-
-  // jQuery Validation
-  // --------------------------------------------------------------------
-  if (pageResetForm.length) {
-    pageResetForm.validate({
-      /*
-      * ? To enable validation onkeyup
-      onkeyup: function (element) {
-        $(element).valid();
-      },*/
-      /*
-      * ? To enable validation on focusout
-      onfocusout: function (element) {
-        $(element).valid();
-      }, */
-      rules: {
-        'register-username': {
-          required: true
-        },
-        'register-email': {
-          required: true,
-          email: true
-        },
-        'register-password': {
-          required: true
-        }
-      }
-    });
-  }
-
-  // multi-steps registration
-  // --------------------------------------------------------------------
-
-  // Horizontal Wizard
-  if (_typeof(registerMultiStepsWizard) !== undefined && registerMultiStepsWizard !== null) {
-    var numberedStepper = new Stepper(registerMultiStepsWizard),
-      $form = jquery__WEBPACK_IMPORTED_MODULE_0___default()(registerMultiStepsWizard).find('form');
-    $form.each(function () {
-      var $this = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
-      $this.validate({
-        rules: {
-          username: {
-            required: true
-          },
-          email: {
-            required: true
-          },
-          password: {
-            required: true,
-            minlength: 8
-          },
-          'confirm-password': {
-            required: true,
-            minlength: 8,
-            equalTo: '#password'
-          },
-          'first-name': {
-            required: true
-          },
-          'home-address': {
-            required: true
-          },
-          addCard: {
-            required: true
-          }
-        },
-        messages: {
-          password: {
-            required: 'Enter new password',
-            minlength: 'Enter at least 8 characters'
-          },
-          'confirm-password': {
-            required: 'Please confirm new password',
-            minlength: 'Enter at least 8 characters',
-            equalTo: 'The password and its confirm are not the same'
-          }
-        }
-      });
-    });
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(registerMultiStepsWizard).find('.btn-next').each(function () {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).on('click', function (e) {
-        var isValid = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().siblings('form').valid();
-        if (isValid) {
-          numberedStepper.next();
-        } else {
-          e.preventDefault();
-        }
-      });
-    });
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(registerMultiStepsWizard).find('.btn-prev').on('click', function () {
-      numberedStepper.previous();
-    });
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(registerMultiStepsWizard).find('.btn-submit').on('click', function () {
-      var isValid = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent().siblings('form').valid();
-      if (isValid) {
-        alert('Submitted..!!');
-      }
-    });
-  }
-
-  // select2
-  select.each(function () {
-    var $this = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
-    $this.wrap('<div class="position-relative"></div>');
-    $this.select2({
-      // the following code is used to disable x-scrollbar when click in select input and
-      // take 100% width in responsive also
-      dropdownAutoWidth: true,
-      width: '100%',
-      dropdownParent: $this.parent()
-    });
-  });
-
-  // credit card
-
-  // Credit Card
-  if (creditCard.length) {
-    creditCard.each(function () {
-      new Cleave(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this), {
-        creditCard: true,
-        onCreditCardTypeChanged: function onCreditCardTypeChanged(type) {
-          var elementNodeList = document.querySelectorAll('.card-type');
-          if (type != '' && type != 'unknown') {
-            //! we accept this approach for multiple credit card masking
-            for (var i = 0; i < elementNodeList.length; i++) {
-              elementNodeList[i].innerHTML = '<img src="' + assetsPath + 'images/icons/payments/' + type + '-cc.png" height="24"/>';
-            }
-          } else {
-            for (var _i = 0; _i < elementNodeList.length; _i++) {
-              elementNodeList[_i].innerHTML = '';
-            }
-          }
-        }
-      });
-    });
-  }
-
-  // Expiry Date Mask
-  if (expiryDateMask.length) {
-    new Cleave(expiryDateMask, {
-      date: true,
-      delimiter: '/',
-      datePattern: ['m', 'y']
-    });
-  }
-
-  // CVV
-  if (cvvMask.length) {
-    new Cleave(cvvMask, {
-      numeral: true,
-      numeralPositiveOnly: true
-    });
-  }
-
-  // phone number mask
-  if (mobileNumberMask.length) {
-    new Cleave(mobileNumberMask, {
-      phone: true,
-      phoneRegionCode: 'US'
-    });
-  }
-
-  // Pincode
-  if (pinCodeMask.length) {
-    new Cleave(pinCodeMask, {
-      delimiter: '',
-      numeral: true
-    });
-  }
-
-  // multi-steps registration
-  // --------------------------------------------------------------------
-});
-
-/***/ }),
-
-/***/ "./resources/js/custom-hidden-admin-login.js":
-/*!***************************************************!*\
-  !*** ./resources/js/custom-hidden-admin-login.js ***!
-  \***************************************************/
-/***/ (() => {
-
-// resources/js/custom-hidden-admin-login.js
-$(document).ready(function () {
-  $('#hiddenAdminLoginForm').submit(function (e) {
+(function () {
+  if (window.authLoginHasRun) return;
+  window.authLoginHasRun = true;
+  $('#loginForm').submit(function (e) {
     e.preventDefault();
     $.ajax({
       url: $(this).attr('action'),
@@ -270,43 +31,76 @@ $(document).ready(function () {
       }
     });
   });
-});
+})();
 
 /***/ }),
 
-/***/ "./resources/js/custom.js":
-/*!********************************!*\
-  !*** ./resources/js/custom.js ***!
-  \********************************/
+/***/ "./resources/js/auth-register.js":
+/*!***************************************!*\
+  !*** ./resources/js/auth-register.js ***!
+  \***************************************/
 /***/ (() => {
 
-/******/(function () {
-  // webpackBootstrap
-  var __webpack_exports__ = {};
-  /*!*****************************!*\
-      !*** ./public/js/custom.js ***!
-      \*****************************/
-  /******/
-  (function () {
-    // webpackBootstrap
-    var __webpack_exports__ = {};
-    /*!*****************************!*\
-        !*** ./public/js/custom.js ***!
-        \*****************************/
-    /******/
-    (function () {
-      // webpackBootstrap
-      /******/
-      "use strict";
-
-      /******/
-      /******/
-      /******/
-    })();
-    /******/
-  })();
-  /******/
+(function () {
+  if (window.authRegisterHasRun) return;
+  window.authRegisterHasRun = true;
+  $('#registerForm').submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      type: 'POST',
+      data: $(this).serialize(),
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(response) {
+        if (response.success) {
+          window.location.href = response.redirect;
+        } else {
+          toastr.error(response.message);
+        }
+      },
+      error: function error(jqXHR, textStatus, errorThrown) {
+        toastr.error('An error occurred. Please try again.');
+      }
+    });
+  });
 })();
+
+/***/ }),
+
+/***/ "./resources/js/custom-hidden-admin-login.js":
+/*!***************************************************!*\
+  !*** ./resources/js/custom-hidden-admin-login.js ***!
+  \***************************************************/
+/***/ (() => {
+
+$('#hiddenAdminLoginForm').submit(function (e) {
+  e.preventDefault();
+  var formData = $(this).serialize();
+  if (!formData) {
+    toastr.error('Form data is missing. Please check your form inputs.');
+    return;
+  }
+  $.ajax({
+    url: $(this).attr('action'),
+    type: 'POST',
+    data: formData,
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function success(response) {
+      if (response.success) {
+        window.location.href = response.redirect;
+      } else {
+        toastr.error(response.message);
+      }
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      toastr.error('An error occurred. Please try again.');
+    }
+  });
+});
 
 /***/ }),
 
@@ -15341,10 +15135,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_login_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./auth-login.js */ "./resources/js/auth-login.js");
 /* harmony import */ var _auth_login_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_auth_login_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _auth_register_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth-register.js */ "./resources/js/auth-register.js");
-/* harmony import */ var _custom_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./custom.js */ "./resources/js/custom.js");
-/* harmony import */ var _custom_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_custom_js__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./custom-hidden-admin-login.js */ "./resources/js/custom-hidden-admin-login.js");
-/* harmony import */ var _custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _auth_register_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_auth_register_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./custom-hidden-admin-login.js */ "./resources/js/custom-hidden-admin-login.js");
+/* harmony import */ var _custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_custom_hidden_admin_login_js__WEBPACK_IMPORTED_MODULE_6__);
 // resources/js/app.js
 
 
@@ -15354,10 +15147,11 @@ __webpack_require__.r(__webpack_exports__);
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
 window.feather = (feather_icons__WEBPACK_IMPORTED_MODULE_2___default());
 
+// Import custom scripts after jQuery and Feather Icons
 
 
 
- // Add this line
+
 })();
 
 /******/ })()

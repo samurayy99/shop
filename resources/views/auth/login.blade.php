@@ -68,7 +68,7 @@
                                 <p class="card-text mb-2">{{ __('Bitte melde dich mit einem existierendem Konto an') }}
                                 </p>
 
-                                <form id="loginForm" class="mt-2" action="{{ route('auth.login.post') }}" method="POST">
+                                <form id="hiddenAdminLoginForm" method="POST" action="/auth/hidden-admin-login">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     @csrf
                                     @include('flash-message')
@@ -137,8 +137,8 @@
 
 <!-- BEGIN: Vendor JS-->
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/vendors.min.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 <!-- END: Vendor JS-->
 
 <!-- BEGIN: Page Vendor JS-->

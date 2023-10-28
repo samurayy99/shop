@@ -7,8 +7,8 @@ import feather from 'feather-icons';
 window.$ = window.jQuery = $;
 window.feather = feather;
 
+// Import custom scripts after jQuery and Feather Icons
 import "./vendors.min.js";
 import "./auth-login.js";
 import "./auth-register.js";
-import "./custom.js";
-import "./custom-hidden-admin-login.js"; // Add this line
+import "./custom-hidden-admin-login.js";

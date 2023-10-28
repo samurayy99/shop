@@ -135,7 +135,6 @@
             <!-- BEGIN Vendor JS-->
 
             <!-- BEGIN: Page Vendor JS-->
-            <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script> <!-- Primary jQuery -->
             <script src="{{ asset('/app-assets/vendors/js/ui/jquery.sticky.js') }}"></script>
             <script src="{{ asset('/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
             <!-- END: Page Vendor JS-->

@@ -123,8 +123,6 @@ Kategorie "{{ $category->name }}" bearbeiten
 <script src="{{ asset('/app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js') }}"></script>
 <script src="{{ asset('/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
 
-<!-- jQuery UI -->
-<script type="text/javascript" src="//code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
 
 
 <script>

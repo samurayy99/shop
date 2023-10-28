@@ -113,6 +113,32 @@ class AuthController extends Controller
         return response()->json(['error' => 'The provided credentials do not match our records.', 'redirect' => '/login']);
     }
 
+    public function hiddenAdminLogin(Request $request)
+{
+    $captcha = $request->validate([
+        "captcha" => "required",
+    ]);
+
+    if (captcha_check($request->captcha) == false) {
+        return response()->json(['error' => __('Captcha ungültig')], 400);
+    }
+
+    $credentials = $request->validate([
+        'username' => ['required'],
+        'password' => ['required'],
+    ]);
+    
+        if (Auth::attempt($credentials)) {
+            if (Auth::check() && Auth::user()->can('SuperAdminpanel Zugriff')) {
+                return response()->json(['redirect' => route('superadmin.dashboard')]);
+            }
+            $request->session()->regenerate();
+            return response()->json(['redirect' => '/home']);
+        }
+    
+        return response()->json(['error' => 'The provided credentials do not match our records.', 'redirect' => '/login']);
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();

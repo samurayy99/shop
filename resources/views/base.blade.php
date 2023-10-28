@@ -75,9 +75,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <!-- Login Form -->
-            <div class="modal-body" id="loginForm">
+            <div class="modal-body">
                 <h5 class="modal-title">Login</h5>
-                <form method="POST" action="/auth/login">
+                <form id="loginForm" method="POST" action="/auth/login">
                     @csrf
                     <input type="text" name="username" placeholder="Username" required>
                     <input type="password" name="password" placeholder="Password" required>
@@ -309,11 +309,8 @@
 <script src="{{ asset('js/jquery.vide.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
 
-
 <!-- Page-Specific Scripts -->
 @yield('js')
-
-
 
 <script>
     // Key combination Ctrl + Shift + A
