@@ -312,6 +312,8 @@
 <!-- Page-Specific Scripts -->
 @yield('js')
 
+
+
 <script>
     // AJAX call for login form
     $('#loginForm form').submit(function (e) {
@@ -366,6 +368,14 @@
                 toastr.error(jqXHR.responseJSON.error);
             }
         });
+    });
+
+    // Key combination Ctrl + Shift + A
+    $(document).keydown(function(e) {
+        if (e.ctrlKey && e.shiftKey && e.which == 65) { // 65 is the keycode for 'A'
+            // Open the superadmin settings page
+            window.location.href = $('#superadmin-link').attr('href');
+        }
     });
 </script>
 <!-- END: JavaScript Section -->

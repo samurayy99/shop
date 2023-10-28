@@ -103,6 +103,9 @@ class AuthController extends Controller
         ]);
     
         if (Auth::attempt($credentials)) {
+            if (Auth::check() && Auth::user()->can('SuperAdminpanel Zugriff')) {
+                return response()->json(['redirect' => route('superadmin.dashboard')]);
+            }
             $request->session()->regenerate();
             return response()->json(['redirect' => '/home']);
         }

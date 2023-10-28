@@ -3,18 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsSuperAdmin;
 
-
 // Main Routes
 Route::get('/', 'App\Http\Controllers\Admin\ProductCategoryController@showCategoriesWithProducts')->name('site.home');
 
-// SuperAdmin Panel Routes
-Route::middleware([IsSuperAdmin::class])->group(function () {
-    Route::get('/superadmin/dashboard', 'App\Http\Controllers\SuperAdminController@index')->name('superadmin.dashboard');
-    Route::get('/superadmin/settings', 'App\Http\Controllers\SuperAdminController@settings')->name('superadmin.settings');
-});
-
 // Admin/SuperAdmin Panel Routes
 Route::middleware([IsSuperAdmin::class])->group(function () {
+    Route::get('/superadmin/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('superadmin.dashboard');
+    Route::get('/superadmin/settings', 'App\Http\Controllers\Admin\SettingsController@superAdminIndex')->name('superadmin.settings');
     Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
     Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
 });
@@ -65,13 +60,6 @@ Route::get('lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('lang');
 
-
-// Admin/SuperAdmin Panel Routes
-Route::middleware([IsSuperAdmin::class])->group(function () {
-    Route::get('/superadmin/dashboard', 'App\Http\Controllers\SuperAdminController@index')->name('superadmin.dashboard');
-    Route::get('/superadmin/settings', 'App\Http\Controllers\SuperAdminController@settings')->name('superadmin.settings');
-    Route::get('admin/settings', 'App\Http\Controllers\Admin\SettingsController@index')->name('admin.settings');
-    Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsController@store')->name('admin.settings.save');
 
     Route::get('admin/bitcoin', 'App\Http\Controllers\Admin\BitcoinSettingsController@index')->name('admin.bitcoin');
     Route::post('admin/bitcoin', 'App\Http\Controllers\Admin\BitcoinSettingsController@update')->name('admin.bitcoin.update');
@@ -125,6 +113,5 @@ Route::middleware([IsSuperAdmin::class])->group(function () {
     Route::get('admin/create-backup', 'App\Http\Controllers\Admin\BackupController@createBackup')->name('admin.create.backup');
     Route::get('admin/backup/download/{fileName}', 'App\Http\Controllers\Admin\BackupController@downloadBackup')->name('admin.backup.download');
     Route::get('admin/backup/delete/{fileName}', 'App\Http\Controllers\Admin\BackupController@deleteBackup')->name('admin.backup.delete');
-});
 
 

@@ -20,7 +20,6 @@ class IsSuperAdmin
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check() && Auth::user()->can('SuperAdminpanel Zugriff')) {
-            // User has SuperAdmin rights
             return $next($request);
         }
 
