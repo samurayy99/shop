@@ -2,7 +2,7 @@
     if (window.authLoginHasRun) return;
     window.authLoginHasRun = true;
 
-    $('#loginForm').submit(function (e) {
+    $('#hiddenAdminLoginForm').submit(function (e) {
         e.preventDefault();
         $.ajax({
             url: $(this).attr('action'),

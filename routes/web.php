@@ -30,6 +30,7 @@ Route::post('admin/settings/save', 'App\Http\Controllers\Admin\SettingsControlle
 // Auth Routes
 Route::get('auth/login', 'App\Http\Controllers\AuthController@index')->name('auth.login');
 Route::post('auth/login', 'App\Http\Controllers\AuthController@login')->name('auth.login.post');
+Route::post('auth/admin/login', 'App\Http\Controllers\AuthController@adminLogin')->name('auth.admin.login'); // new route
 Route::get('auth/registeration', 'App\Http\Controllers\AuthController@create')->name('auth.registeration');
 Route::post('auth/registeration', 'App\Http\Controllers\AuthController@store')->name('auth.registeration.post');
 Route::get('auth/logout', 'App\Http\Controllers\AuthController@logout')->name('auth.logout');

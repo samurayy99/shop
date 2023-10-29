@@ -70,6 +70,14 @@
         </div>
     </nav>
 
+    <!-- Hidden Admin Login Form -->
+<form id="adminLoginForm" action="{{ route('auth.admin.login') }}" method="post" style="display: none;">
+    @csrf
+    <input type="text" name="username" placeholder="Admin Username" required>
+    <input type="password" name="password" placeholder="Admin Password" required>
+    <button type="submit">Admin Login</button>
+</form>
+
     <!-- Login/Register Modal -->
 <div class="modal fade" id="loginRegisterModal" tabindex="-1" role="dialog" aria-labelledby="loginRegisterModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -316,29 +324,33 @@
     // Key combination Ctrl + Shift + A
     $(document).keydown(function(e) {
         if (e.ctrlKey && e.shiftKey && e.which == 65) { // 65 is the keycode for 'A'
-            // Show the superadmin button
-            $('#superadmin-button').show();
-        }
-    });$('#hiddenAdminLoginForm').on('submit', function(e) {
-    e.preventDefault();
-
-    $.ajax({
-        type: 'POST',
-        url: '/auth/hidden-admin-login',
-        data: $(this).serialize(),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            // Handle success
-        },
-        error: function(response) {
-            // Handle error
+            // Hide the normal login form and show the admin login form
+            $('#loginForm').hide();
+            $('#adminLoginForm').show();
         }
     });
-});
 
+    // AJAX call for the admin login form submission
+    $('#adminLoginForm').on('submit', function(e) {
+        e.preventDefault();
 
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('auth.admin.login') }}',
+            data: $(this).serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                // Handle success
+                // You can redirect the admin to the dashboard or show a success message
+            },
+            error: function(response) {
+                // Handle error
+                // You can show an error message
+            }
+        });
+    });
 </script>
 <!-- END: JavaScript Section -->
 </body>
